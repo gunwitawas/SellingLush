@@ -1,0 +1,35 @@
+{
+  "loading": "กรุณารอสักครู่",
+  "lang":{
+    "en":"English",
+    "th":"ไทย"
+  },
+  "sidebar": {
+    "home": "หน้าหลัก",
+    "mock": "ทดสอบ",
+    "back-http": "ย้อนกลับ",
+    "static-back-http": "ย้อนกลับ",
+    "product": "สินค้า",
+    "order": "รายการสั่งซื้อ",
+    "preorder": "รายการสั่งจอง",
+    "customer": "ลูกค้า"
+  },
+  "home": {
+    "title": "หน้าหลัก",
+    "text": "พื้นที่หน้าหลัก"
+  },
+  "mock": {
+    "title": "หน้าทดสอบ",
+    "text": "สำหรับทดสอบ"
+  },
+  "back-http": {
+    "title": "ย้อนกลับ",
+    "text": "ลองกดดูสิ",
+    "delay": "",
+    "post": "POST ดูวสิ:",
+    "original-url": "ลิ้งค์:"
+  },
+  "not-found": {
+    "title": "ไม่พบหน้าที่ต้องการ"
+  }
+}

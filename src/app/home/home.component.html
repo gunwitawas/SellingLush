@@ -1,0 +1,158 @@
+<img src="../../assets/img/ข้าวหลาม.png"  style="width: 100%; height: auto;">
+<br>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+    <i class="fa fa-2x fa-volume-control-phone"></i><span class="text-info"> 092-7517170</span>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <i class="fa fa-2x fa-mobile-phone"> </i> <span  class="text-info"> LINE @SellingLush</span>
+    <button type="button" class="btn btn-info" class="btn btn-primary" data-toggle="modal"
+            data-target="#mapModal">Google Map
+    </button>
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" role="dialog" aria-labelledby="loginModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">เข้าสู่ระบบ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="username">ชื่อผู้ขาย</label>
+            <input class="form-control" id="username" name="username" [(ngModel)]="loginForm.username">
+          </div>
+          <div class="form-group">
+            <label for="password">รหัสผ่าน</label>
+            <input class="form-control" id="password" name="password" type="password" [(ngModel)]="loginForm.password">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+
+          <button type="submit" class="btn btn-primary" (click)="login()">เข้าสู่ระบบ</button>
+
+          <button type="button" class="btn btn-info" class="btn btn-primary" data-toggle="modal"
+                  data-target="#regisModal">สมัคร
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="modal fade" id="regisModal" tabindex="-1" role="dialog" aria-labelledby="regisModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog  modal-lg" role="document">
+    <form #regisFrom="ngForm" (ngSubmit)="regis(regisFrom)" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="regisModalLabel">เข้าสู่ระบบ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="usernameRegis">ชื่อผู้ใช้</label>
+              <input class="form-control" #username="ngModel" id="usernameRegis" name="usernameRegis" (change)="validateUsername()" [(ngModel)]="regisForm.username" [required]="true">
+              <span class="text-danger" *ngIf="!regisForm.validUsername"> ชื่อผู้ใช้นี้ถูกใช้แล้ว</span>
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="nameRegis">ชื่อ-นามสกุล</label>
+              <input class="form-control" #name="ngModel" id="nameRegis" name="nameRegis" [(ngModel)]="regisForm.name" [required]="true">
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="passwordRegis">รหัสผ่าน</label>
+              <input type="password" class="form-control" #password="ngModel" id="passwordRegis" name="passwordRegis" (keypress)="validatePassword('M')"  [(ngModel)]="regisForm.password" [required]="true">
+              <span *ngIf="!regisForm.validPassword"> รหัสผ่านไม่ถูกต้อง</span>
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="repasswordRegis">รหัสผ่าน</label>
+              <input type="password" class="form-control" #repassword="ngModel" id="repasswordRegis" name="repasswordRegis" [(ngModel)]="regisForm.repassword" [required]="true">
+              <span *ngIf="!validatePassword('C')"> รหัสผ่านไม่ถูกต้อง</span>
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="inputTel">Tel</label>
+              <input type="password" class="form-control" #tel="ngModel" id="inputTel" name="inputTel" [(ngModel)]="regisForm.tel" [required]="true">
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="inputLine">Line Id</label>
+              <input type="password" class="form-control" #lineId="ngModel" id="inputLine" name="inputLine" [(ngModel)]="regisForm.lineId" >
+            </div>
+
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="inputEmail">Email</label>
+              <input type="password" class="form-control" #email="ngModel" id="inputEmail" name="inputEmail" [(ngModel)]="regisForm.email" >
+            </div>
+
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <label for="inputAddress">ที่อยู่</label>
+              <textarea id="inputAddress" #address="ngModel" name="inputAddress" class="form-control"  [(ngModel)]="regisForm.address" [required]="true"></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+
+          <button type="submit" class="btn btn-primary">สมัคร</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModal"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ที่อยู่</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div align="center" class="modal-body">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.9056312088646!2d99.97270525069976!3d14.023607794666031!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2fec0e9bbe321%3A0xf01923824353370!2z4Lih4Lir4Liy4Lin4Li04LiX4Lii4Liy4Lil4Lix4Lii4LmA4LiB4Lip4LiV4Lij4Lio4Liy4Liq4LiV4Lij4LmMIOC4p-C4tOC4l-C4ouC4suC5gOC4guC4leC4geC4s-C5geC4nuC4h-C5geC4quC4mQ!5e0!3m2!1sth!2sth!4v1542333928922" width="700" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+
+          </button>
+
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<span class="toolbar__logo">ข้าวหลามดาบเล็ก</span>
+
+<!--<select  class="toolbar__lang" (change)="changeLang($event.target.value)">
+    <option *ngFor="let lang of langList$ | async"
+            [value]="lang.code"
+            [selected]="lang.code === currentLang">
+        {{ lang.name }}
+    </option>
+</select>-->
+
+
+<div class="dropdown">
+  <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown">
+    <img [src]="getImage(currentLang)" width="20" height="20"> {{'lang.'+currentLang | translate}}
+  </button>
+  <div class="dropdown-menu">
+    <a *ngFor="let lang of langList$ | async" (click)="changeLang(lang.code)" class="dropdown-item"> <img [src]="getImage(lang.code)" width="20" height="20"> {{lang.name}}</a>
+  </div>
+</div>
+
+<!--
+<select *ngIf="getCurrentStatus()" style="margin-left: 10px;" class="toolbar__lang" (change)="changeLang($event.target.value)">
+  <option>
+    {{getCurrentUsername()}}
+  </option>
+  <option>
+    Log out
+  </option>
+  {{getCurrentUsername()}}
+</select>-->
+
+<button *ngIf="!getCurrentStatus()"  type="button" class="btn btn-outline-primary" style="margin-left: 10px;"  data-toggle="modal" data-target="#loginModal">Log in</button>
+
+<div *ngIf="getCurrentStatus()"  class="dropdown" style="margin-left: 10px;" >
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    {{getCurrentUsername()}}
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Profile</a>
+    <a class="dropdown-item" href="#">รายการจอง</a>
+    <a class="dropdown-item" href="#">รายการสั่งซื้อ</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" (click)="logout()">Log out</a>
+  </div>
+</div>
+
+
+<a [hidden]="true" id="reloadButton" href="#"></a>

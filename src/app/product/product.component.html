@@ -1,0 +1,213 @@
+<h1> จัดการสินค้า </h1>
+<hr>
+<div class="card">
+  <form>
+    <div class="card-header bg-primary text-white">
+      รายละเอียดการค้นหา
+    </div>
+
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+        <th>รหัส</th>
+        <th>ชื่อ</th>
+        <th>ราคาต่ำสุด</th>
+        <th>ราคาสูงสุด</th>
+        <th>ขนาด</th>
+        <th>ไส้</th>
+        </thead>
+        <tbody>
+        <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
+        <td><input class="form-control" name="searchName" id="searchName"  [(ngModel)]="searchForm.p_name"></td>
+        <td>
+          <input class="form-control" name="searchMin" id="searchMin"  [(ngModel)]="searchForm.minPrice"></td>
+        <td>
+          <input class="form-control" name="searchMax" id="searchMax"  [(ngModel)]="searchForm.maxPrice">
+        </td>
+        <td>
+          <select class="custom-select" name="searchSize" id="searchSize"  [(ngModel)]="searchForm.p_size">
+            <option value=""></option>
+            <option value="S">เล็ก</option>
+            <option value="M">กลาง</option>
+            <option value="L">ใหญ่</option>
+          </select>
+        </td>
+        <td>
+          <input class="form-control" name="searchMix" id="searchMix"  [(ngModel)]="searchForm.mixer"></td>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-info" type="submit" (click)="search()">ค้นหา</button>
+      <button class="btn btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
+      <button class="btn btn-primary" type="button" style="margin-left: 10px" data-toggle="modal" data-target="#uploadModal">
+        เพิ่มสินค้าใหม่
+      </button>
+    </div>
+  </form>
+</div>
+<div class="row">
+  <ng-template ngFor let-item [ngForOf]="productList" let-i="index">
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">
+
+      <div class="card " [ngClass]="{'bg-info':productList[i].isEdit}">
+        <img class="card-img-top" [src]="getImgPath(item.p_img)" height="270">
+        <div class="card-body">
+          <div class="table-responsive table-borderless">
+            <table class="table">
+              <thead class="text-right">
+              <tr>
+                <th>รหัส</th>
+
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="productList[i].p_id"
+                         [disabled]="!productList[i].isEdit" >
+                </td>
+
+              </tr>
+              <tr>
+                <th>ชื่อ</th>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="productList[i].p_name"
+                         [disabled]="!productList[i].isEdit">
+                </td>
+
+              </tr>
+              <tr>
+                <th>ขนาด</th>
+                <td>
+                  <select
+                    class="custom-select"
+                    id="sizeSelect"
+                    name="sizeSelect"
+                    [(ngModel)]="productList[i].p_size"
+                    [disabled]="!productList[i].isEdit">
+                    <option value="S">เล็ก</option>
+                    <option value="M">กลาง</option>
+                    <option value="L">ใหญ่</option>
+                  </select>
+                </td>
+
+              </tr>
+              <tr>
+                <th>ราคา</th>
+                <td>
+                  <input type="number"
+                         class="form-control"
+                         [(ngModel)]="productList[i].price"
+                         [disabled]="!productList[i].isEdit">
+                </td>
+
+              </tr>
+              <tr>
+                <th>ไส้</th>
+                <td>
+                  <input type="text"
+                         class="form-control"
+                         [(ngModel)]="productList[i].mixer"
+                         [disabled]="!productList[i].isEdit">
+                </td>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <!--*ngIf="productList[i].isEdit"-->
+          <div class="pull-right">
+            <button *ngIf="!productList[i].isEdit" (click)="edit(i)" class="btn btn-sm btn-info"><i
+              class="fa fa-edit"></i> แก้ไข
+            </button>
+
+            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-warning" (click)="cancel(i)"><i class="fa fa-times"></i> ยกเลิกการแก้ไข
+            </button>
+
+            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-primary" (click)="save(i)" style="margin-left: 10px;"><i class="fa fa-save"></i> บันทึก
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </ng-template>
+
+</div>
+<!--(click)="addProduct()" -->
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="Modal"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> Title </h5>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="form-group">
+              <label for="idInput">รหัสสินค้า</label>
+              <input type="text" class="form-control" id="idInput" [(ngModel)]="newProduct.p_id">
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="form-group">
+              <label for="nameInput">ชื่อสินค้า</label>
+              <input type="text" class="form-control" id="nameInput" [(ngModel)]="newProduct.p_name">
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+            <label for="sizeSelect"> ขนาด </label>
+            <select class="custom-select" id="sizeSelect" name="sizeSelect" [(ngModel)]="newProduct.p_size">
+              <!--<option selected>Open this select menu</option>-->
+              <option value="S">เล็ก</option>
+              <option value="M">กลาง</option>
+              <option value="L">ใหญ่</option>
+            </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+            <div class="form-group">
+              <label for="priceInput">ราคา</label>
+              <input type="number" class="form-control" id="priceInput" [(ngModel)]="newProduct.price">
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+            <div class="form-group">
+              <label for="mixerInput"> ไส้ </label>
+              <input type="text" class="form-control" id="mixerInput" [(ngModel)]="newProduct.mixer">
+            </div>
+          </div>
+        </div>
+
+        <div class="container" align="center">
+
+          <img class="rounded" [src]="uploadImg" width="250" height="250"><br>
+          <p class="text-left">เพิ่มรูปภาพ</p>
+          <div class="custom-file" width="250">
+            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
+                   accept=".png,.jpg,.jpeg">
+            <label class="custom-file-label" for="uploadInput">Choose file</label>
+          </div>
+
+        </div>
+        <!--<input id="file-field" name="file-field" (change)="uploadFile($event)" type="file" id="uploadInput"
+               [hidden]="true"
+               accept=".png,.jpg,.jpeg">-->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="addNewProduct()"> เพิ่มสินค้าใหม่</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+

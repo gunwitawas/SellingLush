@@ -1,0 +1,25 @@
+[1111/015744.964:ERROR:settings.cc(266)] Settings version is not 1
+[1111/015901.788:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/022028.157:ERROR:settings.cc(266)] Settings version is not 1
+[1111/022028.518:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/022812.060:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/023504.407:ERROR:settings.cc(266)] Settings version is not 1
+[1111/023504.679:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/025300.625:ERROR:settings.cc(266)] Settings version is not 1
+[1111/030019.646:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/030914.453:ERROR:settings.cc(266)] Settings version is not 1
+[1111/123226.807:ERROR:settings.cc(266)] Settings version is not 1
+[1111/123226.894:ERROR:persistent_memory_allocator.cc(738)] Corruption detected in shared-memory segment.
+[1111/123226.896:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/124210.237:ERROR:settings.cc(266)] Settings version is not 1
+[1111/125543.540:ERROR:settings.cc(266)] Settings version is not 1
+[1111/125741.199:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/130124.834:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/130428.144:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/131546.167:ERROR:settings.cc(266)] Settings version is not 1
+[1111/131546.237:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1111/132420.473:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1112/220544.604:ERROR:settings.cc(266)] Settings version is not 1
+[1112/220544.687:ERROR:persistent_memory_allocator.cc(738)] Corruption detected in shared-memory segment.
+[1112/220544.688:ERROR:exception_handler_server.cc(524)] ConnectNamedPipe: The pipe is being closed. (0xE8)
+[1117/002125.283:ERROR:settings.cc(266)] Settings version is not 1
