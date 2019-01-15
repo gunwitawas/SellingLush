@@ -85,7 +85,20 @@ export class ProductComponent implements OnInit {
   }
 
   save(index) {
-
+    console.log("saveeeee", this.productList[index]);
+    
+    this.http.post('http://localhost:3000/updateProduct', this.productList[index]).subscribe((result: any) => {
+      console.log("result", result);
+      
+      if (result.affectedRows > 0) {
+        Swal(
+          'Update Success!',
+          'Update product success',
+          'success'
+        );
+        this.getAllProduct();
+      }
+    });
   }
 
   getAllProduct() {
@@ -131,6 +144,7 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+
 
   getBase64(file: any) {
     let reader = new FileReader();
