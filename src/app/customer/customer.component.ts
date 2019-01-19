@@ -3,6 +3,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AppStorage } from '@shared/for-storage/universal.inject';
 import { TransferHttpService } from '@gorniv/ngx-transfer-http';
 import { HttpClient } from '@angular/common/http';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { AccountService } from 'app/all-service/register-service/Account.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-transfer-back',
@@ -18,28 +21,35 @@ export class CustomerComponent implements OnInit {
     private httpClient: HttpClient,
     @Inject(AppStorage) private appStorage: Storage,
     @Inject('ORIGIN_URL') public baseUrl: string,
+    private formBuilder : FormBuilder,
+    private accountservice : AccountService
   ) {
     console.log(`ORIGIN_URL=${baseUrl}`);
   }
 
+  registerForm: FormGroup = this.formBuilder.group({
+    username: ['', Validators.required ],
+    password: ['', Validators.required ],
+    confirmPassword: ['', Validators.required ],
+    name: ['', Validators.required ],
+    address: ['', Validators.required ],
+    tel: ['', Validators.required ],
+    line_id: ['', Validators.required ],
+    type: ['M', Validators.required ],
+    email: ['', Validators.required ],
+    image: ['not to do', Validators ],
+ });
+
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/login').subscribe((result) => {
-      console.log(result);
-      this.result = result;
-    });
-    this.httpClient.get('https://reqres.in/api/users?delay=3').subscribe((result) => {
-      this.resultHttpClient = result;
-    });
-    this.http
-      .post(
-        'https://reqres.in/api/users',
-        JSON.stringify({
-          name: 'morpheus',
-          job: 'leader',
-        }),
-      )
-      .subscribe((result) => {
-        this.resultPost = result;
-      });
+
+    }
+    summitFormRegister(){
+      console.log("regisform : ",this.registerForm.value);
+      let createAccount:any = this.accountservice.createAccount(this.registerForm.value)
+      console.log("qweqweqwe: ",createAccount)
+      console.log("qweqweqwe: ",createAccount.value)
+      
+    };
+    
   }
-}
+  

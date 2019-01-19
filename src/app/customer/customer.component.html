@@ -1,22 +1,53 @@
-<h1>{{ "back-http.title" | translate }}</h1>
-<p>{{ "back-http.text" | translate }}</p>
+<div class="container">
+  <h2>เพิ่มข้อมูลผู้ใช้งาน</h2>
+  <form [formGroup]="registerForm" novalidate>
+    <div class="form-group row">
+      <label class="center-block col-12">ชื่อผู้ใช้งาน :
+        <input class="form-control" formControlName="username">
+      </label>
 
-<hr>
+      <label class="center-block col-6">รหัสผ่าน :
+        <input class="form-control" formControlName="password">
+      </label>
 
-<strong>{{ "back-http.delay" | translate }}</strong>
-<pre *ngIf="result; else noResult">
-    {{ result | json }}
-</pre>
-<pre *ngIf="resultHttpClient; else noResult">
-  {{ resultHttpClient | json }}
-</pre>
-<ng-template #noResult>
-    <p>{{ "loading" | translate }}...</p>
-</ng-template>
-<br/>
-<strong>{{ "back-http.post" | translate }}</strong>
-<pre>
-    {{ resultPost | json }}
-</pre>
-<br/>
-<strong>{{ "back-http.original-url" | translate }}</strong> {{ baseUrl }}
+      <label class="center-block col-6">ยืนยันรหัสผ่าน:
+        <input class="form-control" formControlName="confirmPassword">
+      </label>
+
+      <label class="center-block col-6">ชื่อจริง-นามสกุล:
+        <input class="form-control" formControlName="name">
+      </label>
+
+      <label class="center-block col-6">เบอร์โทรศัพท์ :
+        <input class="form-control" formControlName="tel">
+      </label>
+
+      <label class="center-block col-12">ที่อยู่ :
+        <textarea class="form-control" formControlName="address"></textarea>
+      </label>
+
+      <label class="center-block col-6">Line ID :
+        <input class="form-control" formControlName="line_id">
+      </label>
+
+      <input type="hidden" class="form-control" formControlName="type" value="M">
+
+      <label class="center-block col-6">E-mail:
+        <input class="form-control" formControlName="email">
+      </label>
+
+      <label class="center-block col-12">Image Profile:
+        <input class="form-control" formControlName="image">
+      </label>
+
+      <div class=" col-12 mx-auto">
+        <button type="submit" (click)='summitFormRegister()' [disabled]="registerForm.pristine || registerForm.invalid"
+          class="btn btn-success">
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+  <!-- <p>Form value: {{ registerForm.value | json }}</p> -->
+  <!-- <p>Form status: {{ registerForm.status | json }}</p> -->
+</div>
