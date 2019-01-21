@@ -16,14 +16,14 @@ export class AccountService {
   ) { }
 
   getUserAccount() {
-    this.http.get('http://localhost:3000/getAccount').subscribe((result: any) => {
+    this.http.get('http://localhost:3000/account/getAccount').subscribe((result: any) => {
       console.log(result);
       return result;
     });
   }
 
   async createAccount(request){
-  let result =  await this.http.post('http://localhost:3000/Register', request).toPromise();
+  let result =  await this.http.post('http://localhost:3000/account/Register', request).toPromise();
   return result;
   }
 }
