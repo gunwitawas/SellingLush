@@ -5,7 +5,8 @@ import { TransferHttpService } from '@gorniv/ngx-transfer-http';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AccountService } from 'app/all-service/register-service/Account.service';
-import { log } from 'util';
+import Swal  from 'sweetalert2'
+
 
 @Component({
   selector: 'app-transfer-back',
@@ -47,8 +48,26 @@ export class CustomerComponent implements OnInit {
     async summitFormRegister(){
       console.log("regisform : ",this.registerForm.value);
       let createAccount:any = await this.accountservice.createAccount(this.registerForm.value);
-      console.log("qweqweqwe: ",createAccount)
-      console.log("qweqweqwe: ",createAccount.value)
+      console.log("qweqweqvfwe: ",createAccount)
+      if(createAccount['result'] === "succcess"){
+        Swal(
+          'Create new Account success!',
+          'เพิ่มข้อมูลผู้ใช้งานสำเร็จ!',
+          'success'
+        );
+      }else if(createAccount['result'] === "duplicate"){
+        Swal(
+          'Username already exist',
+          'ชื่อผู้ใช้นี้มีอยู่แล้ว!',
+          'warning'
+        );
+      }else{
+        Swal(
+          'The system cannot process your transaction',
+          'ระบบไม่สามารถทำรายการได้ในขณะนี้!',
+          'error'
+        );
+      }
     };
     
   }
