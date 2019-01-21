@@ -22,8 +22,8 @@ export class AccountService {
     });
   }
 
-  public async createAccount(request){
-   let xxx:any = await this.http.post('http://localhost:3000/Register', request).toPromise();
-  return xxx.result;
+  async createAccount(request){
+  let result =  await this.http.post('http://localhost:3000/Register', request).toPromise();
+  return result;
   }
 }

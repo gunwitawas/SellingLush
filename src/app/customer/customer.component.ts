@@ -43,13 +43,12 @@ export class CustomerComponent implements OnInit {
   ngOnInit(): void {
 
     }
-    summitFormRegister(){
+
+    async summitFormRegister(){
       console.log("regisform : ",this.registerForm.value);
-      let createAccount:any = this.accountservice.createAccount(this.registerForm.value)
+      let createAccount:any = await this.accountservice.createAccount(this.registerForm.value);
       console.log("qweqweqwe: ",createAccount)
       console.log("qweqweqwe: ",createAccount.value)
-      
     };
     
   }
-  
