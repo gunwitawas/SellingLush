@@ -3,7 +3,9 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {AppStorage} from '@shared/for-storage/universal.inject';
 import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {HttpClient} from '@angular/common/http';
-import Swal  from 'sweetalert2'
+import Swal from 'sweetalert2'
+import {ProductService} from "../all-service/register-service/ProductService.service";
+
 @Component({
   selector: 'app-transfer-back',
   templateUrl: './product.component.html',
@@ -39,6 +41,7 @@ export class ProductComponent implements OnInit {
     private http: TransferHttpService,
     private httpClient: HttpClient,
     private _sanitizer: DomSanitizer,
+    private service: ProductService,
     @Inject(AppStorage) private appStorage: Storage,
     @Inject('ORIGIN_URL') public baseUrl: string,
   ) {
@@ -59,15 +62,10 @@ export class ProductComponent implements OnInit {
     console.log(this.productTempList);
   }
 
-  search() {
-    this.http.get('http://localhost:3000/searchProduct', {
-      params: this.searchForm,
-      responseType: "json"
-    }).subscribe((result: any) => {
-      console.log(result);
-      this.productTempList = [];
-      this.productList = result.content;
-    });
+  async search() {
+    let result: any = await this.service.searchProduct(this.searchForm);
+    this.productTempList = [];
+    this.productList = result.content;
   }
 
   cancel(pos) {
@@ -78,40 +76,27 @@ export class ProductComponent implements OnInit {
       }
       return f;
     });
-    console.log(this.productList[pos]);
-    console.log(this.productTempList[ind].detail);
     this.productList[pos] = JSON.parse(JSON.stringify(this.productTempList[ind].detail));
     this.productTempList.splice(ind, 1);
   }
 
-  save(index) {
-    console.log("saveeeee", this.productList[index]);
-    
-    this.http.post('http://localhost:3000/updateProduct', this.productList[index]).subscribe((result: any) => {
-      console.log("result", result);
-      
-      if (result.affectedRows > 0) {
-        Swal(
-          'Update Success!',
-          'Update product success',
-          'success'
-        );
-        this.getAllProduct();
-      }
-    });
+  async save(index) {
+    let result: any = await this.service.updateProduct(this.productList[index]);
+    if (result.affectedRows > 0) {
+      Swal(
+        'Update Success!',
+        'Update product success',
+        'success'
+      );
+      this.getAllProduct();
+    }
   }
 
-  getAllProduct() {
-    this.http.get('http://localhost:3000/getAllProduct').subscribe((result: any) => {
-      console.log(result);
-      this.productList = result.content;
-    });
+  async getAllProduct() {
+    let result: any = await this.service.getProduct();
+    this.productList = result.content;
   }
 
-  getImgPath(base64str: any) {
-    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
-      + base64str);
-  }
 
   clear() {
     for (let key in this.searchForm) {
@@ -123,6 +108,21 @@ export class ProductComponent implements OnInit {
     $("#uploadInput").click();
   }
 
+
+
+  async addNewProduct() {
+    let result: any = await this.service.insertProduct(this.newProduct);
+    if (result.affectedRows > 0) {
+      $("#uploadModal").modal('toggle');
+      Swal(
+        'Insert Success!',
+        'Add new product success',
+        'success'
+      );
+      this.getAllProduct();
+    }
+  }
+
   uploadFile(event) {
     let files = event.target.files;
     if (files.length > 0) {
@@ -131,20 +131,10 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  addNewProduct() {
-    this.http.post('http://localhost:3000/insertProduct', this.newProduct).subscribe((result: any) => {
-      if (result.affectedRows > 0) {
-        $("#uploadModal").modal('toggle');
-        Swal(
-          'Insert Success!',
-          'Add new product success',
-          'success'
-        );
-        this.getAllProduct();
-      }
-    });
+  getImgPath(base64str: any) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + base64str);
   }
-
 
   getBase64(file: any) {
     let reader = new FileReader();

@@ -71,10 +71,5 @@ export class CustomerComponent implements OnInit {
     }
   };
 
-    async summitFormRegister(){
-      console.log("regisform : ",this.registerForm.value);
-      let createAccount:any = await this.accountservice.createAccount(this.registerForm.value);
-      console.log("qweqweqwe: ",createAccount)
-    };
-    
+
   }
