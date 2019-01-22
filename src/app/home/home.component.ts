@@ -5,6 +5,7 @@ import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {MetaService} from '@ngx-meta/core';
 import {UniversalStorage} from "@shared/for-storage/server.storage";
 import {UserService} from "../all-service/register-service/UserService.service";
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-home',
@@ -45,7 +46,7 @@ export class HomeComponent implements OnInit {
   }
 
   async login() {
-    let r:any = await this.service.login(this.loginForm);
+    let r: any = await this.service.login(this.loginForm);
     if (r.result) {
       console.log(r.result);
       console.log(r);
@@ -53,16 +54,32 @@ export class HomeComponent implements OnInit {
       this.appStorage.setItem("status", r.type);
       $("#loginModal").modal('toggle');
       $('#reloadButton')[0].click();
+    }else{
+    Swal(
+         'เข้าสู่ระบบไม่สำเร็จ!',
+         'กรุณาตรวจสอบชื่อผู้ใช้ และ รหัสผ่านอีกครั้ง',
+         'error'
+        );
     }
   }
 
-  regis(f) {
-    console.log(f);
+  async regis(f) {
+    console.log(f.value);
+    let result: any = await this.service.regisNewUser(f.value);
+    if(result){
+      if (result.affectedRows == 1) {
+        Swal(
+          'สำเร็จ!',
+          'สมัครเสร็จสิ้น',
+          'success'
+        );
+      }
+    }
   }
 
   validatePassword(type) {
+    let re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (type == 'M') {
-      let re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
       this.regisForm.validPassword = re.test(this.regisForm.password);
       return;
     } else {
@@ -71,8 +88,8 @@ export class HomeComponent implements OnInit {
   }
 
   async validateUsername() {
-    let r:any = await this.service.checkValidUsername({username: this.regisForm.username});
-      this.regisForm.validUsername = r.result;
+    let r: any = await this.service.checkValidUsername({username: this.regisForm.username});
+    this.regisForm.validUsername = r.result;
 
   }
 
