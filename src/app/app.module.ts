@@ -1,6 +1,5 @@
 // angular
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -30,10 +29,9 @@ export function initLanguage(translateService: TranslatesService): Function {
     TransferHttpCacheModule,
     HttpClientModule,
     RouterModule,
-    AppRoutes,FormsModule,
+    AppRoutes,
     BrowserAnimationsModule,
     SharedModule.forRoot(),
-    ReactiveFormsModule,
     NgbModule
   ],
   declarations: [AppComponent],
