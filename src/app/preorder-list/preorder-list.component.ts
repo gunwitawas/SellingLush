@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 
-import { AppStorage } from '@shared/for-storage/universal.inject';
-import { TransferHttpService } from '@gorniv/ngx-transfer-http';
-import { HttpClient } from '@angular/common/http';
+import {AppStorage} from '@shared/for-storage/universal.inject';
+import {TransferHttpService} from '@gorniv/ngx-transfer-http';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-transfer-back',
@@ -22,6 +22,11 @@ export class PreorderListComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
 
+  search() {
+  }
+
+  clear() {
   }
 }

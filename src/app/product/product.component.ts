@@ -3,6 +3,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {AppStorage} from '@shared/for-storage/universal.inject';
 import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {HttpClient} from '@angular/common/http';
+import {ObjectUtil as util} from "../utillity/ObjectUtil";
 import Swal from 'sweetalert2'
 import {ProductService} from "../all-service/register-service/ProductService.service";
 
@@ -56,7 +57,7 @@ export class ProductComponent implements OnInit {
   edit(index) {
     this.productTempList.push({
       position: index,
-      detail: JSON.parse(JSON.stringify(this.productList[index]))
+      detail: util.jsonClone(this.productList[index])
     });
     this.productList[index].isEdit = true;
     console.log(this.productTempList);
@@ -88,7 +89,7 @@ export class ProductComponent implements OnInit {
         'Update product success',
         'success'
       );
-      this.getAllProduct();
+     await this.getAllProduct();
     }
   }
 

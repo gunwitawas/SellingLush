@@ -39,7 +39,6 @@ export class ProductService {
   }
 
   async insertProduct(params) {
-    this.parameter.params = params;
     let result = await this.http.post(this.insertProductServicePath, params).toPromise();
     return result;
   }
