@@ -79,8 +79,8 @@
                 <td>
                   <select
                     class="custom-select"
-                    id="sizeSelect"
-                    name="sizeSelect"
+                    id="sizeSelect{{i}}"
+                    name="sizeSelect{{i}}"
                     [(ngModel)]="productList[i].p_size"
                     [disabled]="!productList[i].isEdit">
                     <option value="S">เล็ก</option>
@@ -95,6 +95,8 @@
                 <td>
                   <input type="number"
                          class="form-control"
+                         name="price{{i}}"
+                         id="price{{i}}"
                          [(ngModel)]="productList[i].price"
                          [disabled]="!productList[i].isEdit">
                 </td>
@@ -105,6 +107,8 @@
                 <td>
                   <input type="text"
                          class="form-control"
+                         name="productList{{i}}"
+                         id="productList{{i}}"
                          [(ngModel)]="productList[i].mixer"
                          [disabled]="!productList[i].isEdit">
                 </td>
@@ -154,13 +158,13 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="idInput">รหัสสินค้า</label>
-              <input type="text" class="form-control" id="idInput" [(ngModel)]="newProduct.p_id">
+              <input type="text" class="form-control" id="idInput" name="idInput" [(ngModel)]="newProduct.p_id">
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="nameInput">ชื่อสินค้า</label>
-              <input type="text" class="form-control" id="nameInput" [(ngModel)]="newProduct.p_name">
+              <input type="text" class="form-control" id="nameInput" name="nameInput" [(ngModel)]="newProduct.p_name">
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
@@ -175,13 +179,13 @@
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <div class="form-group">
               <label for="priceInput">ราคา</label>
-              <input type="number" class="form-control" id="priceInput" [(ngModel)]="newProduct.price">
+              <input type="number" class="form-control" id="priceInput" name="priceInput" [(ngModel)]="newProduct.price">
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <div class="form-group">
               <label for="mixerInput"> ไส้ </label>
-              <input type="text" class="form-control" id="mixerInput" [(ngModel)]="newProduct.mixer">
+              <input type="text" class="form-control" id="mixerInput"  name="mixerInput" [(ngModel)]="newProduct.mixer">
             </div>
           </div>
         </div>

@@ -12,7 +12,8 @@
     "product": "Product",
     "order": "Order",
     "preorder": "Pre Order",
-    "customer": "Customer"
+    "customer": "Customer",
+    "product-store":"Product Store"
   },
   "home": {
     "title": "Home page",

@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // libs
 import { CookieService } from 'ngx-cookie-service';
 import { TransferHttpCacheModule } from '@nguniversal/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {CommonModule} from "@angular/common";
 // shared
 import { SharedModule } from '@shared/shared.module';
 import { TranslatesService } from '@shared/translates';
@@ -23,6 +25,7 @@ export function initLanguage(translateService: TranslatesService): Function {
 
 @NgModule({
   imports: [
+    CommonModule,
     BrowserModule.withServerTransition({ appId: 'my-app' }),
     TransferHttpCacheModule,
     HttpClientModule,
@@ -30,7 +33,8 @@ export function initLanguage(translateService: TranslatesService): Function {
     AppRoutes,FormsModule,
     BrowserAnimationsModule,
     SharedModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   declarations: [AppComponent],
   providers: [

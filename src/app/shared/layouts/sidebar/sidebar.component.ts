@@ -7,6 +7,7 @@ import {MetaService} from "@ngx-meta/core";
 const LINKS_A: any[] = [
   { link: '/home', name: 'home', icon: 'home' },
   { link: '/product', name: 'product', icon: 'store' },
+  { link: '/product-store', name: 'product-store', icon: 'local_grocery_store' },
   { link: '/order-list', name: 'order', icon: 'reorder' },
   { link: '/preorder-list', name: 'preorder', icon: 'record_voice_over' },
   { link: '/customer', name: 'customer', icon: 'people' },
