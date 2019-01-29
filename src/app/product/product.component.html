@@ -9,31 +9,31 @@
     <div class="card-body">
       <table class="table table-bordered">
         <thead>
-        <th>รหัส</th>
-        <th>ชื่อ</th>
-        <th>ราคาต่ำสุด</th>
-        <th>ราคาสูงสุด</th>
-        <th>ขนาด</th>
-        <th>ไส้</th>
+          <th>รหัส</th>
+          <th>ชื่อ</th>
+          <th>ราคาต่ำสุด</th>
+          <th>ราคาสูงสุด</th>
+          <th>ขนาด</th>
+          <th>ไส้</th>
         </thead>
         <tbody>
-        <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
-        <td><input class="form-control" name="searchName" id="searchName"  [(ngModel)]="searchForm.p_name"></td>
-        <td>
-          <input class="form-control" name="searchMin" id="searchMin"  [(ngModel)]="searchForm.minPrice"></td>
-        <td>
-          <input class="form-control" name="searchMax" id="searchMax"  [(ngModel)]="searchForm.maxPrice">
-        </td>
-        <td>
-          <select class="custom-select" name="searchSize" id="searchSize"  [(ngModel)]="searchForm.p_size">
-            <option value=""></option>
-            <option value="S">เล็ก</option>
-            <option value="M">กลาง</option>
-            <option value="L">ใหญ่</option>
-          </select>
-        </td>
-        <td>
-          <input class="form-control" name="searchMix" id="searchMix"  [(ngModel)]="searchForm.mixer"></td>
+          <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
+          <td><input class="form-control" name="searchName" id="searchName" [(ngModel)]="searchForm.p_name"></td>
+          <td>
+            <input class="form-control" name="searchMin" id="searchMin" [(ngModel)]="searchForm.minPrice"></td>
+          <td>
+            <input class="form-control" name="searchMax" id="searchMax" [(ngModel)]="searchForm.maxPrice">
+          </td>
+          <td>
+            <select class="custom-select" name="searchSize" id="searchSize" [(ngModel)]="searchForm.p_size">
+              <option value=""></option>
+              <option value="S">เล็ก</option>
+              <option value="M">กลาง</option>
+              <option value="L">ใหญ่</option>
+            </select>
+          </td>
+          <td>
+            <input class="form-control" name="searchMix" id="searchMix" [(ngModel)]="searchForm.mixer"></td>
         </tbody>
       </table>
     </div>
@@ -57,71 +57,61 @@
           <div class="table-responsive table-borderless">
             <table class="table">
               <thead class="text-right">
-              <tr>
-                <th>รหัส</th>
+                <tr>
+                  <th>รหัส</th>
 
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="productList[i].p_id"
-                         [disabled]="true" >
-                </td>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="productList[i].p_id" [disabled]="true">
+                  </td>
 
-              </tr>
-              <tr>
-                <th>ชื่อ</th>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="productList[i].p_name"
-                         [disabled]="!productList[i].isEdit">
-                </td>
+                </tr>
+                <tr>
+                  <th>ชื่อ</th>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="productList[i].p_name" [disabled]="!productList[i].isEdit">
+                  </td>
 
-              </tr>
-              <tr>
-                <th>ขนาด</th>
-                <td>
-                  <select
-                    class="custom-select"
-                    id="sizeSelect"
-                    name="sizeSelect"
-                    [(ngModel)]="productList[i].p_size"
-                    [disabled]="!productList[i].isEdit">
-                    <option value="S">เล็ก</option>
-                    <option value="M">กลาง</option>
-                    <option value="L">ใหญ่</option>
-                  </select>
-                </td>
+                </tr>
+                <tr>
+                  <th>ขนาด</th>
+                  <td>
+                    <select class="custom-select" id="sizeSelect" name="sizeSelect" [(ngModel)]="productList[i].p_size"
+                      [disabled]="!productList[i].isEdit">
+                      <option value="S">เล็ก</option>
+                      <option value="M">กลาง</option>
+                      <option value="L">ใหญ่</option>
+                    </select>
+                  </td>
 
-              </tr>
-              <tr>
-                <th>ราคา</th>
-                <td>
-                  <input type="number"
-                         class="form-control"
-                         [(ngModel)]="productList[i].price"
-                         [disabled]="!productList[i].isEdit">
-                </td>
+                </tr>
+                <tr>
+                  <th>ราคา</th>
+                  <td>
+                    <input type="number" class="form-control" [(ngModel)]="productList[i].price" [disabled]="!productList[i].isEdit">
+                  </td>
 
-              </tr>
-              <tr>
-                <th>ไส้</th>
-                <td>
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="productList[i].mixer"
-                         [disabled]="!productList[i].isEdit">
-                </td>
-              </tr>
+                </tr>
+                <tr>
+                  <th>ไส้</th>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="productList[i].mixer" [disabled]="!productList[i].isEdit">
+                  </td>
+                </tr>
               </thead>
             </table>
           </div>
           <!--*ngIf="productList[i].isEdit"-->
           <div class="pull-right">
-            <button *ngIf="!productList[i].isEdit" (click)="edit(i)" class="btn btn-sm btn-info"><i
-              class="fa fa-edit"></i> แก้ไข
+            <button *ngIf="!productList[i].isEdit" (click)="edit(i)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i>
+              แก้ไข
             </button>
 
-            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-warning" (click)="cancel(i)"><i class="fa fa-times"></i> ยกเลิกการแก้ไข
+            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-warning" (click)="cancel(i)"><i class="fa fa-times"></i>
+              ยกเลิกการแก้ไข
             </button>
 
-            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-primary" (click)="save(i)" style="margin-left: 10px;"><i class="fa fa-save"></i> บันทึก
+            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-primary" (click)="save(i)" style="margin-left: 10px;"><i
+                class="fa fa-save"></i> บันทึก
             </button>
 
           </div>
@@ -136,8 +126,7 @@
 </div>
 <!--(click)="addProduct()" -->
 
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="Modal"
-     aria-hidden="true">
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -191,8 +180,7 @@
           <img class="rounded" [src]="uploadImg" width="250" height="250"><br>
           <p class="text-left">เพิ่มรูปภาพ</p>
           <div class="custom-file" width="250">
-            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
-                   accept=".png,.jpg,.jpeg">
+            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg">
             <label class="custom-file-label" for="uploadInput">Choose file</label>
           </div>
 
@@ -210,4 +198,3 @@
     </div>
   </div>
 </div>
-

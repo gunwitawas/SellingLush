@@ -1,53 +1,95 @@
-<div class="container">
-  <h2>เพิ่มข้อมูลผู้ใช้งาน</h2>
-  <form [formGroup]="registerForm" novalidate>
-    <div class="form-group row">
-      <label class="center-block col-12">ชื่อผู้ใช้งาน :
-        <input class="form-control" formControlName="username">
-      </label>
+<!-- ยังไม่ได้ validate form create user -->
+<button class="btn btn-primary" type="button" style="margin-left: 10px" data-toggle="modal" data-target="#createUserAccount">
+  เพิ่มข้อมูลผู้ใช้งาน
+</button>
 
-      <label class="center-block col-6">รหัสผ่าน :
-        <input class="form-control" formControlName="password">
-      </label>
-
-      <label class="center-block col-6">ยืนยันรหัสผ่าน:
-        <input class="form-control" formControlName="confirmPassword">
-      </label>
-
-      <label class="center-block col-6">ชื่อจริง-นามสกุล:
-        <input class="form-control" formControlName="name">
-      </label>
-
-      <label class="center-block col-6">เบอร์โทรศัพท์ :
-        <input class="form-control" formControlName="tel">
-      </label>
-
-      <label class="center-block col-12">ที่อยู่ :
-        <textarea class="form-control" formControlName="address"></textarea>
-      </label>
-
-      <label class="center-block col-6">Line ID :
-        <input class="form-control" formControlName="line_id">
-      </label>
-
-      <input type="hidden" class="form-control" formControlName="type" value="M">
-
-      <label class="center-block col-6">E-mail:
-        <input class="form-control" formControlName="email">
-      </label>
-
-      <label class="center-block col-12">Image Profile:
-        <input class="form-control" formControlName="image">
-      </label>
-
-      <div class=" col-12 mx-auto">
-        <button type="submit" (click)='summitFormRegister()' [disabled]="registerForm.pristine || registerForm.invalid"
-          class="btn btn-success">
-          Save
+<div class="modal fade" id="createUserAccount" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" align='center' style="margin-top: 35px;">เพิ่มข้อมูลผู้ใช้งาน
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
+      <div class="container">
+        <form [formGroup]="registerForm" novalidate>
+          <div class="container" align="center">
+            <img class="rounded" [src]="uploadImg" width="250" height="250"><br>
+            <div class="custom-file col-8" width="250">
+              <input type="file" (change)="uploadFile($event)" formControlName="upLoadImage" class="custom-file-input"
+                id="uploadInput" accept=".png,.jpg,.jpeg"><br>
+              <label class="custom-file-label" for="uploadInput">เพิ่มรูปภาพ</label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="center-block col-12">ชื่อผู้ใช้งาน :
+              <input type="text" class="form-control" formControlName="username" (input)="validateUsername()">
+              <span class="text-danger" *ngIf="!validUsername"> ชื่อผู้ใช้นี้ถูกใช้แล้ว</span>
+            </label>
+            <label class="center-block col-6">รหัสผ่าน :
+              <input type="password" class="form-control" formControlName="password" (input)="validatePassword()">
+              <span class="text-danger" *ngIf="!validPassword"> กรุณาตั้งรหัสผ่านให้ตรงกัน </span>
+            </label>
+            <label class="center-block col-6">ยืนยันรหัสผ่าน:
+              <input type="password" class="form-control" formControlName="confirmPassword" (input)="validatePassword()">
+              <span class="text-danger" *ngIf="!validPassword"> รหัสผ่านไม่ตรงกัน </span>
+            </label>
+            <label class="center-block col-6">ชื่อจริง-นามสกุล:
+              <input type="text" class="form-control" formControlName="name">
+            </label>
+            <label class="center-block col-6">เบอร์โทรศัพท์ :
+              <input type="tel" class="form-control" formControlName="tel">
+            </label>
+            <label class="center-block col-12">ที่อยู่ :
+              <textarea type="text" class="form-control" formControlName="address"></textarea>
+            </label>
+            <label class="center-block col-6">Line ID :
+              <input type="text" class="form-control" formControlName="line_id">
+            </label>
+            <input type="hidden" class="form-control" formControlName="type" value="M">
+            <label class="center-block col-6">E-mail:
+              <input type="text" class="form-control" formControlName="email">
+            </label>
+            <div align='center' class=" col-12 mx-auto">
+              <button type="submit" (click)='summitFormRegister()' [disabled]="registerForm.pristine || registerForm.invalid"
+                class="btn btn-success">
+                เพิ่มข้อมูลผู้ใช้งาน
+              </button>
+            </div>
+          </div>
+        </form>
+        <!-- <p>Form value: {{ registerForm.value | json }}</p> -->
+        <!-- <p>Form status: {{ registerForm.status | json }}</p> -->
+      </div>
     </div>
-  </form>
-  <!-- <p>Form value: {{ registerForm.value | json }}</p> -->
-  <!-- <p>Form status: {{ registerForm.status | json }}</p> -->
+  </div>
 </div>
+
+<!-- <div class="form-group">
+    <label>เลือกลูกค้า</label>
+    <input list="customerList"
+           id="customerId"
+           data-link-field="customerList"
+           class="form-control"
+           placeholder="พิมพ์รหัสหรือชื่อเพื่อเลือกลูกค้า" required/>
+    <datalist id="customerList">
+    <option *ngFor="let item of allUserAccount; let i = index">
+      {{item.username}}
+    </option>
+    </datalist>
+</div> -->
+
+
+  <div class="card" style="width: 18rem;" *ngFor="let item of allUserAccount; let i = index">
+      <img class="card-img-top" [src]="getImgPath(item.image)" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{item.username}}</h5>
+        <p class="card-text">ชื่อจริง-นามสกุล : {{item.name}}</p>
+        <button class="btn btn-primary" type="button" style="margin-left: 10px" data-toggle="modal" data-target="#editUserAccount">
+            แก้ไขผู้ใช้งาน
+          </button>
+      </div>
+    </div>

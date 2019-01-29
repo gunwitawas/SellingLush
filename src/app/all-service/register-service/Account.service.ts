@@ -17,12 +17,10 @@ export class AccountService {
     private httpClient: HttpClient,
   ) { }
 
-  getUserAccount() {
-    this.http.get(this.getAccountServicePath).subscribe((result: any) => {
-      console.log(result);
-      return result;
-    });
-  }
+  async getUserAccount() {
+    let result =  await this.http.get(this.getAccountServicePath).toPromise();
+    return result;
+    }
 
   async createAccount(request){
   let result =  await this.http.post(this.createAccountServicePath, request).toPromise();
