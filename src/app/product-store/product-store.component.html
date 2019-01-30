@@ -1,0 +1,66 @@
+<h1> สินค้าหน้าร้าน </h1>
+<hr>
+<div class="card">
+  <form>
+    <div class="card-header bg-primary text-white">
+      Header
+    </div>
+
+    <div class="card-body">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" id="selectedDate" name="selectedDate" [(ngModel)]="searchForm.selectedDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover rounded">
+          <thead class="bg-light">
+          <tr class="text-center">
+            <th width="10%">ลำดับ</th>
+            <th width="20%">รหัสสินค้า</th>
+            <th width="20%">ชื่อ</th>
+            <th width="20%">จำนวนที่ขายไปแล้ว/<br>จำนวนวางขาย</th>
+            <th>จัดการ</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of resultList;let i = index;">
+            <td *ngIf="!item.isNew" class="text-center">{{i+1}}</td>
+            <td *ngIf="!item.isNew" class="text-center">{{item.p_id}}</td>
+            <td *ngIf="!item.isNew" class="text-center">{{item.p_name}}</td>
+            <td *ngIf="!item.isNew" class="text-center">{{item.saleQty}}/{{item.stockQty}}</td>
+
+
+            <td *ngIf="item.isNew" class="text-center" colspan="3">
+
+
+              <div class="form-group">
+                <input list="supplierList"
+                       id="supplierId"
+                       data-link-field="supplierList"
+                       class="form-control"
+                       placeholder="พิมพ์รหัสหรือชื่อเพื่อเลือกผู้จัดจำหน่าย" required/>
+                <datalist id="supplierList">
+                  <option *ngFor="let item of productList;" [value]="item.p_id">{{item.p_name}} </option>
+                </datalist>
+              </div>
+
+            </td>
+            <td *ngIf="item.isNew" class="text-center"><input class="form-control"></td>
+
+            <td  class="text-center">
+              <button *ngIf="item.isNew" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
+              <button (click)="removeNew()" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" class="text-center">
+              <button (click)="addNew()" class="btn btn-sm btn-info"><i class="fa fa-plus-circle"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>

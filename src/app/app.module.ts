@@ -17,6 +17,7 @@ import { TranslatesService } from '@shared/translates';
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
 import {UniversalStorage} from "@shared/for-storage/server.storage";
+import {MatInputModule} from "@angular/material";
 
 export function initLanguage(translateService: TranslatesService): Function {
   return (): Promise<any> => translateService.initLanguage();
@@ -25,14 +26,15 @@ export function initLanguage(translateService: TranslatesService): Function {
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule.withServerTransition({ appId: 'my-app' }),
+    BrowserModule,
+    // BrowserModule.withServerTransition({ appId: 'my-app' }),
     TransferHttpCacheModule,
     HttpClientModule,
     RouterModule,
     AppRoutes,
-    BrowserAnimationsModule,
     SharedModule.forRoot(),
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule
   ],
   declarations: [AppComponent],
   providers: [
