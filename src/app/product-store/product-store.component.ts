@@ -45,12 +45,18 @@ export class ProductStoreComponent implements OnInit {
     this.productList = result.content;
   }
 
+  async search() {
+    let result: any = await this.service.getProductStore(this.searchForm);
+    this.resultList = result.content;
+  }
 
   addNew() {
     this.resultList.push(new ProductStoreInterface());
   }
-  removeNew(){
-    this.resultList = this.resultList.filter(f=>!f.isNew);
+
+  removeNew() {
+    this.resultList = this.resultList.filter(f => !f.isNew);
   }
+
 }
 

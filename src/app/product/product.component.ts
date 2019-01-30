@@ -92,7 +92,6 @@ export class ProductComponent implements OnInit {
      await this.getAllProduct();
     }
   }
-
   async getAllProduct() {
     let result: any = await this.service.getProduct();
     this.productList = result.content;

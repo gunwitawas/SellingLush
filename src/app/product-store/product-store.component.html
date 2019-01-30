@@ -11,7 +11,7 @@
         <input matInput [matDatepicker]="picker" placeholder="Choose a date" id="selectedDate" name="selectedDate" [(ngModel)]="searchForm.selectedDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+      </mat-form-field> <button class="btn btn-sm" (click)="search()"><i class="fa fa-search"></i></button>
       <div class="table-responsive">
         <table class="table table-bordered table-hover rounded">
           <thead class="bg-light">
@@ -28,7 +28,7 @@
             <td *ngIf="!item.isNew" class="text-center">{{i+1}}</td>
             <td *ngIf="!item.isNew" class="text-center">{{item.p_id}}</td>
             <td *ngIf="!item.isNew" class="text-center">{{item.p_name}}</td>
-            <td *ngIf="!item.isNew" class="text-center">{{item.saleQty}}/{{item.stockQty}}</td>
+            <td *ngIf="!item.isNew" class="text-center"><label class="badge badge-success">{{item.saleQty}}</label>/<label class="badge  badge-primary">{{item.stockQty}}</label></td>
 
 
             <td *ngIf="item.isNew" class="text-center" colspan="3">
@@ -49,8 +49,9 @@
             <td *ngIf="item.isNew" class="text-center"><input class="form-control"></td>
 
             <td  class="text-center">
-              <button *ngIf="item.isNew" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
-              <button (click)="removeNew()" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+              <button *ngIf="item.isNew" (click)="save()" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
+              <button *ngIf="!item.isNew" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+              <button *ngIf="!item.saleQty!=0" (click)="removeNew()" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
             </td>
           </tr>
           <tr>
