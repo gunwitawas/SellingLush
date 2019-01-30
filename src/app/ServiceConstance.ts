@@ -3,5 +3,7 @@ export class ServiceConstance {
   public static userPath = '/user';
   public static productPath = '/product';
   public static accountPath = '/account';
+  public static productStorePath = '/productStore';
+
 
 }

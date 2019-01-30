@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     username: "",
     password: ""
   }
-
+  testDate = new Date();
   regisForm = {
     username: "",
     password: "",
@@ -44,7 +44,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
+  test(){
+    console.log(this.testDate);
+  }
   async login() {
     let r: any = await this.service.login(this.loginForm);
     if (r.result) {
