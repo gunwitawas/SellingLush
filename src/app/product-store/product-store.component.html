@@ -8,10 +8,12 @@
 
     <div class="card-body">
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date" id="selectedDate" name="selectedDate" [(ngModel)]="searchForm.selectedDate">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" id="selectedDate" name="selectedDate"
+               [(ngModel)]="searchForm.selectedDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field> <button class="btn btn-sm" (click)="search()"><i class="fa fa-search"></i></button>
+      </mat-form-field>
+      <button class="btn btn-sm" (click)="search()"><i class="fa fa-search"></i></button>
       <div class="table-responsive">
         <table class="table table-bordered table-hover rounded">
           <thead class="bg-light">
@@ -24,39 +26,95 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let item of resultList;let i = index;">
-            <td *ngIf="!item.isNew" class="text-center">{{i+1}}</td>
-            <td *ngIf="!item.isNew" class="text-center">{{item.p_id}}</td>
-            <td *ngIf="!item.isNew" class="text-center">{{item.p_name}}</td>
-            <td *ngIf="!item.isNew" class="text-center"><label class="badge badge-success">{{item.saleQty}}</label>/<label class="badge  badge-primary">{{item.stockQty}}</label></td>
+          <tr *ngFor="let item of resultList;let i = index;" [ngClass]="{'bg-warning':item.isEdit}">
+            <td class="text-center">{{i+1}}</td>
 
-
-            <td *ngIf="item.isNew" class="text-center" colspan="3">
-
-
+            <td *ngIf="!item.isNew || !enableToAdjust" class="text-center">{{item.p_id}}</td>
+            <td *ngIf="item.isNew && enableToAdjust"
+                class="text-center">
               <div class="form-group">
-                <input list="supplierList"
-                       id="supplierId"
-                       data-link-field="supplierList"
+                <input list="productList"
+                       [id]="'productId'+i"
+                       [name]="'productId'+i"
+                       [(ngModel)]="resultList[i].p_id"
+                       (change)="setProductId(i)"
+                       data-link-field="productList"
                        class="form-control"
-                       placeholder="พิมพ์รหัสหรือชื่อเพื่อเลือกผู้จัดจำหน่าย" required/>
-                <datalist id="supplierList">
-                  <option *ngFor="let item of productList;" [value]="item.p_id">{{item.p_name}} </option>
+                       placeholder="เลือกสินค้าที่ต้องการเพิ่ม"
+                       required/>
+                <datalist id="productList">
+                  <option *ngFor="let item of productList;let i=index;" [value]="item.p_id">{{item.p_name}}</option>
                 </datalist>
               </div>
-
             </td>
-            <td *ngIf="item.isNew" class="text-center"><input class="form-control"></td>
 
-            <td  class="text-center">
-              <button *ngIf="item.isNew" (click)="save()" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
-              <button *ngIf="!item.isNew" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
-              <button *ngIf="!item.saleQty!=0" (click)="removeNew()" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+            <td class="text-center">{{item.p_name}}</td>
+            <td class="text-center">
+              <label style="font-size: medium;" class="badge badge-success">{{item.saleQty}}</label>/
+              <input
+                [disabled]="!enableToAdjust || (!item.isEdit)"
+                class="rounded"
+                size="1.5"
+                onlyNumber
+                [min]="item.stockQty"
+                id="saleQty{{i}}"
+                name="saleQty{{i}}"
+                [(ngModel)]="resultList[i].stockQty"><!--<label class="badge badge-success">{{item.saleQty}}</label>-->
+              <ng-container *ngIf="item.stockQty < item.saleQty">
+                <br>
+                <small> กรอกจำนวนไม่ถูกต้องกรุณาตรวจสอบ</small>
+              </ng-container>
             </td>
+
+            <td class="text-center">
+              <div class="btn-group">
+                <button [disabled]="!enableToAdjust || item.stockQty < item.saleQty"
+                        *ngIf="item.isNew || item.isEdit"
+                        (click)="save(i)"
+                        class="btn btn-sm btn-primary">
+                  <i class="fa fa-save"></i>
+                </button>
+                <!--Case Edit-->
+                <ng-container *ngIf="!editMode">
+                  <button
+                    [disabled]="!enableToAdjust "
+                    *ngIf="!item.isNew && !item.isEdit"
+                    (click)="setEditStatus(i,true)"
+                    class="btn btn-sm btn-warning">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <!--Case Delete-->
+                  <button
+                    *ngIf="item.saleQty==0 && !item.isNew "
+                    (click)="confirmDelete(i)"
+                    class="btn btn-sm btn-danger">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </ng-container>
+                <!--Case Cancel Edit-->
+                <button
+                  [disabled]="!enableToAdjust "
+                  *ngIf="!item.isNew && item.isEdit "
+                  (click)="setEditStatus(i,false)"
+                  class="btn btn-sm btn-info">
+                  <i class="fa fa-undo"></i>
+                </button>
+                <!--Case New-->
+                <button
+                  [disabled]="!enableToAdjust"
+                  *ngIf="item.isNew"
+                  (click)="removeByIndex(i)"
+                  class="btn btn-sm btn-warning">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </td>
+
           </tr>
-          <tr>
+          <tr *ngIf="enableToAdjust">
             <td colspan="5" class="text-center">
-              <button (click)="addNew()" class="btn btn-sm btn-info"><i class="fa fa-plus-circle"></i></button>
+              <button (click)="addNew()" class="btn btn-sm btn-info" [disabled]="editMode"><i class="fa fa-plus-circle"></i> เพิ่มรายการใหม่
+              </button>
             </td>
           </tr>
           </tbody>

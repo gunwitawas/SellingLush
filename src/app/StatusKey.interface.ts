@@ -1,5 +1,5 @@
 export class StatusKeyInterface{
   isNew:boolean = true;
-  isEdit:boolean = true;
-  isUpdate:boolean = true;
+  isEdit:boolean = false;
+  isUpdate:boolean = false;
 }
