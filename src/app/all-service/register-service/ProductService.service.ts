@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {HttpClient} from '@angular/common/http';
 import {request} from 'https';
-import {ServiceConstance} from "../../ServiceConstance";
+import {ServiceConstance} from "../../shared/constance/ServiceConstance";
 import {resolve} from 'path';
 import {reject} from 'q';
 import Swal from "sweetalert2";

@@ -61,14 +61,10 @@ export class HomeComponent implements OnInit {
       reader.readAsDataURL(xhr.response);
       reader.addEventListener("loadend", function () {
         self.base64Img = reader.result;
-        console.log(self.base64Img);
       });
     });
   }
 
-  test() {
-    console.log(this.testDate);
-  }
 
   async login() {
     let r: any = await this.service.login(this.loginForm);
