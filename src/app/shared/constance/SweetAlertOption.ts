@@ -1,5 +1,5 @@
 export class SweetAlertOption {
-  public static confirmDelete = {
+  public static confirmDelete:any = {
     title: 'ยืนยันการลบข้อมูล?',
     text: "ข้อมูลจะถูกลบถาวร!",
     type: 'warning',

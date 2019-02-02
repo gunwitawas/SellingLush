@@ -42,7 +42,7 @@ export class ProductStoreComponent implements OnInit {
 
   async ngOnInit() {
     await this.search();
-    let result = await this.serviceProduct.getProduct();
+    let result:any = await this.serviceProduct.getProduct();
     this.productList = result.content;
   }
 
@@ -146,9 +146,9 @@ export class ProductStoreComponent implements OnInit {
 
 
   async confirmDelete(i) {
-    Swal(SwalOpt.confirmDelete).then(async (result) => {
+    Swal(SwalOpt.confirmDelete).then(async (result:any) => {
       if (result.value) {
-        let r = await this.service.deleteProductStore(this.resultList[i]);
+        let r:any = await this.service.deleteProductStore(this.resultList[i]);
         console.log(r);
         if (r.result) {
           await this.alertSaveProductSuccess();
