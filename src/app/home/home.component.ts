@@ -65,12 +65,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
   async login() {
     let r: any = await this.service.login(this.loginForm);
     if (r.result) {
-      console.log(r.result);
-      console.log(r);
+      // console.log(r.result);
+      // console.log(r);
       this.appStorage.setItem("username", r.username);
       this.appStorage.setItem("status", r.type);
       $("#loginModal").modal('toggle');
@@ -85,10 +84,10 @@ export class HomeComponent implements OnInit {
   }
 
   async regis(f) {
-    console.log(f.value);
+    // console.log(f.value);
     let obj: any = f.value;
     obj.image = this.base64Img;
-    console.log(obj);
+    // console.log(obj);
     let result: any = await this.service.regisNewUser(f.value);
     if (result) {
       if (result.affectedRows == 1) {
