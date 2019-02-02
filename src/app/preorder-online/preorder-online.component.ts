@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ProductService } from 'app/all-service/register-service/ProductService.service';
+import { ProductService } from 'app/all-service/node-service/ProductService.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppStorage } from '@shared/for-storage/universal.inject';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

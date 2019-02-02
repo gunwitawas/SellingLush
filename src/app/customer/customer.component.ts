@@ -4,9 +4,9 @@ import { AppStorage } from '@shared/for-storage/universal.inject';
 import { TransferHttpService } from '@gorniv/ngx-transfer-http';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { AccountService } from 'app/all-service/register-service/Account.service';
+import { AccountService } from 'app/all-service/node-service/Account.service';
 import Swal from 'sweetalert2'
-import { UserService } from 'app/all-service/register-service/UserService.service';
+import { UserService } from 'app/all-service/node-service/UserService.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 

@@ -4,8 +4,8 @@ import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {HttpClient} from '@angular/common/http';
 import {DomSanitizer} from "@angular/platform-browser";
 import {ProductStoreInterface} from "./ProductStore.interface";
-import {ProductStoreService} from "../all-service/register-service/ProductStore.service";
-import {ProductService} from "../all-service/register-service/ProductService.service";
+import {ProductStoreService} from "../all-service/node-service/ProductStore.service";
+import {ProductService} from "../all-service/node-service/ProductService.service";
 import {Validate} from "../shared/utillity/Validate";
 import Swal from 'sweetalert2'
 import {SweetAlertOption as SwalOpt} from "@shared/constance/SweetAlertOption";

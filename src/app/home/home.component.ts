@@ -4,7 +4,7 @@ import {AppStorage} from '@shared/for-storage/universal.inject';
 import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {MetaService} from '@ngx-meta/core';
 import {UniversalStorage} from "@shared/for-storage/server.storage";
-import {UserService} from "../all-service/register-service/UserService.service";
+import {UserService} from "../all-service/node-service/UserService.service";
 import Swal from 'sweetalert2'
 
 @Component({

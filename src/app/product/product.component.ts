@@ -5,7 +5,7 @@ import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {HttpClient} from '@angular/common/http';
 import {ObjectUtil as util} from "../shared/utillity/ObjectUtil";
 import Swal from 'sweetalert2'
-import {ProductService} from "../all-service/register-service/ProductService.service";
+import {ProductService} from "../all-service/node-service/ProductService.service";
 
 @Component({
   selector: 'app-transfer-back',
