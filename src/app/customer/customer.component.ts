@@ -154,18 +154,18 @@ export class CustomerComponent implements OnInit {
     };
   }
 
-  private getImgTobase64(base64str: any) {
+  public getImgTobase64(base64str: any) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
   }
 
-  private async validateUsername() {
+  public async validateUsername() {
     let res: any = await this.userservice.checkValidUsername({ username: this.registerForm.value['username'] });
     this.validUsername = res.result;
 
   }
 
-  private validatePassword() {
+  public validatePassword() {
     if (this.registerForm.value['password'] !== this.registerForm.value['confirmPassword']) {
       this.validPassword = false;
     } else {
