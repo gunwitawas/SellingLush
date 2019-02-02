@@ -72,4 +72,12 @@ export class PreorderOnlineComponent implements OnInit {
     this.selectProduct = [product];
   $('#addToCartModal').modal('show');
   }
+
+  addTocart() {
+    // set to service? isArray to table PreOrder-list&Detail
+    // [preId เลขบิล auto ,name , nowdate เวลานี้, paymmentStatus "N", receiveStatus "N", receiveDate inputdateตอนรวมหน้าตะกร้า, sumPrice รวมหน้าตะกร้า]
+    // [	pre_idเอาไอดีจากการ select name&paymentStatus,	p_idไอดีีจากการกดสั่งแต่ละที,	qty จำนวนแต่ละอัน]   
+//ค่อยต่อ
+  }
+
 }
