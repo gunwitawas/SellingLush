@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AppStorage } from '@shared/for-storage/universal.inject';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
+import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
 
 @Component({
   selector: 'app-transfer-back',
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2'
 })
 export class PreorderOnlineComponent implements OnInit {
   constructor(
-
+    private preorderService: PreOrderService,
     private productservice: ProductService,
     private formBuilder: FormBuilder,
     private _sanitizer: DomSanitizer,
@@ -133,11 +134,11 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
 
-  confirmPreOrder() {
+  async confirmPreOrder() {
     // console.log(this.allProductInCart);
     let todayDate = this.getCurrentDate();
 
-    let preOrderDetail = {
+    let preOrderDetail: any = {
       username: this.USERNAME,
       pre_date: todayDate,
       payment_status: 'N',
@@ -146,7 +147,10 @@ export class PreorderOnlineComponent implements OnInit {
       netpay: this.sumNetpay,
     }
 
-    console.log("preOrderDetail",preOrderDetail);
+    console.log("preOrderDetail", preOrderDetail );
+
+    let result: any = await this.preorderService.insertPreOrderDetail(preOrderDetail);
+    console.log("ASDasdasd", result);
     
     //ส่งไป preorder detail
 
@@ -158,7 +162,7 @@ export class PreorderOnlineComponent implements OnInit {
     let currentDay = todayDate.getDate();
     let currentMonth = todayDate.getMonth() + 1; //Months are zero based
     let currentYear = todayDate.getFullYear();
-    let currentDate =  currentDay + "/" + currentMonth + "/" + currentYear;
+    let currentDate = currentDay + "/" + currentMonth + "/" + currentYear;
     return currentDate;
   }
 }
