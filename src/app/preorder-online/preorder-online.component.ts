@@ -30,10 +30,12 @@ export class PreorderOnlineComponent implements OnInit {
   public sumPrice: number;
   public sumNetpay: number = 0;
   public allProductInCart = new Array;
+  public listPreOrder: Array<any>;
 
   ngOnInit(): void {
     this.USERNAME = this.getCurrentUsername();
     this.getAllProduct();
+    this.getListPreOrderDetail();
 
   }
 
@@ -56,6 +58,17 @@ export class PreorderOnlineComponent implements OnInit {
     let response: any = await this.productservice.getProduct();
     if (response.content) {
       this.allProduct = response.content;
+    } else {
+      this.showPage = 'noStock';
+    }
+  }
+
+  private async getListPreOrderDetail() {
+    let response: any = await this.preorderService.getPreOrderDetail();
+    if (response.content) {
+      let preOrder: any = response.content;
+      console.log("username", preOrder);
+      this.listPreOrder = await preOrder.filter((result:any) => result.username == this.USERNAME);
     } else {
       this.showPage = 'noStock';
     }
@@ -147,10 +160,7 @@ export class PreorderOnlineComponent implements OnInit {
       netpay: this.sumNetpay,
     }
 
-    console.log("preOrderDetail", preOrderDetail );
-
     let result: any = await this.preorderService.insertPreOrderDetail(preOrderDetail);
-    console.log("ASDasdasd", result);
     
     //ส่งไป preorder detail
 
