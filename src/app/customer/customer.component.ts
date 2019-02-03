@@ -81,7 +81,7 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  private async summitFormRegister() {
+  public async summitFormRegister() {
     this.checkInputUploadImage();
     await this.insertRegisterFormToDataBase();
     this.getAllUserAccount();
@@ -134,7 +134,7 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  private uploadFile(event) {
+  public uploadFile(event) {
     this.checkUploadImageProfile = true;
     let files = event.target.files;
     if (files.length > 0) {
