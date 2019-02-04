@@ -22,7 +22,7 @@ export class OrderOnlineComponent implements OnInit {
 
   productStoreList: any = [];
   cartList:any=[];
-  async ngOnInit(): void {
+  async ngOnInit() {
     await this.getCurrentProductStore();
   }
 
