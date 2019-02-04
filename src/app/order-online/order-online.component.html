@@ -1,22 +1,115 @@
-<h1>ORDER ONLINE</h1>
-<p>{{ "back-http.text" | translate }}</p>
-
+<h3>สั่งซื้อสินค้า</h3>
 <hr>
 
-<strong>{{ "back-http.delay" | translate }}</strong>
-<pre *ngIf="result; else noResult">
-    {{ result | json }}
-</pre>
-<pre *ngIf="resultHttpClient; else noResult">
-  {{ resultHttpClient | json }}
-</pre>
-<ng-template #noResult>
-    <p>{{ "loading" | translate }}...</p>
-</ng-template>
-<br/>
-<strong>{{ "back-http.post" | translate }}</strong>
-<pre>
-    {{ resultPost | json }}
-</pre>
-<br/>
-<strong>{{ "back-http.original-url" | translate }}</strong> {{ baseUrl }}
+<div class="row">
+<div class="col-lg-4 col-md-4 col-sm-4 col-4 ">
+  <div class="card">
+    <form>
+      <div class="card-header bg-primary text-white">
+        ค้นหา
+      </div>
+
+      <div class="card-body">
+      </div>
+
+      <div class="card-footer">
+        <button class="btn btn-sm btn-info" type="submit" (click)="search()">ค้นหา</button>
+        <button class="btn btn-sm btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<div class="col">
+  <div class="card">
+    <form>
+      <div class="card-header bg-primary text-white">
+        ตระกร้า
+      </div>
+
+      <div class="card-body">
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-info" type="submit" (click)="search()">ค้นหา</button>
+        <button class="btn btn-sm btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+
+<div class="card" style="margin-top:15px;">
+  <form>
+    <div class="card-header bg-primary text-white">
+     ผลการค้นหา
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <ng-template ngFor let-item [ngForOf]="productStoreList" let-i="index">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">
+            <div class="card">
+              <img class="card-img-top" [src]="getImgPath(item.p_img)" height="270">
+              <div class="card-body">
+                <div class="table-responsive table-borderless">
+                  <table class="table">
+                    <thead class="text-right">
+                    <tr>
+                      <th>รหัส</th>
+
+                      <td>
+                        {{item.p_id}}
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <th>ชื่อ</th>
+                      <td>
+                        {{item.p_name}}
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <th>ขนาด</th>
+                      <td>
+                        {{item.p_size}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>ราคา</th>
+                      <td>
+                        {{item.price}}
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <th>ไส้</th>
+                      <td>
+                        {{item.mixer}}
+                      </td>
+                    </tr>
+                    </thead>
+                  </table>
+                </div>
+                <!--*ngIf="productList[i].isEdit"-->
+                <div class="pull-right">
+                  <button
+                    class="btn btn-sm btn-outline-secondary"
+                    type="button"
+                  (click)="addToCart(i)">
+                    <i class="fa fa-shopping-cart"></i> เพิ่มลงตะกร้า</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </ng-template>
+
+      </div>
+    </div>
+
+  </form>
+</div>

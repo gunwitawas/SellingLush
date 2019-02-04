@@ -10,7 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PreorderOnlineComponent implements OnInit {
   constructor(
-    
     private productservice: ProductService,
     private formBuilder: FormBuilder,
     private _sanitizer: DomSanitizer,
