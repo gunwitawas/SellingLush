@@ -5,6 +5,7 @@ export class ServiceConstance {
   public static accountPath = '/account';
   public static productStorePath = '/productStore';
   public static orderPath = '/order';
+  public static preorderPath = '/preorder';
 
 
 }
