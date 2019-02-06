@@ -31,6 +31,23 @@ export class PreorderOnlineComponent implements OnInit {
   public sumNetpay: number = 0;
   public allProductInCart = new Array;
   public listPreOrder: Array<any>;
+  public checkPaymentStatus: any;
+  public preOrderList: {
+    pre_id: string,
+    p_id: string,
+    qty: number
+  };
+  public preOrderDetail: {
+    username: string,
+    pre_date: string,
+    payment_status: string,
+    receive_status: string,
+    receive_date: string,
+    netpay: number,
+  }
+  public searchForm = {
+    selectedDate: new Date()
+  };
 
   ngOnInit(): void {
     this.USERNAME = this.getCurrentUsername();
@@ -67,11 +84,23 @@ export class PreorderOnlineComponent implements OnInit {
     let response: any = await this.preorderService.getPreOrderDetail();
     if (response.content) {
       let preOrder: any = response.content;
-      console.log("username", preOrder);
-      this.listPreOrder = await preOrder.filter((result:any) => result.username == this.USERNAME);
+      this.listPreOrder = await preOrder.filter((result: any) => result.username == this.USERNAME);
+      await this.checkOrderStatus();
     } else {
       this.showPage = 'noStock';
     }
+  }
+
+  private async checkOrderStatus() {
+    const paymentStatus = 'N';
+    let OrderStatus_NO = await this.listPreOrder.filter((result: any) => result.payment_status == paymentStatus);
+    console.log("Orderstatus : ", OrderStatus_NO);
+    if (OrderStatus_NO.length > 0) {
+      this.checkPaymentStatus = "NO";
+      console.log("nooooooooooo", OrderStatus_NO);
+      
+    }
+
   }
 
   public getImgTobase64(base64str: any) {
@@ -80,9 +109,14 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
   public openModalAddTocart(product) {
-    this.clearInputModal();
-    this.selectProduct = [product];
-    $('#addToCartModal').modal('show');
+    if (this.checkPaymentStatus == "NO") {
+      Swal('Warning', 'ตรวจสอบรายการค้างชำระของคุณ', 'warning');
+      this.showPage = 'preStatus';
+    } else {
+      this.clearInputModal();
+      this.selectProduct = [product];
+      $('#addToCartModal').modal('show');
+    }
   }
 
   private clearInputModal() {
@@ -148,23 +182,47 @@ export class PreorderOnlineComponent implements OnInit {
 
 
   async confirmPreOrder() {
-    // console.log(this.allProductInCart);
-    let todayDate = this.getCurrentDate();
+    await this.insertToPreOrder_Detail();
+  }
 
-    let preOrderDetail: any = {
+  private async insertToPreOrder_Detail() {
+    this.preOrderDetail = {
       username: this.USERNAME,
-      pre_date: todayDate,
+      pre_date: this.getCurrentDate(),
       payment_status: 'N',
       receive_status: 'N',
       receive_date: null,
       netpay: this.sumNetpay,
+    };
+    await this.preorderService.insertPreOrderDetail(this.preOrderDetail).then(async (response: any) => {
+      if (response.result['insertId'] && response['message'] == "Success") {
+        await this.insertToPreOrder_List(response);
+        $('#cartModal').modal('hide');
+        Swal('Confirm the order is successful!', 'ยืนยันการสั่งซื้อสำเร็จ!', 'success');
+        this.clearProductinCart();
+      }
+      else {
+        $('#cartModal').modal('hide');
+        Swal('Warning', 'ไม่สามารถทำรายการนี้ได้!', 'warning');
+      }
+    });
+
+  }
+
+  private clearProductinCart() {
+    this.allProductInCart = [];
+  }
+
+  private async insertToPreOrder_List(response: any) {
+    let preID: string = response.result['insertId'];
+    for (let i = 0; i < this.allProductInCart.length; i++) {
+      this.preOrderList = {
+        pre_id: preID,
+        p_id: this.allProductInCart[i].p_id,
+        qty: this.allProductInCart[i].amount
+      };
+      await this.preorderService.insertPreOrderList(this.preOrderList);
     }
-
-    let result: any = await this.preorderService.insertPreOrderDetail(preOrderDetail);
-    
-    //ส่งไป preorder detail
-
-    //select pre id ไป add preorder list
   }
 
   private getCurrentDate() {

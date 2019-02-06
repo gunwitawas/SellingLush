@@ -182,6 +182,12 @@
                 </td>
               </tr>
             </tbody>
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
+                     [(ngModel)]="searchForm.selectedDate">
+              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
+            </mat-form-field>
           </table>
         </div>
         <div class="modal-footer">

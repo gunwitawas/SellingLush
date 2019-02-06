@@ -12,6 +12,7 @@ import { reject } from 'q';
 export class PreOrderService {
   getAllPreOrderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/getAllPreOrder";
   insertPreorderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderDetail";
+  insertPreorderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderlist";
   constructor(
     private http: TransferHttpService,
     private httpClient: HttpClient,
@@ -24,6 +25,11 @@ export class PreOrderService {
 
   async insertPreOrderDetail(request){
   let result =  await this.http.post(this.insertPreorderDetail, request).toPromise();
+  return result;
+  }
+
+  async insertPreOrderList(request){
+  let result =  await this.http.post(this.insertPreorderList, request).toPromise();
   return result;
   }
 
