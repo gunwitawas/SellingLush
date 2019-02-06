@@ -20,8 +20,17 @@ export class OrderOnlineComponent implements OnInit {
   ) {
   }
 
+  searchForm: any = {
+    "p_id": "",
+    "p_name": "",
+    "p_size": "",
+    "minPrice": "",
+    "maxPrice": "",
+    "mixer": ""
+  };
   productStoreList: any = [];
-  cartList:any=[];
+  cartList: any = [];
+
   async ngOnInit() {
     await this.getCurrentProductStore();
   }
@@ -32,16 +41,25 @@ export class OrderOnlineComponent implements OnInit {
       this.productStoreList = result.content;
     }
   }
+
+  async search() {
+    let result: any = await this.service.searchProductStore(this.searchForm);
+    if(result.result)
+    this.productStoreList = result.content;
+  }
+
   getImgPath(base64str) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
   }
-  addToCart(i){
-    if(this.isNotDuplicateProduct(i)){
+
+  addToCart(i) {
+    if (this.isNotDuplicateProduct(i)) {
       this.cartList.push(this.productStoreList[i])
     }
   }
-  isNotDuplicateProduct(i){
+
+  isNotDuplicateProduct(i) {
     return true;
   }
 }

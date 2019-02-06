@@ -2,47 +2,62 @@
 <hr>
 
 <div class="row">
-<div class="col-lg-4 col-md-4 col-sm-4 col-4 ">
-  <div class="card">
-    <form>
-      <div class="card-header bg-primary text-white">
-        ค้นหา
-      </div>
+  <div class="col">
+    <div class="card">
+      <form (ngOnSubmit)="search()">
+        <div class="card-header bg-primary text-white">
+          ค้นหา
+        </div>
 
-      <div class="card-body">
-      </div>
+        <div class="card-body">
+          <form>
+            <table class="table ">
+              <thead>
+              <th>รหัส</th>
+              <th>ชื่อ</th>
+              <th>ราคาต่ำสุด</th>
+              <th>ราคาสูงสุด</th>
+              <th>ขนาด</th>
+              <th>ไส้</th>
+              </thead>
+              <tbody>
+              <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
+              <td><input class="form-control" name="searchName" id="searchName" [(ngModel)]="searchForm.p_name"></td>
+              <td>
+                <input class="form-control" name="searchMin" id="searchMin" [(ngModel)]="searchForm.minPrice"></td>
+              <td>
+                <input class="form-control" name="searchMax" id="searchMax" [(ngModel)]="searchForm.maxPrice">
+              </td>
+              <td>
+                <select class="custom-select" name="searchSize" id="searchSize" [(ngModel)]="searchForm.p_size">
+                  <option value=""></option>
+                  <option value="S">เล็ก</option>
+                  <option value="M">กลาง</option>
+                  <option value="L">ใหญ่</option>
+                </select>
+              </td>
+              <td>
+                <input class="form-control" name="searchMix" id="searchMix" [(ngModel)]="searchForm.mixer"></td>
+              </tbody>
+            </table>
+          </form>
+        </div>
 
-      <div class="card-footer">
-        <button class="btn btn-sm btn-info" type="submit" (click)="search()">ค้นหา</button>
-        <button class="btn btn-sm btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
-      </div>
-
-    </form>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-info" type="submit" (click)="search()">ค้นหา</button>
+          <button class="btn btn-sm btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-<div class="col">
-  <div class="card">
-    <form>
-      <div class="card-header bg-primary text-white">
-        ตระกร้า
-      </div>
-
-      <div class="card-body">
-      </div>
-      <div class="card-footer">
-        <button class="btn btn-sm btn-info" type="submit" (click)="search()">ค้นหา</button>
-        <button class="btn btn-sm btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
-      </div>
-    </form>
-  </div>
-</div>
 </div>
 
 
 <div class="card" style="margin-top:15px;">
   <form>
     <div class="card-header bg-primary text-white">
-     ผลการค้นหา
+      ผลการค้นหา
     </div>
 
     <div class="card-body">
@@ -101,8 +116,9 @@
                   <button
                     class="btn btn-sm btn-outline-secondary"
                     type="button"
-                  (click)="addToCart(i)">
-                    <i class="fa fa-shopping-cart"></i> เพิ่มลงตะกร้า</button>
+                    (click)="addToCart(i)">
+                    <i class="fa fa-shopping-cart"></i> เพิ่มลงตะกร้า
+                  </button>
                 </div>
               </div>
             </div>

@@ -9,6 +9,7 @@ import {ServiceConstance} from "../../shared/constance/ServiceConstance";
 })
 export class OrderService {
   getCurrentProductStoreServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/getProductStore";
+  searchCurrentProductStoreServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/searchProductStore";
   parameter:any = {
     params : {},
     responseType: "json"
@@ -21,6 +22,11 @@ export class OrderService {
   async getProductStore(params){
     this.parameter.params = params;
     let result = await this.http.get(this.getCurrentProductStoreServicePath, this.parameter).toPromise();
+    return result;
+  }
+  async searchProductStore(params){
+    this.parameter.params = params;
+    let result = await this.http.get(this.searchCurrentProductStoreServicePath, this.parameter).toPromise();
     return result;
   }
 

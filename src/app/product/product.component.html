@@ -156,18 +156,18 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="idInput">รหัสสินค้า</label>
-              <input type="text" class="form-control" id="idInput" name="idInput" [(ngModel)]="newProduct.p_id">
+              <input type="text" class="form-control" id="idInput" name="idInput" [(ngModel)]="newProduct.p_id" required>
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="nameInput">ชื่อสินค้า</label>
-              <input type="text" class="form-control" id="nameInput" name="nameInput" [(ngModel)]="newProduct.p_name">
+              <input type="text" class="form-control" id="nameInput" name="nameInput" [(ngModel)]="newProduct.p_name" required>
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <label for="sizeSelect"> ขนาด </label>
-            <select class="custom-select" id="sizeSelect" name="sizeSelect" [(ngModel)]="newProduct.p_size">
+            <select class="custom-select" id="sizeSelect" name="sizeSelect" [(ngModel)]="newProduct.p_size" required>
               <!--<option selected>Open this select menu</option>-->
               <option value="S">เล็ก</option>
               <option value="M">กลาง</option>
@@ -177,13 +177,13 @@
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <div class="form-group">
               <label for="priceInput">ราคา</label>
-              <input type="number" class="form-control" id="priceInput" name="priceInput" [(ngModel)]="newProduct.price">
+              <input type="number" class="form-control" id="priceInput" name="priceInput" [(ngModel)]="newProduct.price" required>
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <div class="form-group">
               <label for="mixerInput"> ไส้ </label>
-              <input type="text" class="form-control" id="mixerInput"  name="mixerInput" [(ngModel)]="newProduct.mixer">
+              <input type="text" class="form-control" id="mixerInput"  name="mixerInput" [(ngModel)]="newProduct.mixer" required>
             </div>
           </div>
         </div>
