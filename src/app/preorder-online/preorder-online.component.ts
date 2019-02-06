@@ -9,6 +9,7 @@ import { PreOrderService } from 'app/all-service/node-service/PreOrderService.se
 @Component({
   selector: 'app-transfer-back',
   templateUrl: './preorder-online.component.html',
+  styleUrls: ['./preorder-online.component.css']
 })
 export class PreorderOnlineComponent implements OnInit {
   constructor(
