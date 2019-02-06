@@ -33,14 +33,16 @@ export class ProductStoreComponent implements OnInit {
   productList: any = [];
 
 
-  searchForm = {
-    selectedDate: new Date()
+  searchForm:any = {
+    selectedDate:""
   };
 
   enableToAdjust: boolean;
   editMode: boolean = false;
 
   async ngOnInit() {
+    this.searchForm.selectedDate = new Date();
+    console.log(this.searchForm.selectedDate.getDate());
     await this.search();
     let result:any = await this.serviceProduct.getProduct();
     this.productList = result.content;
@@ -55,7 +57,10 @@ export class ProductStoreComponent implements OnInit {
     this.editMode = false;
     this.enableToAdjust = Validate.gteDate(this.searchForm.selectedDate, new Date());
     console.log(this.enableToAdjust);
-    let result: any = await this.service.getProductStore(this.searchForm);
+    let Obj = {
+      selectedDate: await this.convertDate(this.searchForm.selectedDate)
+    }
+    let result: any = await this.service.getProductStore(Obj);
     if (result.result) {
       if (result.content.length > 0) {
         this.resultList = util.jsonClone(result.content);
@@ -156,6 +161,10 @@ export class ProductStoreComponent implements OnInit {
         }
       }
     });
+  }
+
+  async convertDate(date:Date){
+    return date.getFullYear()+"-"+(Number(date.getMonth())+1)+"-"+date.getDate();
   }
 
 }
