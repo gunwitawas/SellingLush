@@ -105,7 +105,8 @@
       <tbody>
         <!-- ngfor -->
         <tr *ngFor="let item of listPreOrder; let i = index">
-          <td>{{item.pre_id}}</td>
+          <td><button type="button" class="btn btn-primary fa fa-search" (click)="showOrderByPreId(item.pre_id)">
+              {{item.pre_id}}</button></td>
           <td>{{item.pre_date}}</td>
           <td>{{item.netpay}}</td>
           <td>
@@ -114,8 +115,10 @@
             <button type="button" class="btn btn-success" *ngIf="item.payment_status == 'Y'">ชำระเงินแล้ว</button>
           </td>
         </tr>
+
       </tbody>
     </table>
+
   </div>
 </div>
 
@@ -182,9 +185,10 @@
                 </td>
               </tr>
             </tbody>
-            <mat-form-field>
+            วันที่รับสินค้า
+            <mat-form-field style="float: right;">
               <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
-                     [(ngModel)]="searchForm.selectedDate">
+                [(ngModel)]="searchForm.selectedDate">
               <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
               <mat-datepicker #pickers></mat-datepicker>
             </mat-form-field>

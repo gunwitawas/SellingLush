@@ -32,6 +32,7 @@ export class PreorderOnlineComponent implements OnInit {
   public sumNetpay: number = 0;
   public allProductInCart = new Array;
   public listPreOrder: Array<any>;
+  public orerListByID: Array<any>
   public checkPaymentStatus: any;
   public preOrderList: {
     pre_id: string,
@@ -51,10 +52,13 @@ export class PreorderOnlineComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.startPagePreorder();
+  }
+
+  private startPagePreorder() {
     this.USERNAME = this.getCurrentUsername();
     this.getAllProduct();
     this.getListPreOrderDetail();
-
   }
 
   getCurrentUsername() {
@@ -99,7 +103,7 @@ export class PreorderOnlineComponent implements OnInit {
     if (OrderStatus_NO.length > 0) {
       this.checkPaymentStatus = "NO";
       console.log("nooooooooooo", OrderStatus_NO);
-      
+
     }
 
   }
@@ -192,7 +196,7 @@ export class PreorderOnlineComponent implements OnInit {
       pre_date: this.getCurrentDate(),
       payment_status: 'N',
       receive_status: 'N',
-      receive_date: null,
+      receive_date: this.tranformDate(),
       netpay: this.sumNetpay,
     };
     await this.preorderService.insertPreOrderDetail(this.preOrderDetail).then(async (response: any) => {
@@ -201,6 +205,7 @@ export class PreorderOnlineComponent implements OnInit {
         $('#cartModal').modal('hide');
         Swal('Confirm the order is successful!', 'ยืนยันการสั่งซื้อสำเร็จ!', 'success');
         this.clearProductinCart();
+        this.startPagePreorder();
       }
       else {
         $('#cartModal').modal('hide');
@@ -208,6 +213,14 @@ export class PreorderOnlineComponent implements OnInit {
       }
     });
 
+  }
+
+  public tranformDate() {
+    const date = this.searchForm.selectedDate.getDate();
+    const month = this.searchForm.selectedDate.getMonth() + 1;
+    const year = this.searchForm.selectedDate.getFullYear();
+    let receiveDate: string = date + "/" + month + "/" + year;
+    return receiveDate;
   }
 
   private clearProductinCart() {
@@ -234,4 +247,21 @@ export class PreorderOnlineComponent implements OnInit {
     let currentDate = currentDay + "/" + currentMonth + "/" + currentYear;
     return currentDate;
   }
+
+  public async showOrderByPreId(preId: any) {
+    console.log("IDDDDDd", preId);
+    let OrderList: any = await this.preorderService.getPreOrderList();
+
+    console.log("OrderList", OrderList);
+    if (OrderList.content) {
+      this.orerListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
+      for (let i = 0; i < this.orerListByID.length; i++) {
+        if (this.orerListByID['p_id']) {
+
+          //หลัับง่วงวงงง
+        }
+      }
+    }
+  }
+
 }
