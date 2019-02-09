@@ -188,7 +188,7 @@
             วันที่รับสินค้า
             <mat-form-field style="float: right;">
               <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
-                [(ngModel)]="searchForm.selectedDate">
+                [(ngModel)]="receiveDateForm.selectedDate" (change)="checkSelectDate();">
               <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
               <mat-datepicker #pickers></mat-datepicker>
             </mat-form-field>

@@ -47,7 +47,7 @@ export class PreorderOnlineComponent implements OnInit {
     receive_date: string,
     netpay: number,
   }
-  public searchForm = {
+  public receiveDateForm = {
     selectedDate: new Date()
   };
 
@@ -216,9 +216,9 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
   public tranformDate() {
-    const date = this.searchForm.selectedDate.getDate();
-    const month = this.searchForm.selectedDate.getMonth() + 1;
-    const year = this.searchForm.selectedDate.getFullYear();
+    const date = this.receiveDateForm.selectedDate.getDate();
+    const month = this.receiveDateForm.selectedDate.getMonth() + 1;
+    const year = this.receiveDateForm.selectedDate.getFullYear();
     let receiveDate: string = date + "/" + month + "/" + year;
     return receiveDate;
   }
@@ -264,4 +264,8 @@ export class PreorderOnlineComponent implements OnInit {
     }
   }
 
+  public checkSelectDate() {
+    console.log("date", this.receiveDateForm.selectedDate);
+    
+  }
 }
