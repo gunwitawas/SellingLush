@@ -28,7 +28,6 @@
           <tbody>
           <tr *ngFor="let item of resultList;let i = index;" [ngClass]="{'bg-warning':item.isEdit}">
             <td class="text-center">{{i+1}}</td>
-
             <td *ngIf="!item.isNew || !enableToAdjust"
                 class="text-center">{{item.p_id}}</td>
             <td *ngIf="item.isNew && enableToAdjust"
@@ -53,7 +52,6 @@
                 </span>
               </ng-container>
             </td>
-
             <td class="text-center">{{item.p_name}}</td>
             <td class="text-center">
               <label style="font-size: medium;" class="badge badge-success">{{item.saleQty}}</label>/
@@ -71,7 +69,6 @@
                 <small> กรอกจำนวนไม่ถูกต้องกรุณาตรวจสอบ</small>
               </ng-container>
             </td>
-
             <td class="text-center">
               <div class="btn-group">
                 <button [disabled]="!enableToAdjust

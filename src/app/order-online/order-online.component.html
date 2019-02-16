@@ -1,6 +1,34 @@
 <h3>สั่งซื้อสินค้า</h3>
 <hr>
 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-md-12 mb-4">
+
+      <div class="img-area">
+        <a href="_rules_insert.php?rule=true">
+          <img src="img/rule.png" class="image" width="125" height="125">
+          <div class="overlay-hover bg-info ">
+            <div class="text"> เพิ่ม/แก้ไขกฏเกณฑ์และข้อบังคับ</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+    <div class="col-lg-4 col-md-12 mb-4">
+
+      <div class="img-area">
+        <a href="_rules_insert.php?rule=true">
+          <img src="img/rule.png" class="image" width="125" height="125">
+          <div class="overlay-hover bg-info ">
+            <div class="text"> เพิ่ม/แก้ไขกฏเกณฑ์และข้อบังคับ</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="col">
     <div class="card">
@@ -11,6 +39,12 @@
 
         <div class="card-body">
           <form>
+            <div align="right">
+              <button class="btn btn-sm btn-outline-primary" style="margin-bottom: 15px;" data-toggle="modal"
+                      data-target="#cartModal" (click)=" setTotalPrice() "><i class="fa fa-shopping-cart"></i>
+                ตะกร้าสินค้า
+              </button>
+            </div>
             <table class="table ">
               <thead>
               <th>รหัส</th>
@@ -52,7 +86,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="card" style="margin-top:15px;">
   <form>
@@ -116,20 +149,124 @@
                   <button
                     class="btn btn-sm btn-outline-secondary"
                     type="button"
-                    (click)="addToCart(i)">
+                    (click)="openModalCart(i)">
                     <i class="fa fa-shopping-cart"></i> เพิ่มลงตะกร้า
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
-
-
         </ng-template>
 
       </div>
     </div>
 
   </form>
+</div>
+
+
+<div class="modal fade bd-example-modal-sm" id="addProductModal" tabindex="-1" role="dialog"
+     aria-labelledby="addProductModalTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModalTitle">เพิ่มรายการที่ต้องการซื้อ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <div class="modal-body">
+          <label>จำนวนคงเหลือ : {{selectedProduct.stockQty}}</label><br>
+          <div class="form-group">
+            <label><strong>จำนวนที่ต้องการ :</strong> </label>
+            <input class="form-control"
+                   onlyNumber
+                   [max]="selectedProduct.stockQty"
+                   [(ngModel)]="selectedProduct.selectedNum">
+            <small *ngIf="selectedProduct.selectedNum>selectedProduct.stockQty || selectedProduct.selectedNum==0 "><i
+              class="fa fa-exclamation-triangle"></i> กรอกจำนวนไม่ถูกต้อง/สินค้ามีไม่พอ
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="selectedProduct.selectedNum>selectedProduct.stockQty
+                              || selectedProduct.selectedNum<1"
+                  class="btn btn-outline-primary"
+                  (click)="addToCart(i)">
+            <i class="fa fa-plus-circle"></i> เพิ่มสินค้า
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">รายการสินค้าที่เลือกห</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <div class="modal-body text-center">
+          <span *ngIf="saveForm.cartList.length==0"><i class="fa fa-exclamation-triangle"> </i> ท่านยังไม่ได้เลือกสินค้าใด</span>
+          <ng-container *ngIf="saveForm.cartList.length!=0">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped  rounded">
+                <thead>
+                <tr>
+                  <th>รหัสสินค้า</th>
+                  <th>ชื่อสินค้า</th>
+                  <th>ไส้</th>
+                  <th>ขนาด</th>
+                  <th>จำนวนที่สั่ง</th>
+                  <th>ราคา</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of saveForm.cartList; let i = index;">
+                  <td>{{item.p_id}}</td>
+                  <td>{{item.p_name}}</td>
+                  <td>{{item.mixer}}</td>
+                  <td>{{item.p_size}}</td>
+                  <td>{{item.selectedNum}}</td>
+                  <td>{{item.price}}</td>
+                  <td>
+                    <button class="btn btn-sm btn-danger" (click)="removeSelected(i)"><i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="text-right">
+                    รวมจำนวน
+                  </td>
+                  <td>
+                    {{saveForm.totalQty}}
+                  </td>
+                  <td colspan="2" class="text-left">
+                    {{saveForm.totalPrice}}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-primary" (click)="billing()">
+                <i class="fa fa-check-circle"></i> สั่งซื้อ
+              </button>
+            </div>
+          </ng-container>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

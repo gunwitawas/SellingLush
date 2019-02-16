@@ -3,13 +3,18 @@ import { TransferHttpService } from '@gorniv/ngx-transfer-http';
 import { HttpClient } from '@angular/common/http';
 import { request } from 'https';
 import {ServiceConstance} from "../../shared/constance/ServiceConstance";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  cartList = new Subject();
+
   getCurrentProductStoreServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/getProductStore";
   searchCurrentProductStoreServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/searchProductStore";
+  insertOrderDetailServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/insertOrderDetail";
+  insertOrderListServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/insertOrderList";
   parameter:any = {
     params : {},
     responseType: "json"
@@ -18,6 +23,14 @@ export class OrderService {
     private http: TransferHttpService,
     private httpClient: HttpClient,
   ) { }
+
+  setCartDetail(obj){
+    this.cartList.next(obj);
+  }
+
+  getCartDetail(){
+    return this.cartList;
+  }
 
   async getProductStore(params){
     this.parameter.params = params;
@@ -29,28 +42,13 @@ export class OrderService {
     let result = await this.http.get(this.searchCurrentProductStoreServicePath, this.parameter).toPromise();
     return result;
   }
-
-/*  async insertProductStore(params){
-    let result = await this.http.post(this.insertProductStoreServicePath, params).toPromise();
+  async insertOrderDetail(body){
+    let result = await this.http.post(this.insertOrderDetailServicePath, body).toPromise();
     return result;
-  }*/
+  }
+  async insertOrderList(body){
+    let result = await this.http.post(this.insertOrderListServicePath, body).toPromise();
+    return result;
+  }
 
 }
-
-/* async login(params){
-   this.parameter.params = params;
-   let result = await this.http.get(this.loginServicePath, this.parameter).toPromise();
-   return result;
- }
-
- async regisNewUser(regisForm){
-   console.log(this.regisServicePath);
-   let result = await this.http.post(this.regisServicePath, regisForm).toPromise();
-   return result;
- }
-
- async checkValidUsername(params){
-   this.parameter.params = params;
-   let result = await this.http.get(this.checkValidUsernameServicePath, this.parameter).toPromise();
-   return result;
- }*/

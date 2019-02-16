@@ -47,7 +47,6 @@ export class SidebarComponent implements OnInit {
    setLink(){
     console.log(this.storage);
     let status = this.storage.getItem("status");
-    console.log(status);
     let linkTemp:any;
     if(status=='M'){
       linkTemp = JSON.parse(JSON.stringify(LINKS_M));
@@ -60,7 +59,6 @@ export class SidebarComponent implements OnInit {
       link.name = `sidebar.${link.name}`;
       return link;
     });
-    console.log(this.links);
     // return this.links;
   }
 

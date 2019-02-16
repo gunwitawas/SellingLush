@@ -7,7 +7,6 @@ export class OnlyNumberDirective {
   constructor(private el: ElementRef) { }
   @Input() OnlyNumber: boolean=true;
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    console.log(event);
     let e = <KeyboardEvent> event;
     if (this.OnlyNumber) {
       if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
