@@ -11,6 +11,7 @@ export class PreOrderService {
   insertPreorderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderDetail";
   insertPreorderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderlist";
   getAllPreOrderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/getAllPreOrderList";
+  uploadimagePayment = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/uploadImagePayment";
   constructor(
     private http: TransferHttpService,
   ) { }
@@ -32,6 +33,11 @@ export class PreOrderService {
 
   async getPreOrderList() {
     let result = await this.http.get(this.getAllPreOrderList).toPromise();
+    return result;
+  }
+
+  async uploadImagePayment(request) {
+    let result = await this.http.post(this.uploadimagePayment, request).toPromise();
     return result;
   }
 
