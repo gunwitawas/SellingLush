@@ -105,17 +105,20 @@
       <tbody>
         <!-- ngfor -->
         <tr *ngFor="let item of listPreOrder; let i = index">
-          <td>{{item.pre_id}}</td>
+          <td><button type="button" class="btn btn-primary fa fa-search" (click)="showOrderByPreId(item.pre_id)">
+              {{item.pre_id}}</button></td>
           <td>{{item.pre_date}}</td>
           <td>{{item.netpay}}</td>
           <td>
-            <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N'">ยังไม่ได้ชำระเงิน</button>
-            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W'">รอการยืนยันการชำระเงิน</button>
-            <button type="button" class="btn btn-success" *ngIf="item.payment_status == 'Y'">ชำระเงินแล้ว</button>
+            <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N'" (click)="openModalUplpadPayMent(item)">ยังไม่ได้ชำระเงิน</button>
+            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W'" (click)="openModalUplpadPayMent(item)">รอการยืนยันการชำระเงิน</button>
+            <button type="button" class="btn btn-success" *ngIf="item.payment_status == 'Y'" (click)="openModalUplpadPayMent(item)">ชำระเงินแล้ว</button>
           </td>
         </tr>
+
       </tbody>
     </table>
+
   </div>
 </div>
 
@@ -185,7 +188,7 @@
             <label> กรุณาเลือกวันรับสินค้า
               <mat-form-field>
                 <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
-                  [(ngModel)]="searchForm.selectedDate" (ngModelChange)="checkPreorderDate($event)">
+                  [(ngModel)]="selectedDate" (ngModelChange)="checkPreorderDate($event)">
                 <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                 <mat-datepicker #pickers></mat-datepicker>
               </mat-form-field>
@@ -199,6 +202,40 @@
       </div>
       <div *ngIf="this.allProductInCart[0] == null" style="text-align: center;margin: 15px;">
         <h1>คุณยังไม่มีสินค้าในรถเข็น</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="uploadPayment" tabindex="-1" role="dialog" aria-labelledby="uploadPayment"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">อัพโหลดรูปหลักฐานการโอนเงินของคุณ {{USERNAME}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngIf="isUploadImgPayment" class="modal-body">
+        <div align="center">
+          <img class="card-img-top" style="margin-top: 15px; width: 450px; height: 450;" [src]="uploadImgPayment.pay_img">
+          <img class="card-img-top mx-auto" style="margin-top: 15px; width: 450px; height: 450;" [src]="slipPayment">
+
+          <div class="custom-file col-8" width="250">
+            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg"><br>
+            <label class="custom-file-label" for="uploadInput">เพิ่มรูปภาพ</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+        <button type="button" class="btn btn-primary" (click)="uploadPayment()" [disabled]="!isPreorderDate">อัพโหลดรูปการชำระเงิน</button>
       </div>
     </div>
   </div>

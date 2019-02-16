@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
 import { Validate } from "../shared/utillity/Validate";
+import { ImagePath } from "../shared/constance/ImagePath";
 
 @Component({
   selector: 'app-transfer-back',
@@ -33,10 +34,14 @@ export class PreorderOnlineComponent implements OnInit {
   public sumNetpay: number = 0;
   public allProductInCart = new Array;
   public listPreOrder: Array<any>;
+  public orerListByID: Array<any>
   public checkPaymentStatus: any;
   public isMoreThanDate: boolean;
   public isMoreThanMonth: boolean;
   public isPreorderDate: boolean;
+  public isUploadImgPayment: boolean;
+  public selectedDate = new Date();
+  public uploadImg: any;
   public preOrderList: {
     pre_id: string,
     p_id: string,
@@ -50,15 +55,30 @@ export class PreorderOnlineComponent implements OnInit {
     receive_date: string,
     netpay: number,
   }
-  public searchForm = {
+  public receiveDateForm = {
     selectedDate: new Date()
   };
+  public uploadImgPayment: {
+    pre_id: string,
+    username: string,
+    pre_date: string,
+    payment_status: string,
+    receive_status: string,
+    receive_date: string,
+    netpay: string,
+    pay_img: any,
+  }
 
+  public imagePath = new ImagePath();
+  public slipPayment = this.imagePath.slipPayment;
   ngOnInit(): void {
+    this.getDataStartPage();
+  }
+
+  private getDataStartPage() {
     this.USERNAME = this.getCurrentUsername();
     this.getAllProduct();
     this.getListPreOrderDetail();
-    this.searchForm.selectedDate.setDate(this.searchForm.selectedDate.getDate() + 2)
   }
 
   getCurrentUsername() {
@@ -99,13 +119,10 @@ export class PreorderOnlineComponent implements OnInit {
   private async checkOrderStatus() {
     const paymentStatus = 'N';
     let OrderStatus_NO = await this.listPreOrder.filter((result: any) => result.payment_status == paymentStatus);
-    console.log("Orderstatus : ", OrderStatus_NO);
     if (OrderStatus_NO.length > 0) {
       this.checkPaymentStatus = "NO";
-      console.log("nooooooooooo", OrderStatus_NO);
-
+      this.showPage = 'preStatus';
     }
-
   }
 
   public getImgTobase64(base64str: any) {
@@ -195,7 +212,7 @@ export class PreorderOnlineComponent implements OnInit {
       pre_date: this.getCurrentDate(),
       payment_status: 'N',
       receive_status: 'N',
-      receive_date: null,
+      receive_date: this.tranformDate(),
       netpay: this.sumNetpay,
     };
     await this.preorderService.insertPreOrderDetail(this.preOrderDetail).then(async (response: any) => {
@@ -204,6 +221,7 @@ export class PreorderOnlineComponent implements OnInit {
         $('#cartModal').modal('hide');
         Swal('Confirm the order is successful!', 'ยืนยันการสั่งซื้อสำเร็จ!', 'success');
         this.clearProductinCart();
+        this.getDataStartPage();
       }
       else {
         $('#cartModal').modal('hide');
@@ -213,8 +231,17 @@ export class PreorderOnlineComponent implements OnInit {
 
   }
 
+  public tranformDate() {
+    const date = this.receiveDateForm.selectedDate.getDate();
+    const month = this.receiveDateForm.selectedDate.getMonth() + 1;
+    const year = this.receiveDateForm.selectedDate.getFullYear();
+    let receiveDate: string = date + "/" + month + "/" + year;
+    return receiveDate;
+  }
+
   private clearProductinCart() {
     this.allProductInCart = [];
+    this.showPage = 'preStatus';
   }
 
   private async insertToPreOrder_List(response: any) {
@@ -239,7 +266,6 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
   public checkPreorderDate(event: Date) {
-
     let sumdayDate = Validate.getDateDiff(event);
     this.isMoreThanDate = sumdayDate >= 2;
     this.isMoreThanMonth = sumdayDate <= 30;
@@ -247,7 +273,66 @@ export class PreorderOnlineComponent implements OnInit {
     if (!this.isPreorderDate) {
       Swal('Warning', 'กรุณาสั่งของล่วงหน้าอย่างน้อย 2 วัน และ ไม่เกิน 30 วัน!', 'warning');
     }
+  }
 
+  public async showOrderByPreId(preId: any) {
+    console.log("IDDDDDd", preId);
+    let OrderList: any = await this.preorderService.getPreOrderList();
+
+    console.log("OrderList", OrderList);
+    if (OrderList.content) {
+      this.orerListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
+      for (let i = 0; i < this.orerListByID.length; i++) {
+        if (this.orerListByID['p_id']) {
+
+          //หลัับง่วงวงงง
+        }
+      }
+    }
+  }
+
+  public checkSelectDate() {
+    console.log("date", this.receiveDateForm.selectedDate);
+    
+  }
+
+  public openModalUplpadPayMent(item) {
+    $('#uploadPayment').modal('show');
+    console.log("item", item);
+    this.isUploadImgPayment = true;
+    this.uploadImgPayment = {
+      pre_id: item.pre_id,
+      username: item.username,
+      pre_date: item.pre_date,
+      payment_status: item.payment_status,
+      receive_status: item.receive_status,
+      receive_date: item.receive_date,
+      netpay: item.netpay,
+      pay_img: this.getImgTobase64(item.pay_img)
+    }
+  }
+
+  public uploadPayment() {
+    
+  }
+
+  
+  public uploadFile(event) {
+    let files = event.target.files;
+    if (files.length > 0) {
+      this.updateFileImageToBase64(files[0]);
+    }
+  }
+
+  private updateFileImageToBase64(file: any) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      this.uploadImgPayment.pay_img = reader.result;
+    }
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
   }
 }
 

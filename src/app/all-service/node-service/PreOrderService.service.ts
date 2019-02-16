@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-transfer-http';
 import { HttpClient } from '@angular/common/http';
-import { request } from 'https';
-import {ServiceConstance} from "../../shared/constance/ServiceConstance";
-import { resolve } from 'path';
-import { reject } from 'q';
+import { ServiceConstance } from "../../shared/constance/ServiceConstance";
 
 @Injectable({
   providedIn: 'root'
@@ -13,25 +10,35 @@ export class PreOrderService {
   getAllPreOrderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/getAllPreOrder";
   insertPreorderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderDetail";
   insertPreorderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderlist";
+  getAllPreOrderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/getAllPreOrderList";
+  uploadimagePayment = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/uploadImagePayment";
   constructor(
     private http: TransferHttpService,
-    private httpClient: HttpClient,
   ) { }
 
   async getPreOrderDetail() {
-    let result =  await this.http.get(this.getAllPreOrderDetail).toPromise();
+    let result = await this.http.get(this.getAllPreOrderDetail).toPromise();
     return result;
-    }
-
-  async insertPreOrderDetail(request){
-  let result =  await this.http.post(this.insertPreorderDetail, request).toPromise();
-  return result;
   }
 
-  async insertPreOrderList(request){
-  let result =  await this.http.post(this.insertPreorderList, request).toPromise();
-  return result;
+  async insertPreOrderDetail(request) {
+    let result = await this.http.post(this.insertPreorderDetail, request).toPromise();
+    return result;
   }
 
+  async insertPreOrderList(request) {
+    let result = await this.http.post(this.insertPreorderList, request).toPromise();
+    return result;
+  }
+
+  async getPreOrderList() {
+    let result = await this.http.get(this.getAllPreOrderList).toPromise();
+    return result;
+  }
+
+  async uploadImagePayment(request) {
+    let result = await this.http.post(this.uploadimagePayment, request).toPromise();
+    return result;
+  }
 
 }
