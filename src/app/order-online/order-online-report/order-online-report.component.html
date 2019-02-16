@@ -5,24 +5,74 @@
 
   </div>
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-bordered rounded">
-        <thead>
+    <div *ngIf="flag.isSelectedOrder" class="table-responsive rounded">
+      <table class="table table-bordered ">
+        <thead class=" bg-info text-white ">
         <tr>
+        </tr>
+        <tr class="text-center">
           <th>รหัสสินค้า</th>
           <th>ชื่อสินค้า</th>
           <th>ไส้</th>
           <th>ขนาด</th>
           <th>ราคา</th>
           <th>จำนวนที่สั่ง</th>
-          <th></th>
+          <th>ยกเลิกสินค้า</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let cart of saveFormDetail.cartList;let i = index;">
-          <td>
-            {{cart.p_id}}
+        <tr *ngFor="let item of currentOrder.orderList;let i = index;">
+          <td class="text-center"> {{item.p_id}}</td>
+          <td> {{item.p_name}}</td>
+          <td> {{item.mixer}}</td>
+          <td class="text-center"> {{item.p_size}}</td>
+          <td> {{item.price}}</td>
+          <td> {{item.qty}}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
           </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="4" class="text-right">รวม</td>
+          <td >{{currentOrder.orderDetail.net_pay}}</td>
+          <td >{{currentOrder.orderDetail.totalQty}}</td>
+          <td ></td>
+        </tr>
+        </tfoot>
+      </table>
+      <table class="table table-bordered">
+        <tbody>
+            <tr>
+              <th colspan="2" class="text-center bg-info text-white">หลักฐานการชำระเงิน</th>
+            </tr>
+        <tr>
+          <th  class="text-center">
+            <img class="rounded" [src]="uploadImg" width="250" height="250"><br>
+          </th>
+          <th>
+            <div  align="center">
+              <div style="bottom : 0px;">
+                <p class="text-left">หลักฐานการชำระเงิน</p>
+                <div class="custom-file" width="250">
+                  <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg">
+                  <label class="custom-file-label" for="uploadInput">Choose file</label>
+                </div>
+              </div>
+            </div><hr>
+            <strong>เงื่อนไขการชำระเงิน</strong>
+            <ol>
+              <li>รายการจะถูกยกเลิกเมื่อรายการไม่ได้ชำระเงินภายใน 2 ชม.</li>
+              <li>ท่านจะไม่สามารถรับสินค้าได้ถ้าหากยังไม่ได้ชำระเงินผ่านระบบ</li>
+              <li>เมื่อชำระเงินแล้วต้องรอการตรวจสอบหลักฐานเพื่อยืนยันการสั่งซื้ออย่างน้อย 10 นาที หากยังไม่มีการเปลี่ยนแปลงกรุณาติดต่อ 092-5411214</li>
+            </ol>
+
+            <div class="btn-block">
+              <button class="btn btn-block btn-outline-primary" [disabled]="!isNotNull(currentOrder.orderDetail.pay_img)"><i class="fa fa-check-circle"></i> ยืนยันการชำระเงิน</button>
+            </div>
+            <small><i class="fa fa-exclamation-triangle"></i> กรุณา upload หลักฐานการชำระเงิน</small>
+          </th>
         </tr>
         </tbody>
       </table>

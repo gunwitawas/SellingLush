@@ -15,6 +15,7 @@ export class OrderService {
   searchCurrentProductStoreServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/searchProductStore";
   insertOrderDetailServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/insertOrderDetail";
   insertOrderListServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/insertOrderList";
+  getOrderDetailByIDServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/getOrderDetailByID";
   parameter:any = {
     params : {},
     responseType: "json"
@@ -37,15 +38,23 @@ export class OrderService {
     let result = await this.http.get(this.getCurrentProductStoreServicePath, this.parameter).toPromise();
     return result;
   }
+  async getOrderDetailByID(params){
+    this.parameter.params = params;
+    let result = await this.http.get(this.getOrderDetailByIDServicePath, this.parameter).toPromise();
+    return result;
+  }
+
   async searchProductStore(params){
     this.parameter.params = params;
     let result = await this.http.get(this.searchCurrentProductStoreServicePath, this.parameter).toPromise();
     return result;
   }
+
   async insertOrderDetail(body){
     let result = await this.http.post(this.insertOrderDetailServicePath, body).toPromise();
     return result;
   }
+
   async insertOrderList(body){
     let result = await this.http.post(this.insertOrderListServicePath, body).toPromise();
     return result;
