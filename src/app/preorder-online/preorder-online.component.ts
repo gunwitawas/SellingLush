@@ -5,6 +5,7 @@ import { AppStorage } from '@shared/for-storage/universal.inject';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
+import { Validate } from "../shared/utillity/Validate";
 
 @Component({
   selector: 'app-transfer-back',
@@ -33,6 +34,9 @@ export class PreorderOnlineComponent implements OnInit {
   public allProductInCart = new Array;
   public listPreOrder: Array<any>;
   public checkPaymentStatus: any;
+  public isMoreThanDate: boolean;
+  public isMoreThanMonth: boolean;
+  public isPreorderDate: boolean;
   public preOrderList: {
     pre_id: string,
     p_id: string,
@@ -54,7 +58,7 @@ export class PreorderOnlineComponent implements OnInit {
     this.USERNAME = this.getCurrentUsername();
     this.getAllProduct();
     this.getListPreOrderDetail();
-
+    this.searchForm.selectedDate.setDate(this.searchForm.selectedDate.getDate() + 2)
   }
 
   getCurrentUsername() {
@@ -99,7 +103,7 @@ export class PreorderOnlineComponent implements OnInit {
     if (OrderStatus_NO.length > 0) {
       this.checkPaymentStatus = "NO";
       console.log("nooooooooooo", OrderStatus_NO);
-      
+
     }
 
   }
@@ -167,10 +171,9 @@ export class PreorderOnlineComponent implements OnInit {
 
   }
 
-  deleteProductInCart(product) {
-    let index = this.allProductInCart.findIndex(result => result.p_id == product.p_id && result.p_size == product.p_size);
+  deleteProductInCart(index) {
     this.allProductInCart.splice(index, 1);
-    this.calculateTotalPrice(product.sumPrice, 'delete');
+    this.calculateTotalPrice(this.allProductInCart[index].sumPrice, 'delete');
   }
 
   calculateTotalPrice(price, remark) {
@@ -234,4 +237,18 @@ export class PreorderOnlineComponent implements OnInit {
     let currentDate = currentDay + "/" + currentMonth + "/" + currentYear;
     return currentDate;
   }
+
+  public checkPreorderDate(event: Date) {
+
+    let sumdayDate = Validate.getDateDiff(event);
+    this.isMoreThanDate = sumdayDate >= 2;
+    this.isMoreThanMonth = sumdayDate <= 30;
+    this.isPreorderDate = this.isMoreThanDate && this.isMoreThanMonth;
+    if (!this.isPreorderDate) {
+      Swal('Warning', 'กรุณาสั่งของล่วงหน้าอย่างน้อย 2 วัน และ ไม่เกิน 30 วัน!', 'warning');
+    }
+
+  }
 }
+
+

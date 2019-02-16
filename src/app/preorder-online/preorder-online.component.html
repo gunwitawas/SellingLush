@@ -66,7 +66,7 @@
                       <h6>จำนวน</h6>
                     </div>
                     <div class="col-4">
-                      <input type="number" class="form-control" formControlName="amount" (input)="checkDisableButtonOfAmount(item.price)">
+                      <input type="text" onlyNumber class="form-control" formControlName="amount" (input)="checkDisableButtonOfAmount(item.price)">
                     </div>
                     <div class="col-4">
                       <h6>ชิ้น</h6>
@@ -164,7 +164,7 @@
                 <td>{{item.mixer}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.sumPrice}}</td>
-                <td><button type="button" class="btn btn-danger" (click)="deleteProductInCart(item)">ลบ</button></td>
+                <td><button type="button" class="btn btn-danger" (click)="deleteProductInCart(i)">ลบ</button></td>
               </tr>
               <tr>
                 <td> </td>
@@ -182,17 +182,19 @@
                 </td>
               </tr>
             </tbody>
-            <mat-form-field>
-              <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
-                     [(ngModel)]="searchForm.selectedDate">
-              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-              <mat-datepicker #pickers></mat-datepicker>
-            </mat-form-field>
+            <label> กรุณาเลือกวันรับสินค้า
+              <mat-form-field>
+                <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
+                  [(ngModel)]="searchForm.selectedDate" (ngModelChange)="checkPreorderDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                <mat-datepicker #pickers></mat-datepicker>
+              </mat-form-field>
+            </label>
           </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-          <button type="button" class="btn btn-primary" (click)="confirmPreOrder()">ยืนยันการสั่งซื้อ</button>
+          <button type="button" class="btn btn-primary" (click)="confirmPreOrder()" [disabled]="!isPreorderDate">ยืนยันการสั่งซื้อ</button>
         </div>
       </div>
       <div *ngIf="this.allProductInCart[0] == null" style="text-align: center;margin: 15px;">
