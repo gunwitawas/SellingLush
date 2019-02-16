@@ -22,32 +22,34 @@ export class PreorderOnlineComponent implements OnInit {
     @Inject(AppStorage) private storage: Storage,
   ) { }
 
-  public preOrderForm: FormGroup = this.formBuilder.group({
-    amount: ['', Validators.required],
-  });
-  public USERNAME: string;
-  public showPage: string = 'preOrder';
-  public allProduct: any;
-  public selectProduct: any;
-  public invalidAmont: boolean = false;
-  public sumPrice: number;
-  public sumNetpay: number = 0;
-  public allProductInCart = new Array;
-  public listPreOrder: Array<any>;
-  public orerListByID: Array<any>
-  public checkPaymentStatus: any;
-  public isMoreThanDate: boolean;
-  public isMoreThanMonth: boolean;
-  public isPreorderDate: boolean;
-  public isUploadImgPayment: boolean;
-  public selectedDate = new Date();
-  public uploadImg: any;
-  public preOrderList: {
+
+  private amount: number;
+
+  private USERNAME: string;
+  private showPage: string = 'preOrder';
+  private allProduct: any;
+  private selectProduct: any;
+  private invalidAmont: boolean = false;
+  private sumPrice: number;
+  private sumNetpay: number = 0;
+  private priceOforderList: number = 0;
+  private allProductInCart = new Array;
+  private listOrder: Array<any>;
+  private listPreOrder: Array<any>;
+  private orderListByID: Array<any>
+  private checkPaymentStatus: any;
+  private isMoreThanDate: boolean;
+  private isMoreThanMonth: boolean;
+  private isPreorderDate: boolean;
+  private isUpDateForPayment: boolean;
+  private selectedDate = new Date();
+  private uploadImg: any;
+  private preOrderList: {
     pre_id: string,
     p_id: string,
     qty: number
   };
-  public preOrderDetail: {
+  private preOrderDetail: {
     username: string,
     pre_date: string,
     payment_status: string,
@@ -55,10 +57,10 @@ export class PreorderOnlineComponent implements OnInit {
     receive_date: string,
     netpay: number,
   }
-  public receiveDateForm = {
+  private receiveDateForm = {
     selectedDate: new Date()
   };
-  public uploadImgPayment: {
+  private upDateForPayment: {
     pre_id: string,
     username: string,
     pre_date: string,
@@ -69,8 +71,8 @@ export class PreorderOnlineComponent implements OnInit {
     pay_img: any,
   }
 
-  public imagePath = new ImagePath();
-  public slipPayment = this.imagePath.slipPayment;
+  private imagePath = new ImagePath();
+  private slipPayment = this.imagePath.slipPayment;
   ngOnInit(): void {
     this.getDataStartPage();
   }
@@ -85,7 +87,7 @@ export class PreorderOnlineComponent implements OnInit {
     return this.storage.getItem('username');
   }
 
-  public changePage(page) {
+  private changePage(page) {
     this.showPage = page;
     if (this.showPage === 'preOrder') {
       this.getAllProduct();
@@ -117,22 +119,30 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
   private async checkOrderStatus() {
-    const paymentStatus = 'N';
+    let paymentStatus = 'N';
     let OrderStatus_NO = await this.listPreOrder.filter((result: any) => result.payment_status == paymentStatus);
     if (OrderStatus_NO.length > 0) {
       this.checkPaymentStatus = "NO";
       this.showPage = 'preStatus';
+    } else {
+      paymentStatus = 'W';
+      let OrderStatus_Wait = await this.listPreOrder.filter((result: any) => result.payment_status == paymentStatus);
+      if (OrderStatus_Wait.length > 0) {
+        this.checkPaymentStatus = "WAIT";
+        this.showPage = 'preStatus';
+      }
     }
+
+
+
   }
 
-  public getImgTobase64(base64str: any) {
-    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
-      + base64str);
-  }
-
-  public openModalAddTocart(product) {
+  private openModalAddTocart(product) {
     if (this.checkPaymentStatus == "NO") {
       Swal('Warning', 'ตรวจสอบรายการค้างชำระของคุณ', 'warning');
+      this.showPage = 'preStatus';
+    } else if (this.checkPaymentStatus == "WAIT") {
+      Swal('Warning', 'กำลังตรวจสอบสถานะการชำระเงิน', 'warning');
       this.showPage = 'preStatus';
     } else {
       this.clearInputModal();
@@ -143,15 +153,14 @@ export class PreorderOnlineComponent implements OnInit {
 
   private clearInputModal() {
     this.sumPrice = null;
-    this.preOrderForm.patchValue({ amount: "", });
+    this.amount = null;
     this.invalidAmont = false;
   }
 
-  public checkDisableButtonOfAmount(price) {
-    if (this.preOrderForm.value['amount'] && this.preOrderForm.value['amount'] >= 1) {
+  private checkDisableButtonOfAmount(price) {
+    if (this.amount && this.amount >= 1) {
       this.invalidAmont = true;
-      let amount = this.preOrderForm.value['amount'];
-      this.checkSumPrice(amount, price)
+      this.checkSumPrice(this.amount, price)
     } else {
       this.invalidAmont = false;
       this.checkSumPrice()
@@ -162,14 +171,14 @@ export class PreorderOnlineComponent implements OnInit {
     this.sumPrice = amount * price;
   }
 
-  public addTocart(product) {
+  private addTocart(product) {
     let order = {
       p_id: product.p_id,
       p_name: product.p_name,
       p_size: product.p_size,
       mixer: product.mixer,
       p_img: product.p_img,
-      amount: this.preOrderForm.value['amount'],
+      amount: this.amount,
       sumPrice: this.sumPrice,
     };
 
@@ -231,10 +240,10 @@ export class PreorderOnlineComponent implements OnInit {
 
   }
 
-  public tranformDate() {
-    const date = this.receiveDateForm.selectedDate.getDate();
-    const month = this.receiveDateForm.selectedDate.getMonth() + 1;
-    const year = this.receiveDateForm.selectedDate.getFullYear();
+  private tranformDate() {
+    const date = this.selectedDate.getDate();
+    const month = this.selectedDate.getMonth() + 1;
+    const year = this.selectedDate.getFullYear();
     let receiveDate: string = date + "/" + month + "/" + year;
     return receiveDate;
   }
@@ -265,7 +274,7 @@ export class PreorderOnlineComponent implements OnInit {
     return currentDate;
   }
 
-  public checkPreorderDate(event: Date) {
+  private checkPreorderDate(event: Date) {
     let sumdayDate = Validate.getDateDiff(event);
     this.isMoreThanDate = sumdayDate >= 2;
     this.isMoreThanMonth = sumdayDate <= 30;
@@ -275,32 +284,30 @@ export class PreorderOnlineComponent implements OnInit {
     }
   }
 
-  public async showOrderByPreId(preId: any) {
-    console.log("IDDDDDd", preId);
+  private async showOrderByPreId(preId: any, remark?: string) {
+    this.listOrder = [];
     let OrderList: any = await this.preorderService.getPreOrderList();
-
-    console.log("OrderList", OrderList);
     if (OrderList.content) {
-      this.orerListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
-      for (let i = 0; i < this.orerListByID.length; i++) {
-        if (this.orerListByID['p_id']) {
+      this.orderListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
+      this.priceOforderList = 0;
 
-          //หลัับง่วงวงงง
-        }
+      this.orderListByID.map(async (obj, index) => {
+        this.priceOforderList += (obj.price * obj.qty);
+      })
+      console.log(this.priceOforderList);
+
+      if (remark !== 'hide') {
+        $('#listOrder').modal('show');
       }
     }
   }
 
-  public checkSelectDate() {
-    console.log("date", this.receiveDateForm.selectedDate);
-    
-  }
-
-  public openModalUplpadPayMent(item) {
+  private openModalUplpadPayMent(item) {
     $('#uploadPayment').modal('show');
+    this.showOrderByPreId(item.pre_id, 'hide');
     console.log("item", item);
-    this.isUploadImgPayment = true;
-    this.uploadImgPayment = {
+    this.isUpDateForPayment = true;
+    this.upDateForPayment = {
       pre_id: item.pre_id,
       username: item.username,
       pre_date: item.pre_date,
@@ -308,16 +315,26 @@ export class PreorderOnlineComponent implements OnInit {
       receive_status: item.receive_status,
       receive_date: item.receive_date,
       netpay: item.netpay,
-      pay_img: this.getImgTobase64(item.pay_img)
+      pay_img: (item.pay_img ? this.getImgTobase64(item.pay_img) : this.slipPayment)
     }
   }
 
-  public uploadPayment() {
-    
+  private async uploadPayment() {
+    this.upDateForPayment.payment_status = "W";
+    await this.preorderService.uploadImagePayment(this.upDateForPayment).then((result: any) => {
+      console.log("uploadPayment", result);
+      if (result && result.message === "Success") {
+        Swal('Upload successful!', 'ทำการอัพโหลดหลักฐานการโอนเงินสำเร็จแล้ว!', 'success');
+        this.getDataStartPage();
+        $('#uploadPayment').modal('hide');
+      }
+
+    })
+
   }
 
-  
-  public uploadFile(event) {
+
+  private uploadFile(event) {
     let files = event.target.files;
     if (files.length > 0) {
       this.updateFileImageToBase64(files[0]);
@@ -328,12 +345,28 @@ export class PreorderOnlineComponent implements OnInit {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
-      this.uploadImgPayment.pay_img = reader.result;
+      this.upDateForPayment.pay_img = reader.result;
     }
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
   }
+
+  private getImgTobase64(base64str: any) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + base64str);
+  }
+
+  private printBillpreOrder() {
+    const printContent = document.getElementById("billPreOrder");
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+  }
+
 }
 
 
