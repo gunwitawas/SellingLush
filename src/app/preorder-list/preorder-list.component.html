@@ -1,0 +1,121 @@
+<div class="card">
+
+  <ol class="breadcrumb bg-success">
+    <li class="breadcrumb-item"><a (click)="showReport(9)" class="font-weight-bold" style="cursor: pointer; color: white">รายการสั่งซื้อทั้งหมด</a></li>
+    <li *ngIf="selectedReport<9" class="breadcrumb-item active" style="color: #4cffe9">{{header[selectedReport].name}}
+    </li>
+  </ol>
+
+  <div class="card-body">
+    <div class="list-group">
+      <!-- <div class="list-group" *ngIf="selectedReport==9"> -->
+      <div *ngFor="let item of header; let i = index">
+        <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(i)"><i class="{{item.icon}}">
+          </i>
+          {{item.name}}</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<div *ngIf="selectedReport<9">
+
+  <div class="table-responsive rounded">
+    <table class="table table-bordered rounded">
+      <thead>
+        <tr class="text-center bg-success text-white">
+          <th>
+            เลขที่ใบเสร็จ
+          </th>
+          <th>
+            ชื่อผู้สั่ง
+          </th>
+          <th>
+            วันที่สั่งสินค้า
+          </th>
+          <th>
+            วันที่รับสินค้า
+          </th>
+          <th>
+            ราคา
+          </th>
+          <th>
+            ข้อมูล
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-item [ngForOf]="preOrderDetail" let-i="index">
+          <tr id="accordion" class="rounded">
+            <td class="text-center">DL000{{item.pre_id}}</td>
+            <td class="text-center">{{item.username}}</td>
+            <td class="text-center">{{item.pre_date }}</td>
+            <td class="text-center">{{item.receive_date}}</td>
+            <td class="text-center">{{item.netpay}}</td>
+            <td class="text-center"></td>
+          </tr>
+          <tr *ngIf="expandIndex==i" id="collapseDetail" class="collapse">
+            <td colspan="5" class=" bg-hilight-bg">
+              <div class="container">
+                <table class="table table-bordered">
+                  <thead class="bg-hilight">
+                    <tr class="text-center">
+                      <th>รหัสสินค้า</th>
+                      <th>ชื่อ</th>
+                      <th>ไส้</th>
+                      <th>ขนาด</th>
+                      <th>ราคา</th>
+                      <th>จำนวน</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr *ngFor="let list of preOrderList[expandIndex].preOrderList;let j=index;">
+                      <td class="text-center">DL000{{list.pre_id}}
+                      </td>
+                      <td class="text-center">{{list.p_name}}<br>
+                        <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
+                      <td class="text-center">{{list.mixer}}</td>
+                      <td class="text-center">{{list.p_size}}</td>
+                      <td>{{list.price}}</td>
+                      <td>{{list.qty}}</td>
+                    </tr> -->
+                  </tbody>
+                </table>
+                <div align="right">
+                  <div *ngIf="item.status=='N'" class="btn-group">
+                    <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i class="fa fa-check-circle"></i>
+                      ยืนยันการชำระเงิน
+                    </button>
+                    <button class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
+                    </button>
+                  </div>
+
+                  <div *ngIf="item.status=='W'">
+                    <label class="badge badge-warning">
+                      <i class="fa fa-exclamation-circle"></i>
+                      อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
+                    </label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-warning" (click)="setOrderDetail(item)"><i class="fa fa-edit"></i>
+                      แก้ไขหลักฐาน</button>
+                  </div>
+
+                  <button *ngIf="item.status=='Y'" class="btn btn-sm btn-success"><i class="fa fa-file-image"></i>
+
+                  </button>
+                  <button *ngIf="item.status=='S'" class="btn btn-sm btn-success"><i class="fa fa-check-circle"></i>
+                    ยืนยันการชำระเงิน
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>
