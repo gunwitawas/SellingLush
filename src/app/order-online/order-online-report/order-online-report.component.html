@@ -25,7 +25,7 @@
             สถานะการชำระเงิน
           </th>
           <th>
-
+            จัดการสถานะโดย
           </th>
           <th>
             ดูรายละเอียดการสั่งซื้อ
@@ -42,9 +42,13 @@
               <span *ngIf="item.status=='Y'" class="text-primary"><i class="fa fa-check-circle"></i> ชำระเงินเรียบร้อยแล้ว</span>
               <span *ngIf="item.status=='W'" class="text-info"><i class="fa fa-pause-circle"></i> รอการตรวจสอบหลักฐานการชำระเงิน</span>
               <span *ngIf="item.status=='S'" class="text-primary"><i class="fa fa-check-square"></i> รับสินค้าเรียบร้อยแล้ว</span>
-              <span *ngIf="item.status=='C'" class="text-danger"><i class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
+              <span *ngIf="item.status=='C'" class="text-danger"><i
+                class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
             </td>
-            <td>{{item.pay_by}}</td>
+            <td class="text-center">
+              <span *ngIf="item.pay_by==''">-</span>
+              {{item.pay_by}}
+            </td>
             <td class="text-center">
               <button data-toggle="collapse"
                       data-target="#collapseDetail"
@@ -83,21 +87,27 @@
                   </tbody>
                 </table>
                 <div align="right">
-                    <div *ngIf="item.status=='N'" class="btn-group">
-                      <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
-                        class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
-                      </button>
-                      <button (click)="setOrderDetail(item)" class="btn btn-sm btn-danger"><i
-                        class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
-                      </button>
+                  <div *ngIf="item.status=='N'" class="btn-group">
+                    <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
+                      class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
+                    </button>
+                    <button  class="btn btn-sm btn-danger"><i
+                      class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
+                    </button>
                   </div>
+
+                  <div *ngIf="item.status=='W'">
+                    <label class="badge badge-warning">
+                      <i class="fa fa-exclamation-circle"></i>
+                      อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
+                    </label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-warning" (click)="setOrderDetail(item)"><i class="fa fa-edit"></i> แก้ไขหลักฐาน</button>
+                  </div>
+
                   <button *ngIf="item.status=='Y'" class="btn btn-sm btn-success"><i class="fa fa-file-image"></i>
 
                   </button>
-                  <label *ngIf="item.status=='W'" class="badge badge-warning">
-                    <i class="fa fa-exclamation-circle"></i>
-                    อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
-                  </label>
                   <button *ngIf="item.status=='S'" class="btn btn-sm btn-success"><i class="fa fa-check-circle"></i>
                     ยืนยันการชำระเงิน
                   </button>
@@ -179,10 +189,15 @@
             </ol>
 
             <div class="btn-block">
-              <button class="btn btn-block btn-outline-primary"
+              <button *ngIf="!flag.isEdit" class="btn btn-block btn-outline-primary"
                       [disabled]="!isNotNull(currentOrder.orderDetail.pay_img)" (click)="confirmOrder()"><i
                 class="fa fa-check-circle"></i>
                 ยืนยันการชำระเงิน
+              </button>
+              <button *ngIf="flag.isEdit" class="btn btn-block btn-outline-warning"
+                      [disabled]="!isNotNull(currentOrder.orderDetail.pay_img)" (click)="confirmOrder()"><i
+                class="fa fa-edit"></i>
+                แก้ไขหลักฐาน
               </button>
             </div>
             <small *ngIf="!isNotNull(currentOrder.orderDetail.pay_img)"><i class="fa fa-exclamation-triangle"></i> กรุณา

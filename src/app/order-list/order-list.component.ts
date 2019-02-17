@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 
-import { AppStorage } from '@shared/for-storage/universal.inject';
-import { TransferHttpService } from '@gorniv/ngx-transfer-http';
-import { HttpClient } from '@angular/common/http';
+import {AppStorage} from '@shared/for-storage/universal.inject';
+import {TransferHttpService} from '@gorniv/ngx-transfer-http';
+import {HttpClient} from '@angular/common/http';
+import {OrderService} from "../all-service/node-service/Order.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-transfer-back',
@@ -16,30 +18,44 @@ export class OrderListComponent implements OnInit {
   constructor(
     private http: TransferHttpService,
     private httpClient: HttpClient,
-    @Inject(AppStorage) private appStorage: Storage,
-    @Inject('ORIGIN_URL') public baseUrl: string,
+    private service: OrderService,
+    private _sanitizer: DomSanitizer,
+    @Inject(AppStorage) private appStorage: Storage
   ) {
-    console.log(`ORIGIN_URL=${baseUrl}`);
+
   }
+  expandIndex = 9999;
+  selectedReport = 9;
+  orderList:any=[];
+  header = [
+    {name: "รายการที่รอการตรวจสอบการชำระเงิน", status: "W"},
+    {name: "รายการที่รอมารับสินค้า", status: "Y"},
+    {name: "รายการที่สั่งล่าสุด", status: "O"},
+    {name: "รายการที่ถูกยกเลิก", status: "C"},
+    {name: "รายการทั้งหมด", status: ""}
+  ];
 
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/login').subscribe((result) => {
-      console.log(result);
-      this.result = result;
-    });
-    this.httpClient.get('https://reqres.in/api/users?delay=3').subscribe((result) => {
-      this.resultHttpClient = result;
-    });
-    this.http
-      .post(
-        'https://reqres.in/api/users',
-        JSON.stringify({
-          name: 'morpheus',
-          job: 'leader',
-        }),
-      )
-      .subscribe((result) => {
-        this.resultPost = result;
-      });
+
+  }
+
+  getImgPath(base64str: any) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + base64str);
+  }
+  async showDetail(i) {
+    this.expandIndex = this.expandIndex == i ? 9999 : i;
+  }
+
+ async showReport(i) {
+    this.selectedReport = i;
+    if(i==9) this.expandIndex = 9999;
+    else if (this.header[i].status == 'O') {
+
+    } else {
+      let result = await  this.service.getOrderDetailByStatus(this.header[i]);
+      this.orderList = result;
+    }
+
   }
 }

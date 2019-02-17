@@ -9,6 +9,7 @@ import {OrderListInterface} from "./OrderList.interface";
 import {Validate} from "@shared/utillity/Validate";
 import {AppStorage} from "@shared/for-storage/universal.inject";
 import Swal from "sweetalert2";
+
 @Component({
   selector: 'app-order-online-report',
   templateUrl: './order-online-report.component.html',
@@ -26,13 +27,14 @@ export class OrderOnlineReportComponent extends Validate implements OnInit {
   uploadImg: any = "../../assets/icon/upload.png";
   currentOrder: OrderListInterface;
   flag = {
-    isEdit: true,
+    isEdit: false,
     isSelectedOrder: false
   }
-expandIndex = 9999;
-orderList:any = [];
+  expandIndex = 9999;
+  orderList: any = [];
 
   async ngOnInit() {
+    let result = await this.service.clearOrderOverdue({});
     this.activatedRoute.params.subscribe(async params => {
       if (params.order_id) {
         await this.setOrderDetail(params);
@@ -40,38 +42,46 @@ orderList:any = [];
     });
     await this.initMainDetail();
   }
-  showDetail(i){
-    this.expandIndex =  this.expandIndex==i ? 9999:i;
 
+  async showDetail(i) {
+    this.expandIndex = this.expandIndex == i ? 9999 : i;
   }
-  showAllOrder(){
+
+  async showAllOrder() {
     this.flag.isSelectedOrder = false;
-    this.initMainDetail();
+    await this.initMainDetail();
   }
 
- async confirmOrder(){
-    let result:any = await this.service.comfirmPayment(this.currentOrder);
-    if(result.result){
+  async confirmOrder() {
+    let result: any = await this.service.comfirmPayment(this.currentOrder);
+    if (result.result) {
+      this.flag.isEdit = true;
+
       await this.alertSuccess();
-    }else{
+    } else {
       await this.alertError();
     }
   }
 
   async initMainDetail() {
-
     this.expandIndex = 9999;
+    this.uploadImg = "../../assets/icon/upload.png";
     let result = await this.service.getOrderDetailByUsernameService({
       username: this.appStorage.getItem("username")
     });
     this.orderList = result;
     console.log(this.orderList);
-
   }
 
   async setOrderDetail(params) {
-    let result: any = await this.service.getOrderDetailByID(params);
+    let result: any = await this.service.getOrderDetailByID({order_id: params.order_id});
     this.currentOrder = result;
+    if (this.currentOrder.orderDetail.pay_img) {
+      this.flag.isEdit = true;
+      this.uploadImg = this.getImgPath(this.currentOrder.orderDetail.pay_img);
+    } else {
+      this.flag.isEdit = false;
+    }
     this.currentOrder.orderDetail.totalQty = _.sumBy(result.orderList,
       (o: any) => {
         return o.qty;
@@ -104,11 +114,8 @@ orderList:any = [];
     };
   }
 
-
-
   async alertError() {
     await Swal('เกิดข้อผิดพลาด !', 'ทำรายการไม่สำเร็จ', 'error');
-
   }
 
   async alertSuccess() {
