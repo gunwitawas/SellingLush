@@ -25,7 +25,9 @@ export class OrderOnlineComponent implements OnInit {
   ) {
   }
 
-  testnum;
+  flag = {
+    isSearch : false
+  }
   searchForm: any = {
     "p_id": "",
     "p_name": "",
@@ -57,9 +59,13 @@ export class OrderOnlineComponent implements OnInit {
   }
 
   async search() {
+
     let result: any = await this.service.searchProductStore(this.searchForm);
-    if (result.result)
+    if(result.result){
       this.productStoreList = result.content;
+    }else{
+      this.productStoreList = [];
+    }
   }
 
   getImgPath(base64str) {

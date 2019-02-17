@@ -7,8 +7,8 @@
       <div class="img-area" align="center">
         <a>
           <img src="../../assets/icon/cart.png" class="image" width="125" height="125">
-          <div class="overlay-hover bg-primary ">
-            <div class="text"> เพิ่ม/แก้ไขกฏเกณฑ์และข้อบังคับ</div>
+          <div class="overlay-hover bg-primary">
+            <div class="text"> เพิ่มรายการสั่งซื้อใหม่</div>
           </div>
         </a>
       </div>
@@ -16,10 +16,10 @@
 
     <div class="col rounded">
       <div class="img-area " align="center">
-        <a>
+        <a  routerLink="/order-online/report">
           <img src="../../assets/icon/order.png" class="image" width="125" height="125">
           <div class="overlay-hover bg-success ">
-            <div class="text"> เพิ่ม/แก้ไขกฏเกณฑ์และข้อบังคับ</div>
+            <div class="text"> รายการสั่งซื้อ</div>
           </div>
         </a>
       </div>
@@ -30,7 +30,7 @@
 <div class="row">
   <div class="col">
     <div class="card">
-      <form (ngOnSubmit)="search()">
+      <form id="searchFormArea" name="searchFormArea">
         <div class="card-header bg-primary text-white">
           ค้นหา
         </div>
@@ -38,7 +38,7 @@
         <div class="card-body">
           <form>
             <div align="right">
-              <button class="btn btn-sm btn-outline-primary" style="margin-bottom: 15px;" data-toggle="modal"
+              <button class="btn btn-sm btn-outline-primary" type="button" style="margin-bottom: 15px;" data-toggle="modal"
                       data-target="#cartModal" (click)=" setTotalPrice() "><i class="fa fa-shopping-cart"></i>
                 ตะกร้าสินค้า
               </button>
@@ -92,6 +92,11 @@
     </div>
 
     <div class="card-body">
+      <div align="center">
+          <span *ngIf="productStoreList.length<1" class="text-danger ">
+            <i class="fa fa-exclamation-triangle"></i> ยังไม่มีสินค้าที่ท่านต้องการ
+          </span>
+      </div>
       <div class="row">
         <ng-template ngFor let-item [ngForOf]="productStoreList" let-i="index">
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">
