@@ -1,30 +1,7 @@
 <h3>สั่งซื้อสินค้า</h3>
 <hr>
 
-<div class="container" style="margin-bottom: 15px;">
-  <div class="row">
-    <div class="col rounded">
-      <div class="img-area" align="center">
-        <a>
-          <img src="../../assets/icon/cart.png" class="image" width="125" height="125">
-          <div class="overlay-hover bg-primary">
-            <div class="text"> เพิ่มรายการสั่งซื้อใหม่</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="col rounded">
-      <div class="img-area " align="center">
-        <a  routerLink="/order-online/report">
-          <img src="../../assets/icon/order.png" class="image" width="125" height="125">
-          <div class="overlay-hover bg-success ">
-            <div class="text"> รายการสั่งซื้อ</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
+<div  class="container">
 </div>
 
 <div class="row">
@@ -34,15 +11,34 @@
         <div class="card-header bg-primary text-white">
           ค้นหา
         </div>
-
         <div class="card-body">
-          <form>
-            <div align="right">
-              <button class="btn btn-sm btn-outline-primary" type="button" style="margin-bottom: 15px;" data-toggle="modal"
-                      data-target="#cartModal" (click)=" setTotalPrice() "><i class="fa fa-shopping-cart"></i>
-                ตะกร้าสินค้า
-              </button>
+          <div class="row" style="margin-bottom: 5px;">
+            <div class="col">
+              <div align="left">
+                <span *ngIf="unableToOrder" class="text-danger"><i class="fa fa-exclamation-triangle"></i> กรุณาชำระรายการสั่งซื้อก่อนจองรายการถัดไป<br></span>
+
+                <button class="btn btn-sm btn-outline-primary"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#cartModal"
+                        (click)=" setTotalPrice() "
+                        [disabled]="unableToOrder"><i
+                  class="fa fa-shopping-cart"></i>
+                  ตะกร้าสินค้า
+                </button>
+              </div>
             </div>
+            <div class="col">
+              <div align="right">
+                  <a class="btn btn-sm btn-outline-info"
+                     routerLink="/order-online/report">
+                    <i class="fa fa-list"></i>
+                    รายการสั่งซื้อ
+                  </a>
+              </div>
+            </div>
+          </div>
+          <form>
             <table class="table ">
               <thead>
               <th>รหัส</th>
@@ -85,18 +81,25 @@
   </div>
 </div>
 
-<div class="card" style="margin-top:15px;">
+
+<div class="card" style="margin-top:15px;" >
   <form>
     <div class="card-header bg-primary text-white">
       ผลการค้นหา
     </div>
 
     <div class="card-body">
+
       <div align="center">
-          <span *ngIf="productStoreList.length<1" class="text-danger ">
+        <span *ngIf="unableToOrder" class="text-danger"><i class="fa fa-exclamation-triangle"></i> กรุณาชำระรายการสั่งซื้อก่อนจองรายการถัดไป<br></span>
+
+
+
+        <span *ngIf="productStoreList.length<1" class="text-danger ">
             <i class="fa fa-exclamation-triangle"></i> ยังไม่มีสินค้าที่ท่านต้องการ
           </span>
       </div>
+
       <div class="row">
         <ng-template ngFor let-item [ngForOf]="productStoreList" let-i="index">
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">
@@ -152,7 +155,7 @@
                   <button
                     class="btn btn-sm btn-outline-secondary"
                     type="button"
-                    (click)="openModalCart(i)">
+                    (click)="openModalCart(i)" [disabled]="unableToOrder">
                     <i class="fa fa-shopping-cart"></i> เพิ่มลงตะกร้า
                   </button>
                 </div>
@@ -168,7 +171,10 @@
 </div>
 
 
-<div class="modal fade bd-example-modal-sm" id="addProductModal" tabindex="-1" role="dialog"
+<div class="modal fade bd-example-modal-sm"
+     id="addProductModal"
+     tabindex="-1"
+     role="dialog"
      aria-labelledby="addProductModalTitle"
      aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
@@ -181,6 +187,10 @@
       </div>
       <div>
         <div class="modal-body">
+          <div align="center">
+            <img [src]="getImgPath(selectedProduct.p_img)" style="max-width: 100%;">
+          </div>
+          <hr>
           <label>จำนวนคงเหลือ : {{selectedProduct.stockQty}}</label><br>
           <div class="form-group">
             <label><strong>จำนวนที่ต้องการ :</strong> </label>

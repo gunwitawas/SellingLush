@@ -119,6 +119,7 @@ export class ProductStoreComponent implements OnInit {
   }
 
   removeByIndex(index) {
+    this.editMode = false;
     this.resultList.splice(index, 1);
   }
 
@@ -151,7 +152,7 @@ export class ProductStoreComponent implements OnInit {
 
 
   async confirmDelete(i) {
-    Swal(SwalOpt.confirmDelete).then(async (result:any) => {
+   await Swal(SwalOpt.confirmDelete).then(async (result:any) => {
       if (result.value) {
         let r:any = await this.service.deleteProductStore(this.resultList[i]);
         console.log(r);

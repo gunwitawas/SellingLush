@@ -36,12 +36,12 @@
         <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
           <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
             <td class="text-center">{{item.order_id}}</td>
-            <td class="text-center">{{item.order_date | date}}</td>
+            <td class="text-center">{{item.order_date | date:'d/M/yyyy'}}</td>
             <td class="text-center">
               <span *ngIf="item.status=='N'" class="text-warning"><i class="fa fa-times-circle"></i> ยังไม่ได้ยืนยันการชำระเงิน</span>
               <span *ngIf="item.status=='Y'" class="text-primary"><i class="fa fa-check-circle"></i> ชำระเงินเรียบร้อยแล้ว</span>
               <span *ngIf="item.status=='W'" class="text-info"><i class="fa fa-pause-circle"></i> รอการตรวจสอบหลักฐานการชำระเงิน</span>
-              <span *ngIf="item.status=='S'" class="text-primary"><i class="fa fa-check-square"></i> รับสินค้าเรียบร้อยแล้ว</span>
+              <span *ngIf="item.status=='S'" class="text-success"><i class="fa fa-check-square"></i> รับสินค้าเรียบร้อยแล้ว</span>
               <span *ngIf="item.status=='C'" class="text-danger"><i
                 class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
             </td>
@@ -105,12 +105,6 @@
                     <button class="btn btn-sm btn-outline-warning" (click)="setOrderDetail(item)"><i class="fa fa-edit"></i> แก้ไขหลักฐาน</button>
                   </div>
 
-                  <button *ngIf="item.status=='Y'" class="btn btn-sm btn-success"><i class="fa fa-file-image"></i>
-
-                  </button>
-                  <button *ngIf="item.status=='S'" class="btn btn-sm btn-success"><i class="fa fa-check-circle"></i>
-                    ยืนยันการชำระเงิน
-                  </button>
                 </div>
               </div>
             </td>

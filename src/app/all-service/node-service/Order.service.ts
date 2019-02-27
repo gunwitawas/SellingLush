@@ -20,6 +20,8 @@ export class OrderService {
   comfirmPaymentServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/comfirmPayment";
   clearOrderOverdueServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/clearOrderOverdue";
   getOrderDetailByStatusServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/getOrderDetailByStatus";
+  updateOrderStatusServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/updateOrderStatus";
+  checkOrderStatusUnpaidServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/checkOrderStatusUnpaid";
   parameter:any = {
     params : {},
     responseType: "json"
@@ -64,6 +66,11 @@ export class OrderService {
     let result = await this.http.get(this.getOrderDetailByStatusServicePath, this.parameter).toPromise();
     return result;
   }
+  async checkOrderStatusUnpaid(params){
+    this.parameter.params = params;
+    let result = await this.http.get(this.checkOrderStatusUnpaidServicePath, this.parameter).toPromise();
+    return result;
+  }
 
   async insertOrderDetail(body){
     let result = await this.http.post(this.insertOrderDetailServicePath, body).toPromise();
@@ -80,6 +87,10 @@ export class OrderService {
   }
   async clearOrderOverdue(body){
     let result = await this.http.post(this.clearOrderOverdueServicePath, body).toPromise();
+    return result;
+  }
+  async updateOrderStatus(body){
+    let result = await this.http.post(this.updateOrderStatusServicePath, body).toPromise();
     return result;
   }
 

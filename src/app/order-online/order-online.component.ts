@@ -43,12 +43,14 @@ export class OrderOnlineComponent implements OnInit {
     cartList: []
   };
   cartList: any = [];
+  unableToOrder = true;
   selectedProduct: any = {
     selectedNum: 0
   };
 
   async ngOnInit() {
     await this.getCurrentProductStore();
+    await this.checkUnpaidOrder();
   }
 
   async getCurrentProductStore() {
@@ -67,7 +69,10 @@ export class OrderOnlineComponent implements OnInit {
       this.productStoreList = [];
     }
   }
-
+  async checkUnpaidOrder(){
+    let result:any = await this.service.checkOrderStatusUnpaid({username:this.appStorage.getItem("username")});
+    this.unableToOrder = result.result;
+  }
   getImgPath(base64str) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
