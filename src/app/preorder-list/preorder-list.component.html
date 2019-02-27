@@ -1,11 +1,9 @@
 <div class="card">
-
   <ol class="breadcrumb bg-success">
     <li class="breadcrumb-item"><a (click)="showReport(9)" class="font-weight-bold" style="cursor: pointer; color: white">รายการสั่งซื้อทั้งหมด</a></li>
     <li *ngIf="selectedReport<9" class="breadcrumb-item active" style="color: #4cffe9">{{header[selectedReport].name}}
     </li>
   </ol>
-
   <div class="card-body">
     <div class="list-group">
       <!-- <div class="list-group" *ngIf="selectedReport==9"> -->
@@ -16,14 +14,9 @@
       </div>
     </div>
   </div>
-
 </div>
 
-
-
-
 <div *ngIf="selectedReport<9">
-
   <div class="table-responsive rounded">
     <table class="table table-bordered rounded">
       <thead>
@@ -51,71 +44,133 @@
       <tbody>
         <ng-template ngFor let-item [ngForOf]="preOrderDetail" let-i="index">
           <tr id="accordion" class="rounded">
-            <td class="text-center">DL000{{item.pre_id}}</td>
+            <td class="text-center">P{{item.pre_id}}</td>
             <td class="text-center">{{item.username}}</td>
             <td class="text-center">{{item.pre_date }}</td>
             <td class="text-center">{{item.receive_date}}</td>
             <td class="text-center">{{item.netpay}}</td>
-            <td class="text-center"></td>
-          </tr>
-          <tr *ngIf="expandIndex==i" id="collapseDetail" class="collapse">
-            <td colspan="5" class=" bg-hilight-bg">
-              <div class="container">
-                <table class="table table-bordered">
-                  <thead class="bg-hilight">
-                    <tr class="text-center">
-                      <th>รหัสสินค้า</th>
-                      <th>ชื่อ</th>
-                      <th>ไส้</th>
-                      <th>ขนาด</th>
-                      <th>ราคา</th>
-                      <th>จำนวน</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- <tr *ngFor="let list of preOrderList[expandIndex].preOrderList;let j=index;">
-                      <td class="text-center">DL000{{list.pre_id}}
-                      </td>
-                      <td class="text-center">{{list.p_name}}<br>
-                        <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
-                      <td class="text-center">{{list.mixer}}</td>
-                      <td class="text-center">{{list.p_size}}</td>
-                      <td>{{list.price}}</td>
-                      <td>{{list.qty}}</td>
-                    </tr> -->
-                  </tbody>
-                </table>
-                <div align="right">
-                  <div *ngIf="item.status=='N'" class="btn-group">
-                    <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i class="fa fa-check-circle"></i>
-                      ยืนยันการชำระเงิน
-                    </button>
-                    <button class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
-                    </button>
-                  </div>
+            <td class="text-center">
+              <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success" (click)="showOrderByPreId(item.pre_id)">+</button>
+              <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning" (click)="showOrderByPreId(item.pre_id)">+</button>
+              <button *ngIf="item.payment_status === 'N'" type="button" class="btn btn-danger" (click)="showOrderByPreId(item.pre_id)">+</button>
 
-                  <div *ngIf="item.status=='W'">
-                    <label class="badge badge-warning">
-                      <i class="fa fa-exclamation-circle"></i>
-                      อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
-                    </label>
-                    <br>
-                    <button class="btn btn-sm btn-outline-warning" (click)="setOrderDetail(item)"><i class="fa fa-edit"></i>
-                      แก้ไขหลักฐาน</button>
-                  </div>
 
-                  <button *ngIf="item.status=='Y'" class="btn btn-sm btn-success"><i class="fa fa-file-image"></i>
 
-                  </button>
-                  <button *ngIf="item.status=='S'" class="btn btn-sm btn-success"><i class="fa fa-check-circle"></i>
-                    ยืนยันการชำระเงิน
-                  </button>
-                </div>
-              </div>
             </td>
           </tr>
         </ng-template>
       </tbody>
     </table>
+  </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="listOrder" tabindex="-1" role="dialog" aria-labelledby="preOrderList"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">รายการสั่งซื้อสินค้า</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <div class="modal-body">
+          <div *ngIf="orderDetailByID">
+            <img *ngIf="orderDetailByID[0].pay_img" class="card-img-top" style="margin-top: 15px; width: 100%; height: 100%;"
+              [src]="getImgTobase64(orderDetailByID[0].pay_img)" alt="Card image cap">
+          </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ชื่อ</th>
+                <th>ขนาด</th>
+                <th>ไส้</th>
+                <th>จำนวน</th>
+                <th>ราคารวม</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderListByID; let i = index">
+                <td>{{item.p_name}}</td>
+                <td>{{item.p_size}}</td>
+                <td>{{item.mixer}}</td>
+                <td>{{orderListByID[i].qty}}</td>
+                <td>{{orderListByID[i].qty * item.price}}</td>
+              </tr>
+              <tr>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>รวม {{priceOforderList}} บาท</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <div *ngIf="orderDetailByID">
+            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
+              data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
+            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-danger" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
+              data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y'" type="button" class="btn btn-info" (click)="printBillpreOrder()"
+              data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="uploadPayment" tabindex="-1" role="dialog" aria-labelledby="uploadPayment"
+  aria-hidden="true">
+  <div *ngIf="orderDetailByID" id="billPreOrder" class="modal-body">
+    <div align="center">
+      <div *ngIf="orderDetailByID[0].payment_status === 'Y'">
+        <h2>ใบเสร็จการสั่งซื้อเลขที่ : P{{orderDetailByID[0].pre_id}}</h2>
+        <p>วันที่สั่งซื้อ : {{orderDetailByID[0].pre_date}}</p>
+        <div *ngIf="userAccount">
+          <p>ชื่อผู้สั่งสินค้า : {{userAccount.name}}</p>
+          <p>เบอร์ติดต่อ : {{userAccount.tel}}</p>
+          <p>Line ID : {{userAccount.tel}}</p>
+          <p>E-mail : {{userAccount.email}}</p>
+          <p>ที่อยู่ : {{userAccount.address}}</p>
+        </div>
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ชื่อ</th>
+              <th>ขนาด</th>
+              <th>ไส้</th>
+              <th>จำนวน</th>
+              <th>ราคารวม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of orderListByID; let i = index">
+              <td>{{item.p_name}}</td>
+              <td>{{item.p_size}}</td>
+              <td>{{item.mixer}}</td>
+              <td>{{orderListByID[i].qty}}</td>
+              <td>{{orderListByID[i].qty * item.price}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>รวม {{priceOforderList}} บาท</td>
+            </tr>
+          </tbody>
+        </table>
+        <h1>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
+      </div>
+    </div>
   </div>
 </div>

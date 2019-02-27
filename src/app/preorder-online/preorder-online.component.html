@@ -209,7 +209,15 @@
       <div id="billPreOrder" class="modal-body">
         <div align="center">
           <div *ngIf="upDateForPayment.payment_status === 'Y'">
-            <h2>ใบเสร็จการสั่งซื้อเลขที่ DL000{{upDateForPayment.pre_id}}</h2>
+            <h2>ใบเสร็จการสั่งซื้อเลขที่ P{{upDateForPayment.pre_id}}</h2>
+            <h1>วันที่สั่งซื้อ {{upDateForPayment.pre_date}}</h1>.
+            <div *ngIf="userAccount">
+              <p>ชื่อผู้สั่งสินค้า : {{userAccount.name}}</p>
+              <p>เบอร์ติดต่อ : {{userAccount.tel}}</p>
+              <p>Line ID : {{userAccount.tel}}</p>
+              <p>E-mail : {{userAccount.email}}</p>
+              <p>ที่อยู่ : {{userAccount.address}}</p>
+            </div>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -239,15 +247,7 @@
             </table>
             <h1>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่ {{upDateForPayment.receive_date}}</h1>
           </div>
-          <div *ngIf="upDateForPayment.payment_status !== 'Y'">
-            <h1>ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList}} บาท</h1>
-            <img *ngIf="upDateForPayment.pay_img" class="card-img-top" style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px"
-              [src]="upDateForPayment.pay_img">
-            <div class="custom-file col-8" width="250">
-              <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg"><br>
-              <label class="custom-file-label" for="uploadInput">เพิ่มรูปภาพหลักฐานการโอนเงินของคุณ</label>
-            </div>
-          </div>
+
         </div>
       </div>
       <div class="modal-footer">

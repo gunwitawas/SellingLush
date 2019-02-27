@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-transfer-http';
-import { HttpClient } from '@angular/common/http';
-import { request } from 'https';
-import {ServiceConstance} from "../../shared/constance/ServiceConstance";
-import { resolve } from 'path';
-import { reject } from 'q';
+import { ServiceConstance } from "../../shared/constance/ServiceConstance";
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +8,29 @@ import { reject } from 'q';
 export class AccountService {
   getAccountServicePath = ServiceConstance.rootPath + ServiceConstance.accountPath + "/getAccount";
   createAccountServicePath = ServiceConstance.rootPath + ServiceConstance.accountPath + "/Register";
+  parameter: any = {
+    params: {},
+    responseType: "json"
+  }
   constructor(
     private http: TransferHttpService,
-    private httpClient: HttpClient,
   ) { }
 
-  async getUserAccount() {
-    let result =  await this.http.get(this.getAccountServicePath).toPromise();
-    return result;
+  async getUserAccount(username?: string) {
+    if (username) {
+      this.parameter.params = username;
     }
+    let result: any = await this.http.get(this.getAccountServicePath, this.parameter).toPromise()
+    if (result.content && username) {
+      result = await result.content.filter((account: any) => account.username == username);
+      return result[0];
+    }
+    return result[0];
+  }
 
-  async createAccount(request){
-  let result =  await this.http.post(this.createAccountServicePath, request).toPromise();
-  return result;
+  async createAccount(request) {
+    let result = await this.http.post(this.createAccountServicePath, request).toPromise();
+    return result;
   }
 
 
