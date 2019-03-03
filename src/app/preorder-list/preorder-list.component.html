@@ -51,6 +51,7 @@
             <td class="text-center">{{item.netpay}}</td>
             <td class="text-center">
               <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success" (click)="showOrderByPreId(item.pre_id)">+</button>
+              <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary" (click)="showOrderByPreId(item.pre_id)">+</button>
               <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning" (click)="showOrderByPreId(item.pre_id)">+</button>
               <button *ngIf="item.payment_status === 'N'" type="button" class="btn btn-danger" (click)="showOrderByPreId(item.pre_id)">+</button>
 
@@ -78,7 +79,7 @@
       <div>
         <div class="modal-body">
           <div *ngIf="orderDetailByID">
-            <img *ngIf="orderDetailByID[0].pay_img" class="card-img-top" style="margin-top: 15px; width: 100%; height: 100%;"
+            <img *ngIf="orderDetailByID[0].pay_img && orderDetailByID[0].payment_status !== 'S'" class="card-img-top" style="margin-top: 15px; width: 100%; height: 100%;"
               [src]="getImgTobase64(orderDetailByID[0].pay_img)" alt="Card image cap">
           </div>
           <table class="table table-hover">
@@ -116,8 +117,10 @@
               data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
             <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-danger" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
               data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y'" type="button" class="btn btn-info" (click)="printBillpreOrder()"
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'" type="button" class="btn btn-info" (click)="printBillpreOrder()"
               data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y'" type="button" class="btn btn-primary" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+              data-dismiss="modal">ได้รับสินค้าแล้ว</button>
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
         </div>
@@ -131,7 +134,7 @@
   aria-hidden="true">
   <div *ngIf="orderDetailByID" id="billPreOrder" class="modal-body">
     <div align="center">
-      <div *ngIf="orderDetailByID[0].payment_status === 'Y'">
+      <div *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'">
         <h2>ใบเสร็จการสั่งซื้อเลขที่ : P{{orderDetailByID[0].pre_id}}</h2>
         <p>วันที่สั่งซื้อ : {{orderDetailByID[0].pre_date}}</p>
         <div *ngIf="userAccount">

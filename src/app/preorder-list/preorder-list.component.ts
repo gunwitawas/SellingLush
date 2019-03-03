@@ -3,6 +3,7 @@ import { AppStorage } from '@shared/for-storage/universal.inject';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
 import { AccountService } from 'app/all-service/node-service/Account.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-transfer-back',
@@ -98,7 +99,26 @@ export class PreorderListComponent implements OnInit {
         pre_id: pre_id,
         payment_status: remark
       }
-      let result = await this.preorderService.updatePaymentStatus(request);
+      await this.preorderService.updatePaymentStatus(request).then((res: any) => {
+        console.log(res);
+        if (res.message === "Success" && res.result) {
+          switch (remark) {
+            case "Y":
+              this.showReport(2);
+              Swal('Success', 'บันทึกรายการชำระเงินเรียบร้อยแล้ว', 'success');
+              break;
+            case "N":
+              this.showReport(3);
+               Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
+              break;
+            case "S":
+              this.showReport(4);
+               Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
+              break;
+          }
+        }
+      })
+
     } catch (error) {
       console.log("error", error);
     }
@@ -113,7 +133,7 @@ export class PreorderListComponent implements OnInit {
     WindowPrt.focus();
     WindowPrt.print();
     WindowPrt.close();
-    
+
   }
 
 }                                       
