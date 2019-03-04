@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
 import { Validate } from "../shared/utillity/Validate";
 import { ImagePath } from "../shared/constance/ImagePath";
+import { AccountService } from 'app/all-service/node-service/Account.service';
 
 @Component({
   selector: 'app-transfer-back',
@@ -20,6 +21,7 @@ export class PreorderOnlineComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _sanitizer: DomSanitizer,
     @Inject(AppStorage) private storage: Storage,
+    private accountService: AccountService
   ) { }
 
 
@@ -44,6 +46,9 @@ export class PreorderOnlineComponent implements OnInit {
   private isUpDateForPayment: boolean;
   private selectedDate = new Date();
   private uploadImg: any;
+  private orderDetailByID: any;
+  private userAccount: any;
+
   private preOrderList: {
     pre_id: string,
     p_id: string,
@@ -79,8 +84,8 @@ export class PreorderOnlineComponent implements OnInit {
 
   private getDataStartPage() {
     this.USERNAME = this.getCurrentUsername();
-    this.getAllProduct();
     this.getListPreOrderDetail();
+    this.getAllProduct();
   }
 
   getCurrentUsername() {
@@ -100,8 +105,11 @@ export class PreorderOnlineComponent implements OnInit {
 
   private async getAllProduct() {
     let response: any = await this.productservice.getProduct();
+    console.log(response);
+
     if (response.content) {
       this.allProduct = response.content;
+      this.showPage = 'preOrder';
     } else {
       this.showPage = 'noStock';
     }
@@ -225,7 +233,7 @@ export class PreorderOnlineComponent implements OnInit {
       netpay: this.sumNetpay,
     };
     await this.preorderService.insertPreOrderDetail(this.preOrderDetail).then(async (response: any) => {
-      if (response.result['insertId'] && response['message'] == "Success") {
+      if (response.pre_id && response['message'] == "Success") {
         await this.insertToPreOrder_List(response);
         $('#cartModal').modal('hide');
         Swal('Confirm the order is successful!', 'ยืนยันการสั่งซื้อสำเร็จ!', 'success');
@@ -254,15 +262,20 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
   private async insertToPreOrder_List(response: any) {
-    let preID: string = response.result['insertId'];
-    for (let i = 0; i < this.allProductInCart.length; i++) {
-      this.preOrderList = {
-        pre_id: preID,
-        p_id: this.allProductInCart[i].p_id,
-        qty: this.allProductInCart[i].amount
-      };
-      await this.preorderService.insertPreOrderList(this.preOrderList);
+    try {
+      let preID: string = response.pre_id;
+      for (let i = 0; i < this.allProductInCart.length; i++) {
+        this.preOrderList = {
+          pre_id: preID,
+          p_id: this.allProductInCart[i].p_id,
+          qty: this.allProductInCart[i].amount
+        };
+        await this.preorderService.insertPreOrderList(this.preOrderList);
+      }
+    } catch (error) {
+      Swal('Error', error, 'error');
     }
+
   }
 
   private getCurrentDate() {
@@ -286,6 +299,14 @@ export class PreorderOnlineComponent implements OnInit {
 
   private async showOrderByPreId(preId: any, remark?: string) {
     this.listOrder = [];
+    this.listOrder = [];
+    let OrderDetail: any = await this.preorderService.getPreOrderDetail();
+    if (OrderDetail.content) {
+      this.orderDetailByID = await OrderDetail.content.filter((result: any) => result.pre_id == preId);
+    }
+    this.userAccount = await this.accountService.getUserAccount(this.orderDetailByID[0].username);
+
+
     let OrderList: any = await this.preorderService.getPreOrderList();
     if (OrderList.content) {
       this.orderListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
@@ -302,7 +323,7 @@ export class PreorderOnlineComponent implements OnInit {
     }
   }
 
-  private openModalUplpadPayMent(item) {
+  public openModalUplpadPayMent(item) {
     $('#uploadPayment').modal('show');
     this.showOrderByPreId(item.pre_id, 'hide');
     console.log("item", item);
@@ -327,6 +348,8 @@ export class PreorderOnlineComponent implements OnInit {
         Swal('Upload successful!', 'ทำการอัพโหลดหลักฐานการโอนเงินสำเร็จแล้ว!', 'success');
         this.getDataStartPage();
         $('#uploadPayment').modal('hide');
+      } else {
+        Swal('Error', 'กรุณาตรวจสอบไฟล์รูปภาพของคุณ!', 'error');
       }
 
     })
