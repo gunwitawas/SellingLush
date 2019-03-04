@@ -4,9 +4,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { PreorderListRoutes } from './preorder-list.routing';
 import { PreorderListComponent } from './preorder-list.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { MaterialModule } from 'app/material.module';
+import { DirectiveModule } from '@shared/directive/Directive.module';
 @NgModule({
-  imports: [FormsModule,CommonModule, PreorderListRoutes, TranslateModule],
+  imports: [FormsModule,CommonModule, PreorderListRoutes, TranslateModule,ReactiveFormsModule, MaterialModule, DirectiveModule],
   declarations: [PreorderListComponent],
 })
 export class PreorderListModule {}
