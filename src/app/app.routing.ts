@@ -18,6 +18,7 @@ const routes: Routes = [
       {path: 'preorder-online', loadChildren: './preorder-online/preorder-online.module#PreorderOnlineModule'},
       {path: 'preorder-list', loadChildren: './preorder-list/preorder-list.module#PreorderListModule'},
       {path: 'customer', loadChildren: './customer/customer.module#CustomerModule'},
+      {path: 'user-profile', loadChildren: './user-profile/user-profile.module#UserProfileModule'},
       {path: '**', loadChildren: './not-found/not-found.module#NotFoundModule'},
     ],
   },

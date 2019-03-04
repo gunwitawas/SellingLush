@@ -1,0 +1,27 @@
+<h3>ข้อมูลส่วนตัว</h3>
+<hr>
+<div class="card">
+  <form>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4">
+          <img *ngIf="userDetail" [src]="getImgPath(userDetail.image)" style="max-width: 100%;">
+
+          <div class="custom-file" width="250">
+            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg"><br>
+            <label class="custom-file-label" for="uploadInput">แก้ไขรูปภาพ</label>
+          </div>
+        </div>
+        <div class="col-8"></div>
+
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button class="btn btn-info" type="submit" (click)="save()">ค้นหา</button>
+      <button class="btn btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
+    </div>
+
+  </form>
+</div>

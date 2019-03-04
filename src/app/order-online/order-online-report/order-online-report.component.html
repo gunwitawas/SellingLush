@@ -35,7 +35,7 @@
         <tbody>
         <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
           <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
-            <td class="text-center">{{item.order_id}}</td>
+            <td class="text-center">D{{item.order_id}}</td>
             <td class="text-center">{{item.order_date | date:'d/M/yyyy'}}</td>
             <td class="text-center">
               <span *ngIf="item.status=='N'" class="text-warning"><i class="fa fa-times-circle"></i> ยังไม่ได้ยืนยันการชำระเงิน</span>
@@ -75,7 +75,7 @@
                   </thead>
                   <tbody>
                   <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
-                    <td class="text-center">{{list.p_id}}
+                    <td class="text-center">D{{list.p_id}}
                     </td>
                     <td class="text-center">{{list.p_name}}<br>
                       <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>

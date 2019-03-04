@@ -10,6 +10,7 @@ export class UserService {
   loginServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/login";
   checkValidUsernameServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/checkValidUsername";
   regisServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/regis";
+  getUserProfileServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/getUserProfileByUsername";
   parameter: any = {
     params: {},
     responseType: "json"
@@ -39,4 +40,11 @@ export class UserService {
     let result = await this.http.get(this.checkValidUsernameServicePath, this.parameter).toPromise();
     return result;
   }
+  async getUserProfile(params) {
+    this.parameter.params = params;
+    let result = await this.http.get(this.getUserProfileServicePath, this.parameter).toPromise();
+    return result;
+  }
+
+
 }

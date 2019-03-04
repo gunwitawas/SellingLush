@@ -1,10 +1,10 @@
-import { TransferBackComponent } from './transfer-back.component';
+import { UserProfileComponent } from './user-profile.component';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: TransferBackComponent,
+    component: UserProfileComponent,
     data: {
       meta: {
         title: 'back-http.title',
