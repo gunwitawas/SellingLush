@@ -4,23 +4,37 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
 import { AccountService } from 'app/all-service/node-service/Account.service';
 import Swal from 'sweetalert2'
+import * as moment from 'moment'
+import { Validate } from "../shared/utillity/Validate";
+
 
 @Component({
   selector: 'app-transfer-back',
   templateUrl: './preorder-list.component.html',
 })
 export class PreorderListComponent implements OnInit {
+  private orderListByID: Array<any>
+  private orderDetailByID: any;
   public result: any;
   public resultHttpClient: any;
   public resultPost: any;
-  expandIndex = 9999;
-  selectedReport = 9;
-  preOrderDetail: any = [];
-  private listOrder: Array<any>;
-  private orderListByID: Array<any>
-  private orderDetailByID: any;
-  private priceOforderList: number = 0;
-  private userAccount: any;
+  public expandIndex = 9999;
+  public selectedReport = 9;
+  public preOrderDetail: any = [];
+  public listOrder: Array<any>;
+  public priceOforderList: number = 0;
+  public userAccount: any;
+  public searchOrderDetail: any = [];
+  public isCheckSearchDate: boolean = true;
+  public checkStartDate:any;
+  public startDate:any;
+  public checkEndDate:any;
+  public endDate:any;
+  public requestSearchOrderDetailbyDate : {
+    username?: string,
+    startDate?: string,
+    endDate?: string
+  }
 
   header = [
     { name: "รายการทั้งหมด", status: "", icon: "fa fa-list" },
@@ -136,4 +150,50 @@ export class PreorderListComponent implements OnInit {
 
   }
 
+  public async searchOrderDetailbyDate(){
+    console.log(this.requestSearchOrderDetailbyDate);
+   this.searchOrderDetail = await this.preorderService.checkPreOrderDate(this.requestSearchOrderDetailbyDate);
+   console.log(this.searchOrderDetail);
+  }
+
+  checkInputStartDate(event: Date){
+    this.checkStartDate = Validate.getDateDiff(event);
+    if(this.checkEndDate && this.checkStartDate > this.checkEndDate){
+      this.isCheckSearchDate = false;
+      Swal('Warning', 'วันที่เริ่มต้นไม่สามารถมากกว่าวันที่สิ้นสุดได้', 'warning');
+    } else {
+      this.isCheckSearchDate = true;
+
+      // this.requestSearchOrderDetailbyDate = {
+      //   startDate: event.getDate() + '/' + event.getMonth() + '/' +event.getFullYear(),
+      // }
+ 
+      //เซ็ตค่า request ที่จะส่งไป ฟังก์ชั่น searchOrderDetailbyDate ผิดอยู่ ง่วง
+
+      console.log("startDate",this.requestSearchOrderDetailbyDate);
+    }
+
+    
+    
+  }
+
+  checkInputEndDate(event: Date){
+    this.checkEndDate = Validate.getDateDiff(event);
+    if(this.checkStartDate && this.checkEndDate < this.checkStartDate){
+      this.isCheckSearchDate = false;
+      Swal('Warning', 'วันที่สิ้นสุดไม่สามารถน้อยกว่าวันที่เริ่มต้นได้', 'warning');
+    } else {
+      this.isCheckSearchDate = true;
+
+      // this.requestSearchOrderDetailbyDate = {
+      //   endDate: event.getDate() + '/' + event.getMonth() + '/' +event.getFullYear(),
+      // }
+      //เซ็ตค่า request ที่จะส่งไป ฟังก์ชั่น searchOrderDetailbyDate ผิดอยู่ ง่วง
+
+      console.log("endDate",this.requestSearchOrderDetailbyDate);
+      
+    }
+    
+    
+  }
 }                                       
