@@ -11,6 +11,7 @@ export class UserService {
   checkValidUsernameServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/checkValidUsername";
   regisServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/regis";
   getUserProfileServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/getUserProfileByUsername";
+  updateProfileServicePath = ServiceConstance.rootPath + ServiceConstance.userPath + "/updateProfile";
   parameter: any = {
     params: {},
     responseType: "json"
@@ -22,6 +23,10 @@ export class UserService {
   ) {
   }
 
+  async updateProfile(body){
+    let result = await this.http.post(this.updateProfileServicePath, body).toPromise();
+    return result;
+  }
 
   async login(params) {
     this.parameter.params = params;
@@ -30,7 +35,6 @@ export class UserService {
   }
 
   async regisNewUser(regisForm) {
-    console.log(this.regisServicePath);
     let result = await this.http.post(this.regisServicePath, regisForm).toPromise();
     return result;
   }

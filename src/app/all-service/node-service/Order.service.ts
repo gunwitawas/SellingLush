@@ -22,6 +22,7 @@ export class OrderService {
   getOrderDetailByStatusServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/getOrderDetailByStatus";
   updateOrderStatusServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/updateOrderStatus";
   checkOrderStatusUnpaidServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/checkOrderStatusUnpaid";
+  deleteOrderlistServicePath = ServiceConstance.rootPath + ServiceConstance.orderPath + "/deleteOrderlist";
   parameter:any = {
     params : {},
     responseType: "json"
@@ -91,6 +92,10 @@ export class OrderService {
   }
   async updateOrderStatus(body){
     let result = await this.http.post(this.updateOrderStatusServicePath, body).toPromise();
+    return result;
+  }
+  async deleteOrderlist(body){
+    let result = await this.http.post(this.deleteOrderlistServicePath, body).toPromise();
     return result;
   }
 

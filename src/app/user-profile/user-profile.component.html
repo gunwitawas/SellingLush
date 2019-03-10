@@ -1,27 +1,76 @@
 <h3>ข้อมูลส่วนตัว</h3>
 <hr>
 <div class="card">
-  <form>
+  <form #f="ngForm">
 
     <div class="card-body">
       <div class="row">
         <div class="col-4">
-          <img *ngIf="userDetail" [src]="getImgPath(userDetail.image)" style="max-width: 100%;">
+          <img *ngIf="userDetail && firstUpload" [src]="getImgPath(userDetail.image)" style="max-width: 100%;">
+          <img *ngIf="userDetail && !firstUpload" [src]="userDetail.image" style="max-width: 100%;">
 
           <div class="custom-file" width="250">
-            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg"><br>
+            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
+                   accept=".png,.jpg,.jpeg"><br>
             <label class="custom-file-label" for="uploadInput">แก้ไขรูปภาพ</label>
           </div>
         </div>
-        <div class="col-8"></div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Username </label>
+                <input class="form-control"
+                       name="username"
+                       [(ngModel)]="userDetail.username" readonly></div>
+            </div>
+            <div class="col-6">
+              <div class="form-group"><label>ชื่อ </label>
+                <input class="form-control"
+                       required
+                       name="name" [(ngModel)]="userDetail.name">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group"><label>เบอร์โทรศัพท์ </label>
+                <input class="form-control"
+                       name="tel"
+                       required
+                       onlyNumber
+                       [(ngModel)]="userDetail.tel"></div>
+            </div>
+            <div class="col-6">
+              <div class="form-group"><label>ไอดีไลน์ </label>
+                <input class="form-control"
+                       name="line_id"
+                       [(ngModel)]="userDetail.line_id"></div>
+            </div>
+            <div class="col-6">
+              <div class="form-group"><label>e-mail </label>
+                <input class="form-control"
+                       name="line_id"
+                       [(ngModel)]="userDetail.email"></div>
+            </div>
+            <div class="col-6">
+              <div class="form-group"><label>ที่อยู่ </label>
+                <textarea class="form-control"
+                       name="address"
+                       required
+                          [(ngModel)]="userDetail.address"></textarea></div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
 
     <div class="card-footer">
-      <button class="btn btn-info" type="submit" (click)="save()">ค้นหา</button>
-      <button class="btn btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า</button>
-    </div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        (click)="save()" [disabled]="f.invalid"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+   </div>
 
   </form>
 </div>
+
