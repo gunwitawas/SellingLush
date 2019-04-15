@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-transfer-http';
 import { HttpClient } from '@angular/common/http';
-import { ServiceConstance } from "../../shared/constance/ServiceConstance";
-import * as moment from 'moment'
+import { ServiceConstance } from '../../shared/constance/ServiceConstance';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PreOrderService {
-  getAllPreOrderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/getAllPreOrder";
-  insertPreorderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderDetail";
-  insertPreorderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/insertPreorderlist";
-  getAllPreOrderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/getAllPreOrderList";
-  uploadimagePayment = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/uploadImagePayment";
-  updatepatmentStatus = ServiceConstance.rootPath + ServiceConstance.preorderPath + "/updatePatmentStatus";
+  getAllPreOrderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + '/getAllPreOrder';
+  insertPreorderDetail = ServiceConstance.rootPath + ServiceConstance.preorderPath + '/insertPreorderDetail';
+  insertPreorderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + '/insertPreorderlist';
+  getAllPreOrderList = ServiceConstance.rootPath + ServiceConstance.preorderPath + '/getAllPreOrderList';
+  uploadimagePayment = ServiceConstance.rootPath + ServiceConstance.preorderPath + '/uploadImagePayment';
+  updatepatmentStatus = ServiceConstance.rootPath + ServiceConstance.preorderPath + '/updatePatmentStatus';
   constructor(
     private http: TransferHttpService,
   ) { }
@@ -53,6 +53,7 @@ export class PreOrderService {
     let username = request.username;
     let startDate: any = moment(request.startDate, "DD/MM/YYYY");
     let endDate: any = moment(request.endDate, "DD/MM/YYYY");
+    let status: string = request.status;
     let preOrderDetail: any = await this.getPreOrderDetail();
 
     if (preOrderDetail.content) {

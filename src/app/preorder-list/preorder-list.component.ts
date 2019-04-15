@@ -6,6 +6,7 @@ import { AccountService } from 'app/all-service/node-service/Account.service';
 import Swal from 'sweetalert2'
 import * as moment from 'moment'
 import { Validate } from "../shared/utillity/Validate";
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { Validate } from "../shared/utillity/Validate";
   templateUrl: './preorder-list.component.html',
 })
 export class PreorderListComponent implements OnInit {
-  private orderListByID: Array<any>
+  myControl = new FormControl();
+  private orderListByID: Array<any>;
   private orderDetailByID: any;
   public result: any;
   public resultHttpClient: any;
@@ -26,14 +28,18 @@ export class PreorderListComponent implements OnInit {
   public userAccount: any;
   public searchOrderDetail: any = [];
   public isCheckSearchDate: boolean = true;
-  public checkStartDate:any;
-  public startDate:any;
-  public checkEndDate:any;
-  public endDate:any;
-  public requestSearchOrderDetailbyDate : {
+  public checkStartDate: any;
+  public startDate: any;
+  public checkEndDate: any;
+  public endDate: any;
+  public username: string;
+  public status: string;
+  public userList: string[];
+  public sumPrice: number;
+  public requestSearchOrderDetailbyDate: {
     username?: string,
     startDate?: string,
-    endDate?: string
+    endDate?: string,
   }
 
   header = [
@@ -52,8 +58,15 @@ export class PreorderListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.preorderService.getPreOrderDetail().then((res: any) => {
+      console.log(res.content.reverse());
+      let mapUserList: string[] = res.content.map((res: any) => res.username);
+      this.userList = mapUserList.reduce((x, y) => x.includes(y) ? x : [...x, y], []);
+    });
+
   }
+
   async showDetail(i) {
     this.expandIndex = this.expandIndex == i ? 9999 : i;
   }
@@ -64,6 +77,9 @@ export class PreorderListComponent implements OnInit {
   }
 
   async showReport(i) {
+    this.username = '';
+    this.startDate = '';
+    this.endDate = '';
     this.selectedReport = i;
     let response: any = await this.preorderService.getPreOrderDetail();
     if (response.content) {
@@ -71,10 +87,11 @@ export class PreorderListComponent implements OnInit {
       if (this.header[i].status === "") {
         this.preOrderDetail = preOrder;
       } else {
-        this.preOrderDetail = await preOrder.filter((result: any) => result.payment_status == this.header[i].status);
+        this.preOrderDetail = await preOrder.filter((result: any) => result.payment_status === this.header[i].status);
+        this.status = this.header[i].status;
+        this.sumPrice = 0;
+        await this.preOrderDetail.map((res) => this.sumPrice += Math.round(res.netpay));
       }
-      console.log("this.preOrderDetail", this.preOrderDetail);
-
     } else {
 
     }
@@ -123,11 +140,11 @@ export class PreorderListComponent implements OnInit {
               break;
             case "N":
               this.showReport(3);
-               Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
+              Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
               break;
             case "S":
               this.showReport(4);
-               Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
+              Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
               break;
           }
         }
@@ -150,50 +167,50 @@ export class PreorderListComponent implements OnInit {
 
   }
 
-  public async searchOrderDetailbyDate(){
+  public async searchOrderDetailbyDate() {
+    this.requestSearchOrderDetailbyDate = {
+      startDate: this.startDate,
+      endDate: this.endDate,
+      username: this.username,
+    };
     console.log(this.requestSearchOrderDetailbyDate);
-   this.searchOrderDetail = await this.preorderService.checkPreOrderDate(this.requestSearchOrderDetailbyDate);
-   console.log(this.searchOrderDetail);
+
+    let preOrderDetail = await this.preorderService.checkPreOrderDate(this.requestSearchOrderDetailbyDate);
+    if (this.status && this.status !== "") {
+      this.preOrderDetail = preOrderDetail.filter((res: any) => res.payment_status === this.status);
+      this.sumPrice = 0;
+      await this.preOrderDetail.map((res) => this.sumPrice += Math.round(res.netpay));
+
+    } else {
+      this.preOrderDetail = preOrderDetail;
+      this.sumPrice = 0;
+      await this.preOrderDetail.map((res) => this.sumPrice += Math.round(res.netpay));
+    }
   }
 
-  checkInputStartDate(event: Date){
+  checkInputStartDate(event: Date) {
     this.checkStartDate = Validate.getDateDiff(event);
-    if(this.checkEndDate && this.checkStartDate > this.checkEndDate){
+    if (this.checkEndDate && this.checkStartDate > this.checkEndDate) {
       this.isCheckSearchDate = false;
       Swal('Warning', 'วันที่เริ่มต้นไม่สามารถมากกว่าวันที่สิ้นสุดได้', 'warning');
     } else {
       this.isCheckSearchDate = true;
-
-      // this.requestSearchOrderDetailbyDate = {
-      //   startDate: event.getDate() + '/' + event.getMonth() + '/' +event.getFullYear(),
-      // }
- 
-      //เซ็ตค่า request ที่จะส่งไป ฟังก์ชั่น searchOrderDetailbyDate ผิดอยู่ ง่วง
-
-      console.log("startDate",this.requestSearchOrderDetailbyDate);
+      this.startDate = event.getDate() + '/' + (event.getMonth() + 1) + '/' + event.getFullYear();
     }
 
-    
-    
+
+
   }
 
-  checkInputEndDate(event: Date){
+  checkInputEndDate(event: Date) {
     this.checkEndDate = Validate.getDateDiff(event);
-    if(this.checkStartDate && this.checkEndDate < this.checkStartDate){
+    if (this.checkStartDate && this.checkEndDate < this.checkStartDate) {
       this.isCheckSearchDate = false;
       Swal('Warning', 'วันที่สิ้นสุดไม่สามารถน้อยกว่าวันที่เริ่มต้นได้', 'warning');
     } else {
       this.isCheckSearchDate = true;
-
-      // this.requestSearchOrderDetailbyDate = {
-      //   endDate: event.getDate() + '/' + event.getMonth() + '/' +event.getFullYear(),
-      // }
-      //เซ็ตค่า request ที่จะส่งไป ฟังก์ชั่น searchOrderDetailbyDate ผิดอยู่ ง่วง
-
-      console.log("endDate",this.requestSearchOrderDetailbyDate);
-      
+      this.endDate = event.getDate() + '/' + (event.getMonth() + 1) + '/' + event.getFullYear();
     }
-    
-    
   }
-}                                       
+
+}

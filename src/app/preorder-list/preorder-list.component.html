@@ -1,69 +1,132 @@
 <div class="card">
+
   <ol class="breadcrumb bg-success">
-    <li class="breadcrumb-item"><a (click)="showReport(9)" class="font-weight-bold" style="cursor: pointer; color: white">รายการสั่งซื้อทั้งหมด</a></li>
+    <li class="breadcrumb-item"><a (click)="showReport(9)" class="font-weight-bold"
+        style="cursor: pointer; color: white">รายการสั่งซื้อทั้งหมด</a></li>
     <li *ngIf="selectedReport<9" class="breadcrumb-item active" style="color: #4cffe9">{{header[selectedReport].name}}
     </li>
   </ol>
+
+
   <div class="card-body">
     <div class="list-group">
       <!-- <div class="list-group" *ngIf="selectedReport==9"> -->
       <div *ngFor="let item of header; let i = index">
-        <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(i)"><i class="{{item.icon}}">
+        <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(i)"><i
+            class="{{item.icon}}">
           </i>
           {{item.name}}</a>
       </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="selectedReport<9">
-  <div class="table-responsive rounded">
-    <table class="table table-bordered rounded">
-      <thead>
-        <tr class="text-center bg-success text-white">
-          <th>
-            เลขที่ใบเสร็จ
-          </th>
-          <th>
-            ชื่อผู้สั่ง
-          </th>
-          <th>
-            วันที่สั่งสินค้า
-          </th>
-          <th>
-            วันที่รับสินค้า
-          </th>
-          <th>
-            ราคา
-          </th>
-          <th>
-            ข้อมูล
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-template ngFor let-item [ngForOf]="preOrderDetail" let-i="index">
-          <tr id="accordion" class="rounded">
-            <td class="text-center">P{{item.pre_id}}</td>
-            <td class="text-center">{{item.username}}</td>
-            <td class="text-center">{{item.pre_date }}</td>
-            <td class="text-center">{{item.receive_date}}</td>
-            <td class="text-center">{{item.netpay}}</td>
-            <td class="text-center">
-              <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success" (click)="showOrderByPreId(item.pre_id)">+</button>
-              <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary" (click)="showOrderByPreId(item.pre_id)">+</button>
-              <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning" (click)="showOrderByPreId(item.pre_id)">+</button>
-              <button *ngIf="item.payment_status === 'N'" type="button" class="btn btn-danger" (click)="showOrderByPreId(item.pre_id)">+</button>
 
 
+  <div class="card-body">
+    <ol>
 
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-    </table>
+      <label>
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input type="text" placeholder="ชื่อผู้ใช้งาน" [(ngModel)]="username" matInput [formControl]="myControl"
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of userList" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </label>
+
+      ค้นหาตามช่วงวันที่ :
+      <label>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickers" placeholder="Choose a startDate" id="startDate" name="startDate"
+            [(ngModel)]="StartDate" (ngModelChange)="checkInputStartDate($event)">
+          <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+          <mat-datepicker #pickers></mat-datepicker>
+        </mat-form-field>
+      </label>
+      ถึงวันที่ :
+      <label>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Choose a endDate" id="endDate" name="endDate"
+            [(ngModel)]="EndDate" (ngModelChange)="checkInputEndDate($event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </label>
+      <button style="width: 100px" class="btn btn-danger" (click)="searchOrderDetailbyDate()"
+        [disabled]="!isCheckSearchDate">ค้นหา</button>
+
+      <div *ngIf="searchOrderDetail">
+        <div *ngFor="let item of searchOrderDetail; let i = index">
+          {{item.pre_date}}
+        </div>
+      </div>
+
+    </ol>
   </div>
+
+
+  <div *ngIf="selectedReport<9 || searchOrderDetail" style="margin: 5px">
+    <div class="table-responsive rounded">
+      <table class="table table-bordered rounded">
+        <thead>
+          <tr class="text-center bg-success text-white">
+            <th>
+              เลขที่ใบเสร็จ
+            </th>
+            <th>
+              ชื่อผู้สั่ง
+            </th>
+            <th>
+              วันที่สั่งสินค้า
+            </th>
+            <th>
+              วันที่รับสินค้า
+            </th>
+            <th>
+              ราคา
+            </th>
+            <th>
+              ข้อมูล
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of preOrderDetail" id="accordion" class="rounded">
+              <td class="text-center">P{{item.pre_id}}</td>
+              <td class="text-center">{{item.username}}</td>
+              <td class="text-center">{{item.pre_date }}</td>
+              <td class="text-center">{{item.receive_date}}</td>
+              <td class="text-center">{{item.netpay}}</td>
+              <td class="text-center">
+                <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success"
+                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
+                <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary"
+                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
+                <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning"
+                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
+                <button *ngIf="item.payment_status === 'N'" type="button" class="btn btn-danger"
+                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
+              </td>
+            </tr>
+            <tr *ngIf="sumPrice" id="accordion" class="rounded">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="text-center">ราคารวม {{sumPrice}} บาท</td>
+              <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
+
 
 
 <div class="modal fade bd-example-modal-lg" id="listOrder" tabindex="-1" role="dialog" aria-labelledby="preOrderList"
@@ -114,13 +177,17 @@
         </div>
         <div class="modal-footer">
           <div *ngIf="orderDetailByID">
-            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
+            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success"
+              (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
               data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
-            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-danger" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
+            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-danger"
+              (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
               data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'" type="button"
-              class="btn btn-info" (click)="printBillpreOrder()" data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y'" type="button" class="btn btn-primary" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'"
+              type="button" class="btn btn-info" (click)="printBillpreOrder()"
+              data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y'" type="button" class="btn btn-primary"
+              (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
               data-dismiss="modal">ได้รับสินค้าแล้ว</button>
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
@@ -131,8 +198,8 @@
 </div>
 
 
-<div class="modal fade bd-example-modal-lg" id="uploadPayment" tabindex="-1" role="dialog" aria-labelledby="uploadPayment"
-  aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="uploadPayment" tabindex="-1" role="dialog"
+  aria-labelledby="uploadPayment" aria-hidden="true">
   <div *ngIf="orderDetailByID" id="billPreOrder" class="modal-body">
     <div align="center">
       <div *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'">
@@ -175,35 +242,6 @@
         </table>
         <h1>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
       </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div>
-  ค้นหาตามช่วงวันที่ :
-  <label>
-    <mat-form-field>
-      <input matInput [matDatepicker]="pickers" placeholder="Choose a startDate" id="startDate" name="startDate"
-        [(ngModel)]="startDate" (ngModelChange)="checkInputStartDate($event)">
-      <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-      <mat-datepicker #pickers></mat-datepicker>
-    </mat-form-field>
-  </label>
-  ถึง
-  <label>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Choose a endDate" id="endDate" name="endDate" [(ngModel)]="endDate"
-        (ngModelChange)="checkInputEndDate($event)">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </label>
-  <button style="width: 400px" class="btn btn-danger" (click)="searchOrderDetailbyDate()" [disabled]="!isCheckSearchDate" >searchOrderDetailbyDate</button>
-  <div *ngIf="searchOrderDetail">
-    <div *ngFor="let item of searchOrderDetail; let i = index">
-      {{item.pre_date}}
     </div>
   </div>
 </div>
