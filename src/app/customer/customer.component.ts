@@ -8,6 +8,8 @@ import { AccountService } from 'app/all-service/node-service/Account.service';
 import Swal from 'sweetalert2'
 import { UserService } from 'app/all-service/node-service/UserService.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PreOrderService } from 'app/all-service/node-service/PreOrderService.service';
+import { OrderService } from 'app/all-service/node-service/Order.service';
 
 
 @Component({
@@ -24,7 +26,9 @@ export class CustomerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _sanitizer: DomSanitizer,
     private accountservice: AccountService,
-    private userservice: UserService
+    private userservice: UserService,
+    private preOrderService: PreOrderService,
+    private orderService: OrderService
   ) { }
 
   public registerForm: FormGroup = this.formBuilder.group({
@@ -39,15 +43,18 @@ export class CustomerComponent implements OnInit {
     email: ['', Validators.required],
     upLoadImage: [''],
   });
-
+  public objUser: any;
   public result: any;
   public allUserAccount: any;
+  public UserAccount: any; // show list select username
   public validUsername: boolean = true;
   public validPassword: boolean = true;
   public checkUploadImageProfile: boolean = false;
   public uploadImg: any = "../../assets/img/imageUser.png";
   public defaultImage: any;
-
+  public preOrderDetail: any;
+  public username: any;
+  public orderList: any;
 
   ngOnInit(): void {
     this.startPageCustomer();
@@ -75,10 +82,12 @@ export class CustomerComponent implements OnInit {
   }
 
   private async getAllUserAccount() {
-    let response: any = await this.accountservice.getUserAccount();
-    if (response) {
-      this.allUserAccount = response.content.filter(result => result.type == 'M');
-    }
+    await this.accountservice.getUserAccount().then((response: any) => {
+      if (response) {
+        this.allUserAccount = response.content.filter(result => result.type === 'M');
+        this.UserAccount = response.content.filter(result => result.type === 'M');
+      }
+    });
   }
 
   public async summitFormRegister() {
@@ -89,7 +98,7 @@ export class CustomerComponent implements OnInit {
 
   private async insertRegisterFormToDataBase() {
     console.log("this.registerForm.value", this.registerForm.value);
-    
+
     let createAccount: any = await this.accountservice.createAccount(this.registerForm.value);
     if (createAccount['result'] === "succcess") {
       Swal('Create new Account success!', 'เพิ่มข้อมูลผู้ใช้งานสำเร็จ!', 'success');
@@ -173,4 +182,28 @@ export class CustomerComponent implements OnInit {
     }
   }
 
+  public async viewDetailByUser(item: any) {
+    this.objUser = item;
+    const preOrderDetail: any = await this.preOrderService.getPreOrderDetail();
+    this.preOrderDetail = preOrderDetail.content.filter((ress: any) => ress.username === item.username);
+    console.log(this.preOrderDetail);
+    let orderList = await this.orderService.getOrderDetailByUsernameService({ username: item.username });
+    this.orderList = orderList;
+    console.log("32323",this.orderList);
+    $('#orderByUsername').modal('show');
+
+  }
+
+  public async selectByUsername() {
+    let username: string = this.username ? this.username.split(')')[0].split('(')[1] : '';
+    await this.accountservice.getUserAccount().then((response: any) => {
+      if (response) {
+        if (username) {
+          this.allUserAccount = response.content.filter(result => result.username === username);
+        } else {
+          this.allUserAccount = response.content.filter(result => result.type === 'M');
+        }
+      }
+    });
+  }
 }

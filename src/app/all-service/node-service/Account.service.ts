@@ -25,7 +25,7 @@ export class AccountService {
       result = await result.content.filter((account: any) => account.username == username);
       return result[0];
     }
-    return result[0];
+    return result;
   }
 
   async createAccount(request) {
