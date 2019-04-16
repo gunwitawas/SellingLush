@@ -16,6 +16,13 @@
             class="{{item.icon}}">
           </i>
           {{item.name}}</a>
+          
+      </div>
+      <div >
+        <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(0, true)"><i
+            class="">
+          </i>
+          รายการที่ต้องส่ง</a>
       </div>
     </div>
   </div>
@@ -95,31 +102,42 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of preOrderDetail" id="accordion" class="rounded">
-              <td class="text-center">P{{item.pre_id}}</td>
-              <td class="text-center">{{item.username}}</td>
-              <td class="text-center">{{item.pre_date }}</td>
-              <td class="text-center">{{item.receive_date}}</td>
-              <td class="text-center">{{item.netpay}}</td>
-              <td class="text-center">
-                <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success"
-                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
-                <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary"
-                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
-                <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning"
-                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
-                <button *ngIf="item.payment_status === 'N'" type="button" class="btn btn-danger"
-                  (click)="showOrderByPreId(item.pre_id)">ข้อมูล</button>
-              </td>
-            </tr>
-            <tr *ngIf="sumPrice" id="accordion" class="rounded">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="text-center">ราคารวม {{sumPrice}} บาท</td>
-              <td></td>
-            </tr>
+          <tr *ngFor="let item of preOrderDetail" id="accordion" class="rounded">
+            <td class="text-center">P{{item.pre_id}}</td>
+            <td class="text-center">{{item.username}}</td>
+            <td class="text-center">{{item.pre_date }}</td>
+            <td class="text-center">{{item.receive_date}}</td>
+            <td class="text-center">{{item.netpay}}</td>
+            <td class="text-center">
+
+
+              <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success"
+                (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการสจัดส่ง)</button>
+
+
+              <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary"
+                (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการสจัดส่ง)</button>
+
+
+              <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning"
+                (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการสจัดส่ง)</button>
+
+
+              <button *ngIf="item.payment_status === 'N'" type="button" class="btn btn-danger"
+                (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการสจัดส่ง)</p></button>
+
+
+
+            </td>
+          </tr>
+          <tr *ngIf="sumPrice" id="accordion" class="rounded">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-center">ราคารวม {{sumPrice}} บาท</td>
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -174,21 +192,34 @@
               </tr>
             </tbody>
           </table>
+          <div *ngIf="orderDetailByID" style="width: 90%;" class="mx-auto">
+            <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
+              value="ที่อยู่ในการจัดส่ง : {{orderDetailByID[0].address.split(':')[0]}}"></textarea>
+          </div>
         </div>
+        <hr>
         <div class="modal-footer">
           <div *ngIf="orderDetailByID">
+
             <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success"
               (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
               data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
+
             <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-warning"
               (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
               data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
+
             <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'"
               type="button" class="btn btn-info" (click)="printBillpreOrder()"
               data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y'" type="button" class="btn btn-primary"
-              (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y' && !orderDetailByID[0].address" type="button"
+              class="btn btn-primary" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
               data-dismiss="modal">ได้รับสินค้าแล้ว</button>
+
+            <button *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" type="button"
+              class="btn btn-primary" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+              data-dismiss="modal">ส่งสินค้าแล้ว</button>
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
         </div>
@@ -240,7 +271,10 @@
             </tr>
           </tbody>
         </table>
-        <h1>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
+        <h1 *ngIf="!orderDetailByID[0].address">กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่
+          {{orderDetailByID[0].receive_date}}</h1>
+        <h1 *ngIf="orderDetailByID[0].address">ส่งสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
+        <h1 *ngIf="orderDetailByID[0].address">ที่อยู่ในการส่งสิ้นค้า <br> {{orderDetailByID[0].address}}</h1>
       </div>
     </div>
   </div>

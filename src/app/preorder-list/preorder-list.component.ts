@@ -76,7 +76,7 @@ export class PreorderListComponent implements OnInit {
       + base64str);
   }
 
-  async showReport(i) {
+  async showReport(i, address?) {
     this.username = '';
     this.startDate = '';
     this.endDate = '';
@@ -85,7 +85,12 @@ export class PreorderListComponent implements OnInit {
     if (response.content) {
       let preOrder: any = response.content;
       if (this.header[i].status === "") {
-        this.preOrderDetail = preOrder;
+        if (address) {
+          this.preOrderDetail = await preOrder.filter((result: any) => result.address && result.payment_status === 'Y');
+          this.sumPrice = 0;
+        } else {
+          this.preOrderDetail = preOrder;
+        }
       } else {
         this.preOrderDetail = await preOrder.filter((result: any) => result.payment_status === this.header[i].status);
         this.status = this.header[i].status;
@@ -109,10 +114,9 @@ export class PreorderListComponent implements OnInit {
     if (OrderList.content) {
       this.orderListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
       this.priceOforderList = 0;
-
       this.orderListByID.map(async (obj, index) => {
         this.priceOforderList += (obj.price * obj.qty);
-      })
+      });
       if (remark !== 'hide') {
         $('#listOrder').modal('show');
       }
@@ -144,7 +148,7 @@ export class PreorderListComponent implements OnInit {
               break;
             case "S":
               this.showReport(4);
-              Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
+              Swal('Success', 'ทำรายการสำเร็จ', 'success');
               break;
           }
         }
