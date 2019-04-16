@@ -17,7 +17,7 @@ import { MatAutocompleteModule } from '@angular/material';
     ReactiveFormsModule,
     MaterialModule,
     DirectiveModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   declarations: [PreorderListComponent],
 })

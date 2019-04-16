@@ -180,7 +180,7 @@
             <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success"
               (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
               data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
-            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-danger"
+            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-warning"
               (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
               data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
             <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'"

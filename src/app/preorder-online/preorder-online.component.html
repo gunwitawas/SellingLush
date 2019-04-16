@@ -1,5 +1,5 @@
-<h1>Preorder Online<button style="float:right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal"
-    (click)="calculateTotalPrice(null)">
+<h1>Preorder Online<button style="float:right" type="button" class="btn btn-primary" data-toggle="modal"
+    data-target="#cartModal" (click)="calculateTotalPrice(null)">
     รถเข็น
   </button></h1>
 <hr>
@@ -18,7 +18,8 @@
 
 <div *ngIf="showPage === 'preOrder'">
   <div class="row" style="margin: 10px; ">
-    <div class="card col-lg-3 col-md-3 col-sm-3 col-xs-3 mx-auto" style="margin: 5px;" *ngFor="let item of allProduct; let i = index">
+    <div class="card col-lg-3 col-md-3 col-sm-3 col-xs-3 mx-auto" style="margin: 5px;"
+      *ngFor="let item of allProduct; let i = index">
       <img class="card-img-top" style="margin-top: 15px; width: 100%; height: 200px;" [src]="getImgTobase64(item.p_img)"
         alt="Card image cap">
       <div class="card-body">
@@ -44,8 +45,8 @@
           <div>
             <div class="row">
               <div class="card" style="margin: 5px;" *ngFor="let item of selectProduct; let i = index">
-                <img class="card-img-top" style="margin-top: 15px; width: 100%; height: 200px;" [src]="getImgTobase64(item.p_img)"
-                  alt="Card image cap">
+                <img class="card-img-top" style="margin-top: 15px; width: 100%; height: 200px;"
+                  [src]="getImgTobase64(item.p_img)" alt="Card image cap">
                 <div class="card-body">
                   <h6 class="card-title">ชื่อ : {{item.p_name}}</h6>
                   <h6 class="card-title">ขนาด : {{item.p_size}}</h6>
@@ -57,8 +58,8 @@
                       <h6>จำนวน</h6>
                     </div>
                     <div class="col-4">
-                      <input type="text" onlyNumber class="form-control" [(ngModel)]="amount" (input)="checkDisableButtonOfAmount(item.price)"
-                        required>
+                      <input type="text" onlyNumber class="form-control" [(ngModel)]="amount"
+                        (input)="checkDisableButtonOfAmount(item.price)" required>
                     </div>
                     <div class="col-4">
                       <h6>ชิ้น</h6>
@@ -66,8 +67,8 @@
                   </div>
                   <hr>
                   <h6 *ngIf="sumPrice" class="card-title">ราคาทั้งหมด : {{sumPrice}} บาท</h6>
-                  <button class="btn btn-primary" style="width: 100%" type="submit" data-toggle="modal" (click)="addTocart(item)"
-                    [disabled]="!invalidAmont">
+                  <button class="btn btn-primary" style="width: 100%" type="submit" data-toggle="modal"
+                    (click)="addTocart(item)" [disabled]="!invalidAmont">
                     เพิ่มลงรถเข็น
                   </button>
                 </div>
@@ -101,9 +102,14 @@
           <td>{{item.pre_date}}</td>
           <td>{{item.netpay}}</td>
           <td>
-            <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N'" (click)="openModalUplpadPayMent(item)">ยังไม่ได้ชำระเงิน</button>
-            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W'" (click)="openModalUplpadPayMent(item)">รอยืนยันการชำระเงิน</button>
-            <button type="button" class="btn btn-success" *ngIf="item.payment_status == 'Y'" (click)="openModalUplpadPayMent(item)">ชำระเงินแล้ว</button>
+            <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N'"
+              (click)="openModalUplpadPayMent(item)">ยังไม่ได้ชำระเงิน</button>
+            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W'"
+              (click)="openModalUplpadPayMent(item)">รอยืนยันการชำระเงิน</button>
+            <button type="button" class="btn btn-info" *ngIf="item.payment_status == 'Y'"
+              (click)="openModalUplpadPayMent(item)">ชำระเงินแล้ว</button>
+            <button type="button" class="btn btn-primary" *ngIf="item.payment_status == 'S'"
+              disabled>ได้รับสินค้าแล้ว</button>
           </td>
         </tr>
 
@@ -146,8 +152,8 @@
             <tbody>
               <!-- ngfor -->
               <tr *ngFor="let item of allProductInCart; let i = index">
-                <td style="width: 100px; height: 70px;"><img style="width: 100px; height: 70px;" [src]="getImgTobase64(item.p_img)"
-                    alt="Card image cap"></td>
+                <td style="width: 100px; height: 70px;"><img style="width: 100px; height: 70px;"
+                    [src]="getImgTobase64(item.p_img)" alt="Card image cap"></td>
                 <td>{{item.p_name}}</td>
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
@@ -159,10 +165,10 @@
                 <td> </td>
                 <td> </td>
                 <td> </td>
-                <td> </td>
-                <td> </td>
+                <td>รวยจำนวนทั้งหมด : </td>
+                <td>{{sumAmount}} ชิ้น</td>
                 <td>
-                  <h6>รวมทั้งหมด ราคา : </h6>
+                  <h6>ราคา : </h6>
                 </td>
                 <td>
                   <div style="float:right;">
@@ -171,19 +177,53 @@
                 </td>
               </tr>
             </tbody>
-            <label> กรุณาเลือกวันรับสินค้า
-              <mat-form-field>
-                <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate" name="selectedDate"
-                  [(ngModel)]="selectedDate" (ngModelChange)="checkPreorderDate($event)">
-                <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-                <mat-datepicker #pickers></mat-datepicker>
-              </mat-form-field>
-            </label>
           </table>
+        </div>
+
+        <div style="width: 100%">
+          <label style="margin-left:20px"> กรุณาเลือกวันรับสินค้า
+            <mat-form-field style="width: 100%">
+              <input matInput [matDatepicker]="pickers" placeholder="Choose a date" id="selectedDate"
+                name="selectedDate" [(ngModel)]="selectedDate" (ngModelChange)="checkPreorderDate($event)">
+              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
+            </mat-form-field>
+          </label>
+        </div>
+
+        <hr>
+        <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
+        <p>
+            หากสินค้าของท่านมากกว่า 10 ชิ้นเป็นต้นไปสามารถจัดส่งได้ในบริเวณจังหวัดไกล้เคียง
+          </p>
+        </div>
+        <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
+          
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="checkAddress" (click)="clickCheckAddress()" id="customSwitch1" [disabled]="sumAmount < 10" >
+            <label class="custom-control-label" for="customSwitch1">บริการจัดส่งสินค้า</label>
+          </div>
+        </div><br>
+        <div *ngIf="checkAddress" class="row">
+          <div class="col-3">
+            <label style="width: 100%;margin-left:20px;margin-right:20px"> จังหวัดที่จัดส่ง
+                 <select [(ngModel)]="province" class="form-control">
+                    <option *ngFor="let option of provinceList" [value]="option">
+                      {{option}}
+                    </option>
+                  </select>
+            </label>
+          </div>
+          <div class="col-9">
+            <label style="width: 95%;margin-left:20px;margin-right:55px"> รายละเอียดที่อยู่ในการจัดส่ง
+                  <input class="form-control" type="text" placeholder="ที่อยู่" [(ngModel)]="address" >
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-          <button type="button" class="btn btn-primary" (click)="confirmPreOrder()" [disabled]="!isPreorderDate">ยืนยันการสั่งซื้อ</button>
+          <button type="button" class="btn btn-primary" (click)="confirmPreOrder()"
+            [disabled]="!isPreorderDate">ยืนยันการสั่งซื้อ</button>
         </div>
       </div>
       <div *ngIf="this.allProductInCart[0] == null" style="text-align: center;margin: 15px;">
@@ -193,15 +233,18 @@
   </div>
 </div>
 
-<div class="modal fade bd-example-modal-lg" id="uploadPayment" tabindex="-1" role="dialog" aria-labelledby="uploadPayment"
-  aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="uploadPayment" tabindex="-1" role="dialog"
+  aria-labelledby="uploadPayment" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div *ngIf="isUpDateForPayment" class="modal-content">
       <div class="modal-header">
-        <h5 *ngIf="upDateForPayment.payment_status === 'N'" class="modal-title" id="exampleModalLongTitle">อัพโหลดรูปหลักฐานการโอนเงินของคุณ
+        <h5 *ngIf="upDateForPayment.payment_status === 'N'" class="modal-title" id="exampleModalLongTitle">
+          อัพโหลดรูปหลักฐานการโอนเงินของคุณ
           {{USERNAME}}</h5>
-        <h5 *ngIf="upDateForPayment.payment_status === 'W'" class="modal-title" id="exampleModalLongTitle">ระบบกำลังตรวจสอบการทำรายการของคุณ</h5>
-        <h5 *ngIf="upDateForPayment.payment_status === 'Y'" class="modal-title" id="exampleModalLongTitle">ขอบคุณที่ใช้บริการ</h5>
+        <h5 *ngIf="upDateForPayment.payment_status === 'W'" class="modal-title" id="exampleModalLongTitle">
+          ระบบกำลังตรวจสอบการทำรายการของคุณ</h5>
+        <h5 *ngIf="upDateForPayment.payment_status === 'Y'" class="modal-title" id="exampleModalLongTitle">
+          ขอบคุณที่ใช้บริการ</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -250,10 +293,11 @@
 
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
             <h1>ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList}} บาท</h1>
-            <img *ngIf="upDateForPayment.pay_img" class="card-img-top" style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px"
-              [src]="upDateForPayment.pay_img">
+            <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
+              style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img">
             <div class="custom-file col-8" width="250">
-              <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg"><br>
+              <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
+                accept=".png,.jpg,.jpeg"><br>
               <label class="custom-file-label" for="uploadInput">เพิ่มรูปภาพหลักฐานการโอนเงินของคุณ</label>
             </div>
           </div>
@@ -262,9 +306,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-        <button *ngIf="upDateForPayment.payment_status !== 'Y'" type="button" class="btn btn-primary" (click)="uploadPayment()"
-          [disabled]="">อัพโหลดรูปการชำระเงิน</button>
-        <button *ngIf="upDateForPayment.payment_status === 'Y'" type="button" class="btn btn-primary" (click)="printBillpreOrder()">พิมพ์ใบเสร็จการสั่งซื้อ</button>
+        <button *ngIf="upDateForPayment.payment_status !== 'Y'" type="button" class="btn btn-primary"
+          (click)="uploadPayment()" [disabled]="">อัพโหลดรูปการชำระเงิน</button>
+        <button *ngIf="upDateForPayment.payment_status === 'Y'" type="button" class="btn btn-primary"
+          (click)="printBillpreOrder()">พิมพ์ใบเสร็จการสั่งซื้อ</button>
       </div>
     </div>
   </div>

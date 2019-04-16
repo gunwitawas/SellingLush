@@ -34,6 +34,7 @@ export class PreorderOnlineComponent implements OnInit {
   private invalidAmont: boolean = false;
   private sumPrice: number;
   private sumNetpay: number = 0;
+  private sumAmount: number = 0;
   private priceOforderList: number = 0;
   private allProductInCart = new Array;
   private listOrder: Array<any>;
@@ -48,7 +49,11 @@ export class PreorderOnlineComponent implements OnInit {
   private uploadImg: any;
   private orderDetailByID: any;
   private userAccount: any;
+  private province: string;
+  private address: string;
+  private checkAddress: boolean = false;
 
+  private provinceList = ['สุพรรณบุรี', 'นครปฐม', 'กาญจนบุรี', 'อ่างทอง', 'ชัยนาท'];
   private preOrderList: {
     pre_id: string,
     p_id: string,
@@ -61,6 +66,7 @@ export class PreorderOnlineComponent implements OnInit {
     receive_status: string,
     receive_date: string,
     netpay: number,
+    address: string
   }
   private receiveDateForm = {
     selectedDate: new Date()
@@ -179,7 +185,8 @@ export class PreorderOnlineComponent implements OnInit {
     this.sumPrice = amount * price;
   }
 
-  private addTocart(product) {
+  public addTocart(product) {
+
     let order = {
       p_id: product.p_id,
       p_name: product.p_name,
@@ -189,6 +196,7 @@ export class PreorderOnlineComponent implements OnInit {
       amount: this.amount,
       sumPrice: this.sumPrice,
     };
+    console.log(order.amount);
 
     let isNewproduct = !!this.allProductInCart.find(result => result.p_id == order.p_id && result.p_size == order.p_size);
 
@@ -198,6 +206,7 @@ export class PreorderOnlineComponent implements OnInit {
     } else {
       this.allProductInCart.push(order);
       this.calculateTotalPrice(order.sumPrice, 'plus');
+      this.calculateTotalamount(order.amount, 'plus');
       $('#addToCartModal').modal('hide');
       Swal('Added to cart!', 'เพิ่มไปยังรถเข็นแล้ว!', 'success');
     }
@@ -206,12 +215,21 @@ export class PreorderOnlineComponent implements OnInit {
   }
 
   deleteProductInCart(index) {
-    this.allProductInCart.splice(index, 1);
     this.calculateTotalPrice(this.allProductInCart[index].sumPrice, 'delete');
+    this.calculateTotalamount(this.allProductInCart[index].amount, 'delete');
+    this.allProductInCart.splice(index, 1);
+  }
+
+  calculateTotalamount(amount, remark) {
+    if (remark === 'delete') {
+      this.sumAmount = this.sumAmount - +amount;
+    } else if (remark = 'plus') {
+      this.sumAmount = this.sumAmount + +amount;
+    }
   }
 
   calculateTotalPrice(price, remark) {
-    if (remark == 'delete') {
+    if (remark === 'delete') {
       this.sumNetpay = this.sumNetpay - price;
     } else if (remark = 'plus') {
       this.sumNetpay = this.sumNetpay + price;
@@ -220,7 +238,22 @@ export class PreorderOnlineComponent implements OnInit {
 
 
   async confirmPreOrder() {
-    await this.insertToPreOrder_Detail();
+    if (this.checkAddress) {
+      console.log(this.address + '' + this.province);
+      if (this.address && this.province) {
+        await this.insertToPreOrder_Detail();
+      } else {
+        Swal('Warning', 'กรุณากรอกที่อยู่ในการจัดส่งให้ครบ หรือปิดปุ่มบริการจัดส่งสินค้า!', 'warning');
+      }
+    } else {
+      await this.insertToPreOrder_Detail();
+    }
+  }
+
+  public clickCheckAddress() {
+    this.checkAddress = this.checkAddress ? true : false;
+    console.log(this.checkAddress);
+
   }
 
   private async insertToPreOrder_Detail() {
@@ -231,9 +264,13 @@ export class PreorderOnlineComponent implements OnInit {
       receive_status: 'N',
       receive_date: this.tranformDate(),
       netpay: this.sumNetpay,
+      address: this.address + ' : ' + this.province || '',
     };
+    console.log(this.preOrderDetail);
+
     await this.preorderService.insertPreOrderDetail(this.preOrderDetail).then(async (response: any) => {
-      if (response.pre_id && response['message'] == "Success") {
+      console.log(response);
+      if (response.pre_id && response['message'] === 'Success') {
         await this.insertToPreOrder_List(response);
         $('#cartModal').modal('hide');
         Swal('Confirm the order is successful!', 'ยืนยันการสั่งซื้อสำเร็จ!', 'success');
