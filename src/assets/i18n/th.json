@@ -1,8 +1,41 @@
 {
+  "manage" : "จัดการ",
+  "add-new-list" : "เพิ่มรายการใหม่",
+  "warning-regis" : "สมัครเพื่อเลือกซื้อสินค้า",
+  "warning-fill-amount": "กรอกจำนวนไม่ถูกต้องกรุณาตรวจสอบ",
+  "warning-product": "กรุณาเลือกรหัสสินค้า",
+  "no": "ลำดับ",
+  "amount-sold": "จำนวนที่ขายไปแล้ว",
+  "amount-sell": "จำนวนวางขาย",
+  "product-store-list": "รายการสินค้าหน้าร้าน",
+  "id": "รหัส",
+  "name": "ชื่อ",
+  "minimum-cost": "ราคาต่ำสุด",
+  "maximum-cost": "ราคาสูงสุด",
+  "size": "ขนาด",
+  "mixer": "ไส้",
+  "small": "เล็ก",
+  "medium": "กลาง",
+  "big": "ใหญ่",
+  "close": "แิด",
+  "add-image": "เพิ่มรูปภาพ",
+  "select-image": "เลือกรูปภาพ",
+  "price": "ราคา",
+  "search": "ค้นหา",
+  "reset": "คืนค่า",
+  "edit": "แก้ไข",
+  "save": "บันทึก",
+  "cancel-edit": "ยกเลิกแก้ไข",
+  "add-new-product": "เพิ่มสินค้าใหม่",
+  "search-criteria": "รายละเอียดการค้นหา",
+  "product-header": "จัดการสินค้า",
+  "profile": "ข้อมูลส่วนตัว",
+  "logout": "ออกจากระบบ",
+  "title-name": "ข้าวหลามดาบเล็ก",
   "loading": "กรุณารอสักครู่",
-  "lang":{
-    "en":"English",
-    "th":"ไทย"
+  "lang": {
+    "en": "English",
+    "th": "ไทย"
   },
   "sidebar": {
     "home": "หน้าหลัก",
@@ -10,9 +43,11 @@
     "back-http": "ย้อนกลับ",
     "static-back-http": "ย้อนกลับ",
     "product": "สินค้า",
+    "product-guest": "สินค้าที่ขาย",
     "order": "รายการสั่งซื้อ",
     "preorder": "รายการสั่งจอง",
-    "customer": "ลูกค้า"
+    "customer": "ลูกค้า",
+    "product-store": "สินค้าหน้าร้าน"
   },
   "home": {
     "title": "หน้าหลัก",

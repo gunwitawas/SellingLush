@@ -1,4 +1,4 @@
-<span class="toolbar__logo">ข้าวหลามดาบเล็ก</span>
+<span class="toolbar__logo">{{"title-name" | translate}}</span>
 
 <!--<select  class="toolbar__lang" (change)="changeLang($event.target.value)">
     <option *ngFor="let lang of langList$ | async"
@@ -29,7 +29,10 @@
   {{getCurrentUsername()}}
 </select>-->
 
-<button *ngIf="!getCurrentStatus()"  type="button" class="btn btn-outline-primary" style="margin-left: 10px;"  data-toggle="modal" data-target="#loginModal">Log in</button>
+<!--
+data-toggle="modal" data-target="#loginModal"
+-->
+<button *ngIf="!getCurrentStatus()"  type="button" class="btn btn-outline-primary" style="margin-left: 10px;" routerLink="/login-regis-page"  >Log in</button>
 
 <div *ngIf="getCurrentStatus()"  class="dropdown" style="margin-left: 10px;" >
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -37,9 +40,9 @@
   </button>
   <div class="dropdown-menu">
     <a class="dropdown-item"
-       routerLink="/user-profile">Profile</a>
+       routerLink="/user-profile">{{ "profile" | translate}}</a>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" (click)="logout()">Log out</a>
+    <a class="dropdown-item" (click)="logout()">{{ "logout" | translate}}</a>
   </div>
 </div>
 

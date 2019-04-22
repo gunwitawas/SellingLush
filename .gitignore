@@ -42,3 +42,7 @@ testem.log
 **/.DS_Store
 Thumbs.db
 SellingLush - Git.iml
+
+package-lock.json
+
+*.iml

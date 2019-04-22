@@ -19,7 +19,9 @@ const routes: Routes = [
       {path: 'preorder-list', loadChildren: './preorder-list/preorder-list.module#PreorderListModule'},
       {path: 'customer', loadChildren: './customer/customer.module#CustomerModule'},
       {path: 'user-profile', loadChildren: './user-profile/user-profile.module#UserProfileModule'},
-      {path: '**', loadChildren: './not-found/not-found.module#NotFoundModule'},
+      {path: 'product-guest', loadChildren: './product-guest/product-guest.module#ProductGuestModule'},
+      {path: 'login-regis-page', loadChildren: './login-regis-page/login-regis-page.module#LoginRegisPageModule'},
+      {path: '**', loadChildren: './not-found/not-found.module#NotFoundModule'}
     ],
   },
 ];

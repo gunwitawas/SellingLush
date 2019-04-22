@@ -1,9 +1,9 @@
-<h1> สินค้าหน้าร้าน </h1>
+<h1> {{ "sidebar.product-store" | translate}} </h1>
 <hr>
 <div class="card">
   <form>
     <div class="card-header bg-primary text-white">
-      Header
+      {{ "product-store-list" | translate}}
     </div>
 
     <div class="card-body">
@@ -18,11 +18,11 @@
         <table class="table table-bordered table-hover rounded">
           <thead class="bg-light">
           <tr class="text-center">
-            <th width="10%">ลำดับ</th>
-            <th width="20%">รหัสสินค้า</th>
-            <th width="20%">ชื่อ</th>
-            <th width="20%">จำนวนที่ขายไปแล้ว/<br>จำนวนวางขาย</th>
-            <th>จัดการ</th>
+            <th width="10%">{{ "no" | translate}}</th>
+            <th width="20%">{{ "id" | translate}}</th>
+            <th width="20%">{{ "name" | translate}}</th>
+            <th width="20%">{{ "amount-sold" | translate}}/<br>{{ "amount-sell" | translate}}</th>
+            <th>{{ "manage" | translate}}</th>
           </tr>
           </thead>
           <tbody>
@@ -40,7 +40,7 @@
                        (change)="setProductId(i)"
                        data-link-field="productList"
                        class="form-control"
-                       placeholder="เลือกสินค้าที่ต้องการเพิ่ม"
+                       placeholder="{{ 'warning-product' | translate}}"
                        required/>
                 <datalist id="productList">
                   <option *ngFor="let item of productList;let i=index;" [value]="item.p_id">{{item.p_name}}</option>
@@ -48,7 +48,7 @@
               </div>
               <ng-container *ngIf="item.p_id==''">
                 <span class="text-danger">
-                  กรุณาเลือกรหัสสินค้า
+                  {{ "warning-product" | translate}}
                 </span>
               </ng-container>
             </td>
@@ -66,7 +66,7 @@
                 [(ngModel)]="resultList[i].stockQty"><!--<label class="badge badge-success">{{item.saleQty}}</label>-->
               <ng-container *ngIf="item.stockQty < item.saleQty || item.stockQty==0">
                 <br>
-                <small> กรอกจำนวนไม่ถูกต้องกรุณาตรวจสอบ</small>
+                <small> {{ "warning-fill-amount" | translate}}</small>
               </ng-container>
             </td>
             <td class="text-center">
@@ -119,7 +119,7 @@
           </tr>
           <tr *ngIf="enableToAdjust">
             <td colspan="5" class="text-center">
-              <button (click)="addNew()" class="btn btn-sm btn-info" [disabled]="editMode"><i class="fa fa-plus-circle"></i> เพิ่มรายการใหม่
+              <button (click)="addNew()" class="btn btn-sm btn-info" [disabled]="editMode"><i class="fa fa-plus-circle"></i> {{ "add-new-list" | translate}}
               </button>
             </td>
           </tr>

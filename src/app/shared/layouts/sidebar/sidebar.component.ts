@@ -20,7 +20,8 @@ const LINKS_M: any[] = [
 ];
 
 const LINKS: any[] = [
-  { link: '/home', name: 'home', icon: 'home' }
+  { link: '/home', name: 'home', icon: 'home' },
+  { link: '/product-guest', name: 'product-guest', icon: 'store' }
 ];
 
 @Component({
@@ -38,11 +39,12 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.setLink();
     /*
-    const linkTemp = JSON.parse(JSON.stringify(LINKS));
-    this.links = linkTemp.map((link) => {
-      link.name = `sidebar.${link.name}`;
-      return link;
-    });*/
+        const linkTemp = JSON.parse(JSON.stringify(LINKS));
+        this.links = linkTemp.map((link) => {
+          link.name = `sidebar.${link.name}`;
+          return link;
+        });
+    */
   }
    setLink(){
     console.log(this.storage);

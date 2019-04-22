@@ -1,0 +1,109 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="font-weight-bold"> เข้าสู่ระบบ </h4>
+  </div>
+  <form>
+    <div class="card-content">
+      <br>
+      <!---->
+      <div class="container">
+
+        <div class="form-group">
+          <label for="username">ชื่อผู้ขาย</label>
+          <input class="form-control" id="username" name="username" [(ngModel)]="loginForm.username">
+        </div>
+        <div class="form-group">
+          <label for="password">รหัสผ่าน</label>
+          <input class="form-control" id="password" name="password" type="password" [(ngModel)]="loginForm.password">
+        </div>
+      </div>
+      <!---->
+    </div>
+    <div class="card-footer">
+      <div class="btn-group">
+
+        <button type="submit" class="btn btn-primary" (click)="login()">เข้าสู่ระบบ</button>
+
+        <button type="button" class="btn btn-info" data-toggle="modal"
+                data-target="#regisModal">สมัคร
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div class="modal fade" id="regisModal" tabindex="-1" role="dialog" aria-labelledby="regisModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog  modal-lg" role="document">
+    <form #regisFrom="ngForm" (ngSubmit)="regis(regisFrom)" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="regisModalLabel">เข้าสู่ระบบ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="usernameRegis">ชื่อผู้ใช้</label>
+              <input class="form-control" #username="ngModel" id="usernameRegis" name="usernameRegis" (change)="validateUsername()" [(ngModel)]="regisForm.username" [required]="true">
+              <span class="text-danger" *ngIf="!regisForm.validUsername"> *ชื่อผู้ใช้นี้ถูกใช้แล้ว</span>
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="nameRegis">ชื่อ-นามสกุล</label>
+              <input class="form-control" #name="ngModel" id="nameRegis" name="nameRegis" [(ngModel)]="regisForm.name" [required]="true">
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="passwordRegis">รหัสผ่าน</label>
+              <input type="password" class="form-control" #password="ngModel" id="passwordRegis" name="passwordRegis" (keypress)="validatePassword('M')"  [(ngModel)]="regisForm.password" [required]="true">
+              <span *ngIf="!regisForm.validPassword"> รหัสผ่านไม่ถูกต้อง</span>
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="repasswordRegis">ยืนยันรหัสผ่าน</label>
+              <input type="password" class="form-control" #repassword="ngModel" id="repasswordRegis" name="repasswordRegis" [(ngModel)]="regisForm.repassword" [required]="true">
+              <span *ngIf="!validatePassword('C')"> รหัสผ่านไม่ถูกต้อง</span>
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="inputTel">Tel</label>
+              <input type="tel" class="form-control" #tel="ngModel" id="inputTel" name="inputTel" [(ngModel)]="regisForm.tel" [required]="true">
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="inputLine">Line Id</label>
+              <input type="text" class="form-control" #lineId="ngModel" id="inputLine" name="inputLine" [(ngModel)]="regisForm.lineId" >
+            </div>
+
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="inputEmail">Email</label>
+              <input type="email" class="form-control" #email="ngModel" id="inputEmail" name="inputEmail" [(ngModel)]="regisForm.email" >
+            </div>
+
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <label for="inputAddress">ที่อยู่</label>
+              <textarea id="inputAddress" #address="ngModel" name="inputAddress" class="form-control"  [(ngModel)]="regisForm.address" [required]="true"></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+
+          <button type="submit" [disabled]="!regisForm.validUsername||!regisForm.validPassword||!regisFrom.valid" class="btn btn-primary">สมัคร</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
