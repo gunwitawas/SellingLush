@@ -288,7 +288,10 @@
                 </tr>
               </tbody>
             </table>
-            <h1>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่ {{upDateForPayment.receive_date}}</h1>
+            <h1 *ngIf="!orderDetailByID[0].address">กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่
+              {{orderDetailByID[0].receive_date}}</h1>
+            <h1 *ngIf="orderDetailByID[0].address">ส่งสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
+            <h1 *ngIf="orderDetailByID[0].address">ที่อยู่ในการส่งสิ้นค้า <br> {{orderDetailByID[0].address}}</h1>
           </div>
 
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
