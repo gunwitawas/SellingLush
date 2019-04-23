@@ -9,6 +9,7 @@ import {OrderListInterface} from "./OrderList.interface";
 import {Validate} from "@shared/utillity/Validate";
 import {AppStorage} from "@shared/for-storage/universal.inject";
 import Swal from "sweetalert2";
+import {SweetAlertOption as SwalOpt} from "@shared/constance/SweetAlertOption";
 
 @Component({
   selector: 'app-order-online-report',
@@ -41,6 +42,26 @@ export class OrderOnlineReportComponent extends Validate implements OnInit {
       }
     });
     await this.initMainDetail();
+  }
+
+  async updateOrderStatus(orderId) {
+    Swal(SwalOpt.confirmUpdate).then(async (result: any) => {
+      if (result.value) {
+
+        let result: any = await this.service.updateOrderStatus({status: 'C', orderId: orderId});
+        if (result.affectedRows == 1) {
+          this.alertSuccess();
+          this.ngOnInit();
+        } else {
+          this.alertError();
+        }
+      }
+    });
+
+    let result: any = await this.service.updateOrderStatus({status: 'C', orderId: orderId});
+    if (result) {
+
+    }
   }
 
   async showDetail(i) {
