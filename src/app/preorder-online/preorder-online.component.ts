@@ -264,7 +264,7 @@ export class PreorderOnlineComponent implements OnInit {
       receive_status: 'N',
       receive_date: this.tranformDate(),
       netpay: this.sumNetpay,
-      address: this.address + ' : ' + this.province || '',
+      address: this.address ? this.address + ' : ' + this.province : '',
     };
     console.log(this.preOrderDetail);
 
@@ -350,7 +350,7 @@ export class PreorderOnlineComponent implements OnInit {
       this.priceOforderList = 0;
 
       this.orderListByID.map(async (obj, index) => {
-        this.priceOforderList += (obj.price * obj.qty);
+        this.priceOforderList += +(obj.price * obj.qty);
       })
       console.log(this.priceOforderList);
 

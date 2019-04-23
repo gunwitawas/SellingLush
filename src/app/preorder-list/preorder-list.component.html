@@ -107,7 +107,7 @@
             <td class="text-center">{{item.username}}</td>
             <td class="text-center">{{item.pre_date }}</td>
             <td class="text-center">{{item.receive_date}}</td>
-            <td class="text-center">{{item.netpay}}</td>
+            <td class="text-center">{{item.netpay| currency:' '}}</td>
             <td class="text-center">
 
 
@@ -135,7 +135,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-center">ราคารวม {{sumPrice}} บาท</td>
+            <td class="text-center">ราคารวม {{sumPrice| currency:' ' บาท</td>
             <td></td>
           </tr>
         </tbody>
@@ -180,7 +180,7 @@
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
                 <td>{{orderListByID[i].qty}}</td>
-                <td>{{orderListByID[i].qty * item.price}}</td>
+                <td>{{(orderListByID[i].qty * item.price) | currency:' '</td>
               </tr>
               <tr>
 
@@ -188,13 +188,15 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>รวม {{priceOforderList}} บาท</td>
+                <td>รวม {{priceOforderList| currency:' '}} บาท</td>
               </tr>
             </tbody>
           </table>
           <div *ngIf="orderDetailByID" style="width: 90%;" class="mx-auto">
             <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
               value="ที่อยู่ในการจัดส่ง : {{orderDetailByID[0].address.split(':')[0]}}"></textarea>
+            <textarea style="height: 100px;" readonly *ngIf="!orderDetailByID[0].address" class="form-control"
+              value="รับสินค้าด้วยตนเอง">รับสินค้าด้วยตนเองที่ :100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</textarea>
           </div>
         </div>
         <hr>
@@ -260,14 +262,14 @@
               <td>{{item.p_size}}</td>
               <td>{{item.mixer}}</td>
               <td>{{orderListByID[i].qty}}</td>
-              <td>{{orderListByID[i].qty * item.price}}</td>
+              <td>{{(orderListByID[i].qty * item.price)| currency:' '}}</td>
             </tr>
             <tr>
               <td></td>
               <td></td>
               <td></td>
               <td></td>
-              <td>รวม {{priceOforderList}} บาท</td>
+              <td>รวม {{priceOforderList| currency:' '}} บาท</td>
             </tr>
           </tbody>
         </table>

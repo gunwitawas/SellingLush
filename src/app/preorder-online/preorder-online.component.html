@@ -26,7 +26,7 @@
         <h6 class="card-title">ชื่อ : {{item.p_name}}</h6>
         <h6 class="card-title">ขนาด : {{item.p_size}}</h6>
         <h6 class="card-title">ไส้ : {{item.mixer}}</h6>
-        <h6 class="card-title">ราคา : {{item.price}}</h6>
+        <h6 class="card-title">ราคา : {{item.price| currency:' '}}</h6>
         <button class="btn btn-primary" type="button" data-toggle="modal" (click)="openModalAddTocart(item)">
           สั่งซื้อล่วงหน้า
         </button>
@@ -51,7 +51,7 @@
                   <h6 class="card-title">ชื่อ : {{item.p_name}}</h6>
                   <h6 class="card-title">ขนาด : {{item.p_size}}</h6>
                   <h6 class="card-title">ไส้ : {{item.mixer}}</h6>
-                  <h6 class="card-title">ราคา : {{item.price}}บาท/ชิ้น</h6>
+                  <h6 class="card-title">ราคา : {{item.price| currency:' '}}บาท/ชิ้น</h6>
 
                   <div class="row">
                     <div class="col-4">
@@ -66,7 +66,7 @@
                     </div>
                   </div>
                   <hr>
-                  <h6 *ngIf="sumPrice" class="card-title">ราคาทั้งหมด : {{sumPrice}} บาท</h6>
+                  <h6 *ngIf="sumPrice" class="card-title">ราคาทั้งหมด : {{sumPrice| currency:' '}} บาท</h6>
                   <button class="btn btn-primary" style="width: 100%" type="submit" data-toggle="modal"
                     (click)="addTocart(item)" [disabled]="!invalidAmont">
                     เพิ่มลงรถเข็น
@@ -100,7 +100,7 @@
           <td><button type="button" class="btn btn-primary fa fa-search" (click)="showOrderByPreId(item.pre_id)">
               {{item.pre_id}}</button></td>
           <td>{{item.pre_date}}</td>
-          <td>{{item.netpay}}</td>
+          <td>{{item.netpay| currency:' '}}</td>
           <td>
             <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N'"
               (click)="openModalUplpadPayMent(item)">ยังไม่ได้ชำระเงิน</button>
@@ -158,7 +158,7 @@
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
                 <td>{{item.amount}}</td>
-                <td>{{item.sumPrice}}</td>
+                <td>{{item.sumPrice| currency:' '}}</td>
                 <td><button type="button" class="btn btn-danger" (click)="deleteProductInCart(i)">ลบ</button></td>
               </tr>
               <tr>
@@ -277,14 +277,14 @@
                   <td>{{item.p_size}}</td>
                   <td>{{item.mixer}}</td>
                   <td>{{orderListByID[i].qty}}</td>
-                  <td>{{orderListByID[i].qty * item.price}}</td>
+                  <td>{{(orderListByID[i].qty * item.price)| currency:' '}}</td>
                 </tr>
                 <tr>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>รวม {{priceOforderList}} บาท</td>
+                  <td>รวม {{priceOforderList| currency:' '}} บาท</td>
                 </tr>
               </tbody>
             </table>
@@ -295,7 +295,7 @@
           </div>
 
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
-            <h1>ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList}} บาท</h1>
+            <h1>ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList| currency:' '}} บาท</h1>
             <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
               style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img">
             <div class="custom-file col-8" width="250">
@@ -349,7 +349,7 @@
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
                 <td>{{orderListByID[i].qty}}</td>
-                <td>{{orderListByID[i].qty * item.price}}</td>
+                <td>{{(orderListByID[i].qty * item.price)| currency:' '}}</td>
               </tr>
               <tr>
                 <td></td>
@@ -357,10 +357,17 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>รวม {{priceOforderList}} บาท</td>
+                <td>รวม {{priceOforderList| currency:' '}} บาท</td>
               </tr>
             </tbody>
+            
           </table>
+          <div *ngIf="orderDetailByID" style="width: 90%;" class="mx-auto">
+            <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
+              value="ที่อยู่ในการจัดส่ง : {{orderDetailByID[0].address.split(':')[0]}}"></textarea>
+            รับสินค้าด้วยตนเองที่ :100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160<br>
+            <iframe *ngIf="!orderDetailByID[0].address" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d761.50305596203!2d99.86549184213247!3d14.337871437691119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e24e80b11eae3d%3A0x31ad34e508cc3f6b!2z4LiW4LiZ4LiZIOC4oeC4suC4peC4seC4ouC5geC4oeC4mSDguJXguLPguJrguKUg4LiI4Lij4LmA4LiC4LmJ4Liq4Liy4Lih4Lie4Lix4LiZIOC4reC4s-C5gOC4oOC4rSDguK3guLnguYjguJfguK3guIcg4Liq4Li44Lie4Lij4Lij4LiT4Lia4Li44Lij4Li1!5e0!3m2!1sth!2sth!4v1556031765671!5m2!1sth!2sth" width="100%" height="200" frameborder="0" style="border:0" class="text-center" allowfullscreen></iframe>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
