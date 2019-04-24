@@ -186,10 +186,11 @@ export class CustomerComponent implements OnInit {
     this.objUser = item;
     const preOrderDetail: any = await this.preOrderService.getPreOrderDetail();
     this.preOrderDetail = preOrderDetail.content.filter((ress: any) => ress.username === item.username);
-    console.log(this.preOrderDetail);
+
     let orderList = await this.orderService.getOrderDetailByUsernameService({ username: item.username });
+    console.log(orderList);
     this.orderList = orderList;
-    console.log("32323",this.orderList);
+
     $('#orderByUsername').modal('show');
 
   }

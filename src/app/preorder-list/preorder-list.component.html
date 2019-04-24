@@ -179,8 +179,8 @@
                 <td>{{item.p_name}}</td>
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
-                <td>{{orderListByID[i].qty}}</td>
-                <td>{{(orderListByID[i].qty * item.price) | currency:' '</td>
+                <td>{{item.qty}}</td>
+                <td>{{(item.qty * item.price) | currency:' '}}</td>
               </tr>
               <tr>
 
@@ -261,8 +261,8 @@
               <td>{{item.p_name}}</td>
               <td>{{item.p_size}}</td>
               <td>{{item.mixer}}</td>
-              <td>{{orderListByID[i].qty}}</td>
-              <td>{{(orderListByID[i].qty * item.price)| currency:' '}}</td>
+              <td>{{item.qty}}</td>
+              <td>{{(item.qty * item.price)| currency:' '}}</td>
             </tr>
             <tr>
               <td></td>

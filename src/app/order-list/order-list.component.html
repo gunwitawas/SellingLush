@@ -109,7 +109,7 @@
                       <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
                         class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
                       </button>
-                      <button class="btn btn-sm btn-danger"><i
+                      <button class="btn btn-sm btn-danger" (click)="updateStatus(item.order_id,'C')"><i
                         class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
                       </button>
                     </div>

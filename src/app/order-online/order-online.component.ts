@@ -119,6 +119,7 @@ export class OrderOnlineComponent implements OnInit {
       let result:any = await this.service.insertOrderDetail(this.getPreOrderDetail());
       if (result.result) {
         $("#cartModal").modal('toggle');
+        console.log(this.saveForm.cartList);
         for(let m of this.saveForm.cartList){
           let r:any = await this.service.insertOrderList({
             order_id: result.order_id,
