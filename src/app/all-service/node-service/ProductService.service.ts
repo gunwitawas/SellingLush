@@ -15,6 +15,8 @@ export class ProductService {
   updateProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/updateProduct";
   insertProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/insertProduct";
   getProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getAllProduct";
+  getLatestProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getLatestProduct";
+  getBestSellerProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getBestSellerProduct";
   parameter: any = {
     params: {},
     responseType: "json"
@@ -35,6 +37,16 @@ export class ProductService {
 
   async getProduct() {
     let result = await this.http.get(this.getProductServicePath).toPromise();
+    return result;
+  }
+
+  async getLatestProduct() {
+    let result = await this.http.get(this.getLatestProductServicePath).toPromise();
+    return result;
+  }
+
+  async getBestSellerProduct() {
+    let result = await this.http.get(this.getBestSellerProductServicePath).toPromise();
     return result;
   }
 

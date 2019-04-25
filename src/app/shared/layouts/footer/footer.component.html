@@ -1,7 +1,7 @@
 <footer>
-    <span class="footer__left">Angular RU Universal Starter</span>
+    <span class="footer__left">ข้าวหลามดาบเล็ก</span>
 
-    <a *ngFor="let item of tMe" [href]="item.link" rel="nofollow">
-        <img [src]="item.src" [alt]="item.alt">
+    <a *ngFor="let item of tMe" >
+        <span class="badge badge-info">{{item.alt}} : {{item.link}}</span>
     </a>
 </footer>

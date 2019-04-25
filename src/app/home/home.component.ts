@@ -6,6 +6,8 @@ import {MetaService} from '@ngx-meta/core';
 import {UniversalStorage} from "@shared/for-storage/server.storage";
 import {UserService} from "../all-service/node-service/UserService.service";
 import Swal from 'sweetalert2'
+import {ProductService} from "../all-service/node-service/ProductService.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -15,8 +17,10 @@ export class HomeComponent implements OnInit {
   constructor(
     private storage: UniversalStorage,
     private http: TransferHttpService,
+    private _sanitizer: DomSanitizer,
     private readonly meta: MetaService,
     private service: UserService,
+    private productService: ProductService,
     @Inject(AppStorage) private appStorage: Storage,
   ) {
   }
@@ -43,6 +47,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadImage();
+    this.getLatestProduct();
+    this.getBestSellerProduct();
   }
 
 
@@ -63,6 +69,26 @@ export class HomeComponent implements OnInit {
         self.base64Img = reader.result;
       });
     });
+  }
+
+  latestProductList : any = [];
+
+  getImgPath(base64str: any) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + base64str);
+  }
+  async getLatestProduct() {
+    let result: any = await this.productService.getLatestProduct();
+    if (result.result) {
+      this.latestProductList = result.content;
+    }
+  }
+  bestSellerProduct : any = [];
+  async getBestSellerProduct() {
+    let result: any = await this.productService.getBestSellerProduct();
+    if (result.result) {
+      this.bestSellerProduct = result.content;
+    }
   }
 
   async login() {

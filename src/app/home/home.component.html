@@ -3,9 +3,6 @@
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
-<div align="center">
-  <marquee class="bg-info"> <h4 class="font-weight-bold">สินค้าใหม่</h4> </marquee>
-</div>
 <img src="../../assets/img/ข้าวหลาม.png" style="width: 100%; height: auto;">
 <br>
 <div class="row" style="margin-top: 5px;">
@@ -18,7 +15,53 @@
               data-target="#mapModal">Google Map
       </button>
     </div>
+
+    <div class="card" style="margin-top:10px;">
+      <div class="card-header bg-white">
+        <div align="center">
+          <marquee><h4 class="font-weight-bold"><img src="https://www.animatedgif.net/new/nunew_e0.gif"> <label
+            class="badge badge-danger">สินค้าใหม่ </label></h4></marquee>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <ng-template ngFor let-item [ngForOf]="latestProductList" let-i="index">
+            <div class="col-4">
+              <div class="card bg-warning">
+                <div class="card-body"><h4 class="text-center"><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
+                <img class="card-img-bottom" [src]="getImgPath(item.p_img)" height="270">
+                <small class="text-danger">*กรุณาสมัครชิกก่อนซื้อสินค้า</small>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:10px;">
+      <div class="card-header bg-white">
+        <div align="center">
+          <marquee><h4 class="font-weight-bold"><img src="http://www.uthaithani.go.th/webuthai2017/images/top-seller-icon.png" width="50"> <label
+            class="badge badge-primary">สินค้าขายดี </label></h4></marquee>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <ng-template ngFor let-item [ngForOf]="bestSellerProduct" let-i="index">
+            <div class="col-4">
+              <div class="card bg-success">
+                <div class="card-body"><h4 class="text-center"><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
+                <img class="card-img-bottom" [src]="getImgPath(item.p_img)" height="270">
+                <small class="text-danger">*กรุณาสมัครชิกก่อนซื้อสินค้า</small>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </div>
 <!-- Button trigger modal -->
 <!-- Modal -->
