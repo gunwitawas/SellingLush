@@ -97,6 +97,8 @@ export class OrderOnlineReportComponent extends Validate implements OnInit {
   async setOrderDetail(params) {
     let result: any = await this.service.getOrderDetailByID({order_id: params.order_id});
     this.currentOrder = result;
+    console.log(this.currentOrder);
+    
     if (this.currentOrder.orderDetail.pay_img) {
       this.flag.isEdit = true;
       this.uploadImg = this.getImgPath(this.currentOrder.orderDetail.pay_img);

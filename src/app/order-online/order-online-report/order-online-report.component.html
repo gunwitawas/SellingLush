@@ -126,7 +126,7 @@
           <th>ขนาด</th>
           <th>ราคา</th>
           <th>จำนวนที่สั่ง</th>
-          <th>ยกเลิกสินค้า</th>
+          <!-- <th>ยกเลิกสินค้า</th> -->
         </tr>
         </thead>
         <tbody>
@@ -136,11 +136,11 @@
             <img [src]="getImgPath(item.p_img)" width="125" height="70"></td>
           <td> {{item.mixer}}</td>
           <td class="text-center"> {{item.p_size}}</td>
-          <td> {{item.price}}</td>
+          <td> {{item.price* item.qty}}</td>
           <td> {{item.qty}}</td>
-          <td class="text-center">
+          <!-- <td class="text-center">
             <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-          </td>
+          </td> -->
         </tr>
         </tbody>
         <tfoot>
@@ -173,6 +173,17 @@
               </div>
             </div>
             <hr>
+            <br>
+            <strong>ช่องทางการชำระเงิน</strong><hr>      
+            
+             พร้อมเพย์ : 090-9864499<br>
+              ธนาคารกสิกรไทย : 0273974687<br>
+              นางสาวพรนัชชา กลิ่นเกษตรวิทย์<hr>
+              พร้อมเพย์ : 095-4944951<br>
+              ธนาคารกรุงไทย : 7250257404<br>
+              อรวรรณ พิบูลย์<hr>
+
+            
             <strong>เงื่อนไขการชำระเงิน</strong>
             <ol>
               <li>รายการจะถูกยกเลิกเมื่อรายการไม่ได้ชำระเงินภายใน 2 ชม.</li>

@@ -57,6 +57,8 @@ export class OrderOnlineComponent implements OnInit {
     let result: any = await this.service.getProductStore({});
     if (result.result) {
       this.productStoreList = result.content;
+      console.log(this.productStoreList );
+      
     }
   }
 
@@ -104,7 +106,7 @@ export class OrderOnlineComponent implements OnInit {
     this.saveForm.totalQty = 0;
     this.saveForm.cartList.map(m => {
       console.log(m);
-      this.saveForm.totalPrice += Number(m.price)
+      this.saveForm.totalPrice += Number(m.price*m.selectedNum)
       this.saveForm.totalQty += Number(m.selectedNum)
     })
   }
@@ -125,9 +127,9 @@ export class OrderOnlineComponent implements OnInit {
             order_id: result.order_id,
             p_id: m.p_id,
             qty: m.selectedNum,
-            price: m.price
+            price: m.price*m.selectedNum
           })
-        console.log(r);
+        console.log("asdasdsad",r);
         }
         await this.router.navigate(['/order-online/report', {order_id:result.order_id}]);
       } else {

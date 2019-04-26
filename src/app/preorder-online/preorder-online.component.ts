@@ -52,6 +52,7 @@ export class PreorderOnlineComponent implements OnInit {
   private province: string;
   private address: string;
   private checkAddress: boolean = false;
+  delivery: string;
 
   private provinceList = ['สุพรรณบุรี', 'นครปฐม', 'กาญจนบุรี', 'อ่างทอง', 'ชัยนาท'];
   private preOrderList: {
@@ -66,7 +67,8 @@ export class PreorderOnlineComponent implements OnInit {
     receive_status: string,
     receive_date: string,
     netpay: number,
-    address: string
+    address: string,
+    delivery: string
   }
   private receiveDateForm = {
     selectedDate: new Date()
@@ -265,6 +267,7 @@ export class PreorderOnlineComponent implements OnInit {
       receive_date: this.tranformDate(),
       netpay: this.sumNetpay,
       address: this.address ? this.address + ' : ' + this.province : '',
+      delivery : this.sumAmount > 10 ? 'N' : 'Y'
     };
     console.log(this.preOrderDetail);
 
@@ -341,6 +344,8 @@ export class PreorderOnlineComponent implements OnInit {
     if (OrderDetail.content) {
       this.orderDetailByID = await OrderDetail.content.filter((result: any) => result.pre_id == preId);
     }
+    console.log(this.orderDetailByID[0].delivery);
+    this.delivery = this.orderDetailByID[0].delivery;
     this.userAccount = await this.accountService.getUserAccount(this.orderDetailByID[0].username);
 
 
@@ -351,8 +356,11 @@ export class PreorderOnlineComponent implements OnInit {
 
       this.orderListByID.map(async (obj, index) => {
         this.priceOforderList += +(obj.price * obj.qty);
+
       })
       console.log(this.priceOforderList);
+      console.log(this.delivery);
+
 
       if (remark !== 'hide') {
         $('#listOrder').modal('show');

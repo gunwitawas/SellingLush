@@ -195,7 +195,7 @@
                       วันที่สั่งสินค้า
                     </th>
                     <th>
-                      วันที่รับสินค้า
+                      จัดการสถานะโดย
                     </th>
                     <th>
                       ราคา
@@ -208,7 +208,7 @@
                 <tbody>
                   <tr *ngFor="let item of orderList" id="accordion" class="rounded">
                     <td class="text-center">P{{item.order_id}}</td>
-                    <td class="text-center">{{item.order_date }}</td>
+                    <td class="text-center">{{item.order_date| date:'d/M/yyyy' }}</td>
                     <td class="text-center">{{item.pay_by}}</td>
                     <td class="text-center">{{item.net_pay| currency:' '}}</td>
                     <td class="text-center">

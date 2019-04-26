@@ -3,6 +3,29 @@
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
+
+<div class="card" style="margin-top:10px;">
+  <div class="card-header bg-white">
+    <div align="center">
+      <marquee><h4 class="font-weight-bold"><img src=""> <label
+        class="badge badge-info">จำหน่ายสินค้า วันจันทร์-วันอาทิตย์ เวลา 08:00-17:00 ที่อยู่ร้าน 100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</label></h4></marquee>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <ng-template ngFor let-item [ngForOf]="latestProductList" let-i="index">
+        <div class="col-4">
+          <div class="card bg-warning">
+            <div class="card-body"><h4 class="text-center"><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
+            <img class="card-img-bottom" [src]="getImgPath(item.p_img)" height="270">
+            <small class="text-danger">*กรุณาสมัครชิกก่อนซื้อสินค้า</small>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
 <img src="../../assets/img/ข้าวหลาม.png" style="width: 100%; height: auto;">
 <br>
 <div class="row" style="margin-top: 5px;">

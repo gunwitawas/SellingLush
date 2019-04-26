@@ -194,13 +194,13 @@
         <hr>
         <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
         <p>
-            หากสินค้าของท่านมากกว่า 10 ชิ้นเป็นต้นไปสามารถจัดส่งได้ในบริเวณจังหวัดไกล้เคียง
+            หากท่านต้องการส่งสินค้าต่ำกว่า 10 ชิ้นท่านต้องเสียค่าส่งสินค้า 150 บาท
           </p>
         </div>
         <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
           
           <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" [(ngModel)]="checkAddress" (click)="clickCheckAddress()" id="customSwitch1" [disabled]="sumAmount < 10" >
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="checkAddress" (click)="clickCheckAddress()" id="customSwitch1" >
             <label class="custom-control-label" for="customSwitch1">บริการจัดส่งสินค้า</label>
           </div>
         </div><br>
@@ -295,9 +295,23 @@
           </div>
 
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
-            <h1>ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList| currency:' '}} บาท</h1>
-            <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
-              style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img">
+            <h3>ค่าสินค้าทั้งหมด {{priceOforderList| currency:' '}} บาท</h3>
+            <h3 *ngIf="delivery == 'N'"> ไม่เสียค่าส่ง</h3>
+            <h3 *ngIf="delivery == 'Y'"> ค่าขนส่ง 150 บาท</h3>
+            <h2 *ngIf="delivery == 'N'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList| currency:' '}} บาท</h2>
+            <h2 *ngIf="delivery == 'Y'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{(priceOforderList + 150)| currency:' '}} บาท</h2>
+            <hr>
+            <br>
+            <h3>ช่องทางการชำระเงิน</h3>     <hr>
+            <h4>พร้อมเพย์ : 090-9864499</h4>
+            <h4>ธนาคารกสิกรไทย : 0273974687</h4>
+            <h5>นางสาวพรนัชชา กลิ่นเกษตรวิทย์</h5><hr>
+            <h4>พร้อมเพย์ : 095-4944951</h4>
+            <h4>ธนาคารกรุงไทย : 7250257404</h4>
+            <h5>อรวรรณ พิบูลย์</h5><br>
+            
+            <!-- <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
+              style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img"> -->
             <div class="custom-file col-8" width="250">
               <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
                 accept=".png,.jpg,.jpeg"><br>
