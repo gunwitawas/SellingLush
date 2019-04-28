@@ -66,7 +66,7 @@
                     </div>
                   </div>
                   <hr>
-                  <h6 *ngIf="sumPrice" class="card-title">ราคาทั้งหมด : {{sumPrice| currency:' '}} บาท</h6>
+                  <h6 *ngIf="sumPrice" class="card-title">ราคาทั้งหมด : {{sumPrice | currency:' '}} บาท</h6>
                   <button class="btn btn-primary" style="width: 100%" type="submit" data-toggle="modal"
                     (click)="addTocart(item)" [disabled]="!invalidAmont">
                     เพิ่มลงรถเข็น
@@ -102,11 +102,11 @@
           <td>{{item.pre_date}}</td>
           <td>{{item.netpay| currency:' '}}</td>
           <td>
-            <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N'"
+            <button type="button" class="btn btn-danger" *ngIf="item.payment_status == 'N' "
               (click)="openModalUplpadPayMent(item)">ยังไม่ได้ชำระเงิน</button>
-            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W'"
+            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W' "
               (click)="openModalUplpadPayMent(item)">รอยืนยันการชำระเงิน</button>
-            <button type="button" class="btn btn-info" *ngIf="item.payment_status == 'Y'"
+            <button type="button" class="btn btn-info" *ngIf="item.payment_status == 'Y' "
               (click)="openModalUplpadPayMent(item)">ชำระเงินแล้ว</button>
             <button type="button" class="btn btn-primary" *ngIf="item.payment_status == 'S'"
               disabled>ได้รับสินค้าแล้ว</button>

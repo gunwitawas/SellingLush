@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {ObjectUtil as util} from "../shared/utillity/ObjectUtil";
 import Swal from 'sweetalert2'
 import {ProductService} from "../all-service/node-service/ProductService.service";
+import {Validate} from "@shared/utillity/Validate";
 
 @Component({
   selector: 'app-transfer-back',
@@ -35,7 +36,9 @@ export class ProductComponent implements OnInit {
     p_size: "",
     price: "",
     mixer: "",
-    p_img: ""
+    p_img: "",
+    limitedFlag: false,
+    expireDate : new Date()
   };
 
   constructor(
@@ -48,6 +51,24 @@ export class ProductComponent implements OnInit {
   ) {
     console.log(`ORIGIN_URL=${baseUrl}`);
   }
+  checkExpireDate(){
+    let currentDate = new Date();
+    let expireDate = new Date(this.newProduct.expireDate);
+
+
+  }
+
+  private checkPreorderDate(event: Date) {
+    let sumdayDate = Validate.getDateDiff(event);
+    console.log(sumdayDate);
+    let isMoreThanDate = sumdayDate >= 1;
+    let isMoreThanMonth = sumdayDate <= 30;
+    if ( !(sumdayDate >= 1 && sumdayDate < 31)) {
+      Swal('Warning', 'กรุณากำหนดวันที่ล่วงหน้าอย่างน้อย 1 วัน', 'warning');
+      this.newProduct.expireDate = new Date()
+    }
+  }
+
 
   ngOnInit(): void {
     this.uploadImg = "../../assets/icon/upload.png";

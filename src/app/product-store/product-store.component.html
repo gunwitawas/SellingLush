@@ -63,13 +63,13 @@
                 [min]="item.stockQty"
                 id="saleQty{{i}}"
                 name="saleQty{{i}}"
-                [(ngModel)]="resultList[i].stockQty + resultList[i].saleQty "><!--<label class="badge badge-success">{{item.saleQty}}</label>-->
+                [(ngModel)]="resultList[i].stockQty"><!--<label class="badge badge-success">{{item.saleQty}}</label>-->
               <ng-container *ngIf="item.stockQty < item.saleQty || item.stockQty==0">
                 <br>
                 <small> {{ "warning-fill-amount" | translate}}</small>
               </ng-container>
 
-              (คงเหลือ {{resultList[i].stockQty}})
+              (คงเหลือ {{resultList[i].stockQty-resultList[i].saleQty}})
             </td>
             <td class="text-center">
               <div class="btn-group">

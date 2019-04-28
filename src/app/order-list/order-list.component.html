@@ -83,6 +83,7 @@
                       <th>ขนาด</th>
                       <th>จำนวน</th>
                       <th>ราคา</th>
+                      <th>รวม</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -94,12 +95,13 @@
                       <td class="text-center">{{list.mixer}}</td>
                       <td class="text-center">{{list.p_size}}</td>
                       <td>{{list.qty}}</td>
-                      <td>{{list.price}}</td>
+                      <td>{{list.price | currency:'  '}}</td>
+                      <td>{{list.price * list.qty | currency:'  '}}</td>
                     </tr>
                     <tr>
                       <td colspan="4" class="text-right">รวม</td>
-                      <td>{{orderList[expandIndex].totalQty}}</td>
-                      <td>{{orderList[expandIndex].totalPrice}}</td>
+                      <td>{{orderList[expandIndex].totalQty +' ชิ้น'}}</td>
+                      <td colspan="2">{{totalExpandIndex | currency:'  '}} {{' บาท'}}</td>
 
                     </tr>
                     </tbody>

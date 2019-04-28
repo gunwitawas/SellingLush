@@ -49,9 +49,12 @@ export class OrderListComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
   }
-
+ totalExpandIndex = 0;
   async showDetail(i) {
     this.expandIndex = this.expandIndex == i ? 9999 : i;
+    this.orderList[this.expandIndex].orderList.forEach(f=>{
+      this.totalExpandIndex += (f.price*f.qty);
+    })
   }
 
   async showReport(i) {

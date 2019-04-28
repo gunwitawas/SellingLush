@@ -8,38 +8,40 @@
     <div class="card-body">
       <table class="table table-bordered">
         <thead>
-          <th>{{"id" | translate}}</th>
-          <th>{{ "name" | translate}}</th>
-          <th>{{ "minimum-cost"| translate}}</th>
-          <th>{{"maximum-cost" | translate}}</th>
-          <th>{{ "size" | translate}}</th>
-          <th>{{ "mixer"| translate}}</th>
+        <th>{{"id" | translate}}</th>
+        <th>{{ "name" | translate}}</th>
+        <th>{{ "minimum-cost"| translate}}</th>
+        <th>{{"maximum-cost" | translate}}</th>
+        <th>{{ "size" | translate}}</th>
+        <th>{{ "mixer"| translate}}</th>
         </thead>
         <tbody>
-          <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
-          <td><input class="form-control" name="searchName" id="searchName" [(ngModel)]="searchForm.p_name"></td>
-          <td>
-            <input class="form-control" name="searchMin" id="searchMin" [(ngModel)]="searchForm.minPrice"></td>
-          <td>
-            <input class="form-control" name="searchMax" id="searchMax" [(ngModel)]="searchForm.maxPrice">
-          </td>
-          <td>
-            <select class="custom-select" name="searchSize" id="searchSize" [(ngModel)]="searchForm.p_size">
-              <option value=""></option>
-              <option value="S">{{ "small" | translate}}</option>
-              <option value="M">{{ "medium" | translate}}</option>
-              <option value="L">{{ "big" | translate}}</option>
-            </select>
-          </td>
-          <td>
-            <input class="form-control" name="searchMix" id="searchMix" [(ngModel)]="searchForm.mixer"></td>
+        <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
+        <td><input class="form-control" name="searchName" id="searchName" [(ngModel)]="searchForm.p_name"></td>
+        <td>
+          <input class="form-control" name="searchMin" id="searchMin" [(ngModel)]="searchForm.minPrice"></td>
+        <td>
+          <input class="form-control" name="searchMax" id="searchMax" [(ngModel)]="searchForm.maxPrice">
+        </td>
+        <td>
+          <select class="custom-select" name="searchSize" id="searchSize" [(ngModel)]="searchForm.p_size">
+            <option value=""></option>
+            <option value="S">{{ "small" | translate}}</option>
+            <option value="M">{{ "medium" | translate}}</option>
+            <option value="L">{{ "big" | translate}}</option>
+          </select>
+        </td>
+        <td>
+          <input class="form-control" name="searchMix" id="searchMix" [(ngModel)]="searchForm.mixer"></td>
         </tbody>
       </table>
     </div>
     <div class="card-footer">
       <button class="btn btn-info" type="submit" (click)="search()">{{ "search" | translate}}</button>
-      <button class="btn btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">{{"reset" | translate}}</button>
-      <button class="btn btn-primary" type="button" style="margin-left: 10px" data-toggle="modal" data-target="#uploadModal">
+      <button class="btn btn-defualt" type="button" (click)="clear()"
+              style="margin-left: 10px">{{"reset" | translate}}</button>
+      <button class="btn btn-primary" type="button" style="margin-left: 10px" data-toggle="modal"
+              data-target="#uploadModal">
         {{"add-new-product"  | translate}}
       </button>
     </div>
@@ -59,7 +61,7 @@
 
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="productList[i].p_id"
-                         [disabled]="true" >
+                         [disabled]="true">
                 </td>
 
               </tr>
@@ -115,16 +117,19 @@
           </div>
           <!--*ngIf="productList[i].isEdit"-->
           <div class="pull-right">
-            <button *ngIf="!productList[i].isEdit" (click)="edit(i)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i>
+            <button *ngIf="!productList[i].isEdit" (click)="edit(i)" class="btn btn-sm btn-info"><i
+              class="fa fa-edit"></i>
               {{ "edit" | translate}}
             </button>
 
-            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-warning" (click)="cancel(i)"><i class="fa fa-times"></i>
+            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-warning" (click)="cancel(i)"><i
+              class="fa fa-times"></i>
               {{ "cancel-edit" | translate}}
             </button>
 
-            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-primary" (click)="save(i)" style="margin-left: 10px;"><i
-                class="fa fa-save"></i> {{ "save" | translate}}
+            <button *ngIf="productList[i].isEdit" class="btn btn-sm btn-primary" (click)="save(i)"
+                    style="margin-left: 10px;"><i
+              class="fa fa-save"></i> {{ "save" | translate}}
             </button>
 
           </div>
@@ -156,13 +161,15 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="idInput">{{ "id" | translate}}</label>
-              <input type="text" class="form-control" id="idInput" name="idInput" [(ngModel)]="newProduct.p_id" required>
+              <input type="text" class="form-control" id="idInput" name="idInput" [(ngModel)]="newProduct.p_id"
+                     required>
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="nameInput">{{ "name" | translate}}</label>
-              <input type="text" class="form-control" id="nameInput" name="nameInput" [(ngModel)]="newProduct.p_name" required>
+              <input type="text" class="form-control" id="nameInput" name="nameInput" [(ngModel)]="newProduct.p_name"
+                     required>
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
@@ -177,14 +184,32 @@
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <div class="form-group">
               <label for="priceInput">{{ "price" | translate}}</label>
-              <input type="number" class="form-control" id="priceInput" name="priceInput" [(ngModel)]="newProduct.price" required>
+              <input type="number" class="form-control" id="priceInput" name="priceInput" [(ngModel)]="newProduct.price"
+                     required>
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <div class="form-group">
               <label for="mixerInput"> {{ "mixer" | translate}} </label>
-              <input type="text" class="form-control" id="mixerInput"  name="mixerInput" [(ngModel)]="newProduct.mixer" required>
+              <input type="text" class="form-control" id="mixerInput" name="mixerInput" [(ngModel)]="newProduct.mixer"
+                     required>
             </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+            <div class="form-group">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="limitedFlag" [(ngModel)]="newProduct.limitedFlag">
+                <label class="custom-control-label" for="limitedFlag"> เมนู Limited </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+            <label for="expireDate"> วันที่สิ้นสุดการวางขาย </label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="newProduct.expireDate" (ngModelChange)="checkPreorderDate($event)" [disabled]="!newProduct.limitedFlag" >
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
           </div>
         </div>
 
@@ -192,7 +217,8 @@
           <img class="rounded" [src]="uploadImg" width="250" height="250"><br>
           <p class="text-left">{{ "add-image" | translate}}</p>
           <div class="custom-file" width="250">
-            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput" accept=".png,.jpg,.jpeg">
+            <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
+                   accept=".png,.jpg,.jpeg">
             <label class="custom-file-label" for="uploadInput">{{ "select-image" | translate}}</label>
           </div>
         </div>
@@ -200,7 +226,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="addNewProduct()"> {{ "add-new-product" | translate}}</button>
+        <button type="button" class="btn btn-primary"
+                (click)="addNewProduct()"> {{ "add-new-product" | translate}}</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ "close" | translate}}</button>
 
       </div>
