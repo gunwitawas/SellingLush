@@ -35,7 +35,9 @@
         </div>
       </div>
       <div class="card-body">
+        <div *ngIf="latestProductList.length<0" class="text-danger">*ยังไม่มีสินค้าพิเศษตอนนี้</div>
         <div class="row">
+
           <ng-template ngFor let-item [ngForOf]="latestProductList" let-i="index">
             <div class="col-4">
               <div class="card bg-warning">
