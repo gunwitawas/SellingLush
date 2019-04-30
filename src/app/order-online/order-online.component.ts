@@ -8,6 +8,7 @@ import {ObjectUtil} from "@shared/utillity/ObjectUtil";
 import {DomSanitizer} from "@angular/platform-browser";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
+import {Validate} from "@shared/utillity/Validate";
 
 @Component({
   selector: 'app-transfer-back',
@@ -53,6 +54,10 @@ export class OrderOnlineComponent implements OnInit {
     await this.checkUnpaidOrder();
   }
 
+  getDiffDate(date){
+    return Validate.getDateDiff(date);
+
+  }
   async getCurrentProductStore() {
     let result: any = await this.service.getProductStore({});
     if (result.result) {

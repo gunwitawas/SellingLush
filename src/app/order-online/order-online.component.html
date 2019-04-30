@@ -109,6 +109,9 @@
                 <div class="table-responsive">
                   <table class="table table-striped table-hover ">
                     <thead class="text-right">
+                    <tr *ngIf="item.limited_flag=='Y'">
+                      <td class="text-center" colspan="2"><h5><label class="badge badge-danger"> สินค้า Limited เหลือเวลาจำหน่าย {{getDiffDate(item.expire_date)}} วัน</label></h5> </td>
+                    </tr>
                     <tr>
                       <td>รหัส</td>
                       <td>
@@ -146,6 +149,9 @@
                       <td>
                         {{item.stockQty}}
                       </td>
+                    </tr>
+                    <tr>
+
                     </tr>
                     </thead>
                   </table>

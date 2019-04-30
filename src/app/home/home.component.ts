@@ -8,6 +8,7 @@ import {UserService} from "../all-service/node-service/UserService.service";
 import Swal from 'sweetalert2'
 import {ProductService} from "../all-service/node-service/ProductService.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Validate} from "@shared/utillity/Validate";
 
 @Component({
   selector: 'app-home',
@@ -82,6 +83,11 @@ export class HomeComponent implements OnInit {
     if (result.result) {
       this.latestProductList = result.content;
     }
+  }
+
+  getDiffDate(date){
+    return Validate.getDateDiff(date);
+
   }
   bestSellerProduct : any = [];
   async getBestSellerProduct() {

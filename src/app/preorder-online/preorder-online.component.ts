@@ -318,6 +318,10 @@ export class PreorderOnlineComponent implements OnInit {
 
   }
 
+  getDiffDate(date){
+    return Validate.getDateDiff(date);
+
+  }
   private getCurrentDate() {
     let todayDate = new Date();
     let currentDay = todayDate.getDate();

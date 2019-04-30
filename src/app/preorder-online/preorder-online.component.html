@@ -27,6 +27,8 @@
         <h6 class="card-title">ขนาด : {{item.p_size}}</h6>
         <h6 class="card-title">ไส้ : {{item.mixer}}</h6>
         <h6 class="card-title">ราคา : {{item.price| currency:' '}}</h6>
+        <span *ngIf="item.limited_flag=='Y'" class="card-title"> <label class="badge badge-danger"> สินค้า Limited เหลือเวลาจำหน่าย {{getDiffDate(item.expire_date)}} วัน</label></span>
+
         <button class="btn btn-primary" type="button" data-toggle="modal" (click)="openModalAddTocart(item)">
           สั่งซื้อล่วงหน้า
         </button>
@@ -52,7 +54,6 @@
                   <h6 class="card-title">ขนาด : {{item.p_size}}</h6>
                   <h6 class="card-title">ไส้ : {{item.mixer}}</h6>
                   <h6 class="card-title">ราคา : {{item.price| currency:' '}}บาท/ชิ้น</h6>
-
                   <div class="row">
                     <div class="col-4">
                       <h6>จำนวน</h6>

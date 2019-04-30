@@ -11,20 +11,8 @@
         class="badge badge-info">ข้าวร้านดาบอ๊อด ที่อยู่ร้าน 100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</label></h4>
     </div>
   </div>
-  <div class="card-body">
-    <div class="row">
-      <ng-template ngFor let-item [ngForOf]="latestProductList" let-i="index">
-        <div class="col-4">
-          <div class="card bg-warning">
-            <div class="card-body"><h4 class="text-center"><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
-            <img class="card-img-bottom" [src]="getImgPath(item.p_img)" height="270">
-            <small class="text-danger">*กรุณาสมัครชิกก่อนซื้อสินค้า</small>
-          </div>
-        </div>
-      </ng-template>
-    </div>
-  </div>
 </div>
+
 
 <img src="../../assets/img/ข้าวหลาม.png" style="width: 100%; height: auto;">
 <br>
@@ -43,7 +31,7 @@
       <div class="card-header bg-white">
         <div align="center">
           <marquee><h4 class="font-weight-bold"><img src="https://www.animatedgif.net/new/nunew_e0.gif"> <label
-            class="badge badge-danger">สินค้าใหม่ </label></h4></marquee>
+            class="badge badge-danger">สินค้าใหม่ จำนวนจำกัด </label></h4></marquee>
         </div>
       </div>
       <div class="card-body">
@@ -53,7 +41,8 @@
               <div class="card bg-warning">
                 <div class="card-body"><h4 class="text-center"><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
                 <img class="card-img-bottom" [src]="getImgPath(item.p_img)" height="270">
-                <small class="text-danger">*กรุณาสมัครชิกก่อนซื้อสินค้า</small>
+               <h4 class="text-center"> <label class="badge badge-danger"> สินค้ามีให้สั่งจองและสั่งซื้อจนถึง {{item.expire_date | date:'M/d/yy'}}</label></h4>
+             <span>*เหลือเวลาจำหน่าย {{getDiffDate(item.expire_date)}} วัน</span>
               </div>
             </div>
           </ng-template>
@@ -73,7 +62,7 @@
           <ng-template ngFor let-item [ngForOf]="bestSellerProduct" let-i="index">
             <div class="col-4">
               <div class="card bg-success">
-                <div class="card-body"><h4 class="text-center"><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
+                <div class="card-body"><h4 class="text-center"><label class="badge badge-dark">{{'ขายดีอันดับที่ '+(i+1) }}</label><label class="badge badge-primary">{{item.p_name}}</label></h4> </div>
                 <img class="card-img-bottom" [src]="getImgPath(item.p_img)" height="270">
                 <small class="text-danger">*กรุณาสมัครชิกก่อนซื้อสินค้า</small>
               </div>
