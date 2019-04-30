@@ -267,7 +267,7 @@ export class PreorderOnlineComponent implements OnInit {
       receive_date: this.tranformDate(),
       netpay: this.sumNetpay,
       address: this.address ? this.address + ' : ' + this.province : '',
-      delivery : this.sumAmount > 10 ? 'N' : 'Y'
+      delivery : this.sumAmount > 20 ? 'N' : 'Y'
     };
     console.log(this.preOrderDetail);
 

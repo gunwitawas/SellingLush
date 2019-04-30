@@ -195,7 +195,7 @@
         <hr>
         <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
         <p>
-            หากท่านต้องการส่งสินค้าต่ำกว่า 10 ชิ้นท่านต้องเสียค่าส่งสินค้า 150 บาท
+            หากท่านต้องการส่งสินค้าต่ำกว่า 20 ชิ้นท่านต้องเสียค่าส่งสินค้า 150 บาท
           </p>
         </div>
         <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
@@ -298,9 +298,9 @@
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
             <h3>ค่าสินค้าทั้งหมด {{priceOforderList| currency:' '}} บาท</h3>
             <h3 *ngIf="delivery == 'N'"> ไม่เสียค่าส่ง</h3>
-            <h3 *ngIf="delivery == 'Y'"> ค่าขนส่ง 150 บาท</h3>
+            <h3 *ngIf="delivery == 'Y'"> ค่าขนส่ง 100 บาท</h3>
             <h2 *ngIf="delivery == 'N'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList| currency:' '}} บาท</h2>
-            <h2 *ngIf="delivery == 'Y'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{(priceOforderList + 150)| currency:' '}} บาท</h2>
+            <h2 *ngIf="delivery == 'Y'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{(priceOforderList + 100)| currency:' '}} บาท</h2>
             <hr>
             <br>
             <h3>ช่องทางการชำระเงิน</h3>     <hr>
