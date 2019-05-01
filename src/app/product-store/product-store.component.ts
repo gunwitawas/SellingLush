@@ -22,19 +22,20 @@ export class ProductStoreComponent implements OnInit {
     private doms: DomSanitizer,
     private service: ProductStoreService,
     private serviceProduct: ProductService,
+    private _sanitizer: DomSanitizer,
     @Inject(AppStorage) private appStorage: Storage,
     @Inject('ORIGIN_URL') public baseUrl: string,
   ) {
 
   }
 
-  resultList: ProductStoreInterface[] = [new ProductStoreInterface()] as ProductStoreInterface[];
-  tempList: ProductStoreInterface[];
+  resultList: any = [];
+  tempList: any = [];
   productList: any = [];
 
 
-  searchForm:any = {
-    selectedDate:""
+  searchForm: any = {
+    selectedDate: ""
   };
 
   enableToAdjust: boolean;
@@ -42,10 +43,14 @@ export class ProductStoreComponent implements OnInit {
 
   async ngOnInit() {
     this.searchForm.selectedDate = new Date();
-    console.log(this.searchForm.selectedDate.getDate());
     await this.search();
-    let result:any = await this.serviceProduct.getProduct();
+    let result: any = await this.serviceProduct.getAvailableProduct();
     this.productList = result.content;
+  }
+
+  getImgPath(base64str: any) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + base64str);
   }
 
   async initResultList() {
@@ -53,7 +58,7 @@ export class ProductStoreComponent implements OnInit {
   }
 
   async search() {
-    this.resultList =[];
+    this.resultList = [];
     this.editMode = false;
     this.enableToAdjust = Validate.gteDate(this.searchForm.selectedDate, new Date());
     console.log(this.enableToAdjust);
@@ -87,6 +92,7 @@ export class ProductStoreComponent implements OnInit {
     if (this.isValidProduct(selected_p_id)) {
       if (this.isDuplicateProduct(selected_p_id)) {
         this.resultList[i].p_name = this.productList.filter(f => f.p_id == selected_p_id)[0].p_name;
+        this.resultList[i].p_img = this.productList.filter(f => f.p_id == selected_p_id)[0].p_img;
       } else {
         await this.alertDuplicateProductId();
         valid = false;
@@ -114,7 +120,7 @@ export class ProductStoreComponent implements OnInit {
   }
 
   addNew() {
-    this.editMode=true;
+    this.editMode = true;
     this.resultList.push(new ProductStoreInterface());
   }
 
@@ -131,7 +137,7 @@ export class ProductStoreComponent implements OnInit {
 
     this.editMode = status;
     this.resultList[i].isEdit = status;
-    if(!status){
+    if (!status) {
       this.cancelEdit(i);
     }
   }
@@ -152,9 +158,9 @@ export class ProductStoreComponent implements OnInit {
 
 
   async confirmDelete(i) {
-   await Swal(SwalOpt.confirmDelete).then(async (result:any) => {
+    await Swal(SwalOpt.confirmDelete).then(async (result: any) => {
       if (result.value) {
-        let r:any = await this.service.deleteProductStore(this.resultList[i]);
+        let r: any = await this.service.deleteProductStore(this.resultList[i]);
         console.log(r);
         if (r.result) {
           await this.alertSaveProductSuccess();
@@ -164,8 +170,8 @@ export class ProductStoreComponent implements OnInit {
     });
   }
 
-  async convertDate(date:Date){
-    return date.getFullYear()+"-"+(Number(date.getMonth())+1)+"-"+date.getDate();
+  async convertDate(date: Date) {
+    return date.getFullYear() + "-" + (Number(date.getMonth()) + 1) + "-" + date.getDate();
   }
 
 }

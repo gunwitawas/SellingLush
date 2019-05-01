@@ -45,6 +45,9 @@
           </tr>
           </thead>
           <tbody>
+          <tr>
+            <td colspan="5" class="text-center" *ngIf="orderList.length < 1">*ยังไม่มีรายการที่เลือก</td>
+          </tr>
           <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
             <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
               <td class="text-center">D{{item.order_id}}</td>

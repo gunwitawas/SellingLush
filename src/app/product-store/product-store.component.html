@@ -8,8 +8,9 @@
 
     <div class="card-body">
       <mat-form-field>
+        <input matInput disabled [ngModel]="searchForm.selectedDate | date:'d-MMM-y'" >
         <input matInput [matDatepicker]="picker" placeholder="Choose a date" id="selectedDate" name="selectedDate"
-               [(ngModel)]="searchForm.selectedDate">
+               [(ngModel)]="searchForm.selectedDate ">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -43,7 +44,8 @@
                        placeholder="{{ 'warning-product' | translate}}"
                        required/>
                 <datalist id="productList">
-                  <option *ngFor="let item of productList;let i=index;" [value]="item.p_id">{{item.p_name}}</option>
+                  <option *ngFor="let item of productList;let i=index;" [value]="item.p_id">{{item.p_name}}
+                    <small *ngIf="item.limited_flag=='Y'"><label class="badge badge-danger">(สินค้าจำกัด)</label></small></option>
                 </datalist>
               </div>
               <ng-container *ngIf="item.p_id==''">
@@ -52,7 +54,7 @@
                 </span>
               </ng-container>
             </td>
-            <td class="text-center">{{item.p_name}}</td>
+            <td class="text-center">  {{item.p_name}} <br> <img *ngIf="item.p_id" [src]="getImgPath(item.p_img)" width="125" height="70"></td>
             <td class="text-center">
               <label style="font-size: medium;" class="badge badge-success">{{item.saleQty}}</label>/
               <input
@@ -68,7 +70,6 @@
                 <br>
                 <small> {{ "warning-fill-amount" | translate}}</small>
               </ng-container>
-
               (คงเหลือ {{resultList[i].stockQty-resultList[i].saleQty}})
             </td>
             <td class="text-center">

@@ -269,7 +269,6 @@ export class PreorderOnlineComponent implements OnInit {
       address: this.address ? this.address + ' : ' + this.province : '',
       delivery : this.sumAmount > 20 ? 'N' : 'Y'
     };
-    console.log(this.preOrderDetail);
 
     await this.preorderService.insertPreOrderDetail(this.preOrderDetail).then(async (response: any) => {
       console.log(response);

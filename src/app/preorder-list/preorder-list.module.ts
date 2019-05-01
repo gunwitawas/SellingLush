@@ -5,9 +5,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PreorderListRoutes } from './preorder-list.routing';
 import { PreorderListComponent } from './preorder-list.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MaterialModule } from 'app/material.module';
+import {APP_DATE_FORMATS, AppDateAdapter, MaterialModule} from 'app/material.module';
 import { DirectiveModule } from '@shared/directive/Directive.module';
-import { MatAutocompleteModule } from '@angular/material';
+import {DateAdapter, MAT_DATE_FORMATS, MatAutocompleteModule} from '@angular/material';
 @NgModule({
   imports: [
     FormsModule,
@@ -20,6 +20,12 @@ import { MatAutocompleteModule } from '@angular/material';
     MatAutocompleteModule,
   ],
   declarations: [PreorderListComponent],
+  providers:[{
+    provide: DateAdapter, useClass: AppDateAdapter
+  },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }]
 })
 export class PreorderListModule { }
 

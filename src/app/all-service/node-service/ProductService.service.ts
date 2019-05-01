@@ -17,6 +17,7 @@ export class ProductService {
   getProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getAllProduct";
   getLatestProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getLatestProduct";
   getBestSellerProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getBestSellerProduct";
+  getAvailableProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getAvailableProduct";
   parameter: any = {
     params: {},
     responseType: "json"
@@ -26,6 +27,7 @@ export class ProductService {
     private http: TransferHttpService,
     private httpClient: HttpClient,
   ) {
+
   }
 
 
@@ -37,6 +39,11 @@ export class ProductService {
 
   async getProduct() {
     let result = await this.http.get(this.getProductServicePath).toPromise();
+    return result;
+  }
+
+  async getAvailableProduct() {
+    let result = await this.http.get(this.getAvailableProductServicePath).toPromise();
     return result;
   }
 
