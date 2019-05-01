@@ -28,6 +28,7 @@ export class PreorderListComponent implements OnInit {
   public userAccount: any;
   public searchOrderDetail: any = [];
   public isCheckSearchDate: boolean = true;
+  public checkTrackingCodeBtn: boolean = false;
   public checkStartDate: any;
   public startDate: any;
   public checkEndDate: any;
@@ -36,6 +37,7 @@ export class PreorderListComponent implements OnInit {
   public status: string;
   public userList: string[];
   public sumPrice: number;
+  public trackingCode: string;
   public requestSearchOrderDetailbyDate: {
     username?: string,
     startDate?: string,
@@ -74,6 +76,10 @@ export class PreorderListComponent implements OnInit {
   getImgPath(base64str: any) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
+  }
+
+  checkTrackingCode(){
+    this.checkTrackingCodeBtn = true;
   }
 
   async showReport(i, address?) {
@@ -132,8 +138,12 @@ export class PreorderListComponent implements OnInit {
     try {
       let request = {
         pre_id: pre_id,
-        payment_status: remark
+        payment_status: remark,
+        trackingCode: this.trackingCode
       }
+
+      console.log(request);
+      
       await this.preorderService.updatePaymentStatus(request).then((res: any) => {
         console.log(res);
         if (res.message === "Success" && res.result) {

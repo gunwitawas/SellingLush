@@ -193,13 +193,37 @@
             </tbody>
           </table>
           <div *ngIf="orderDetailByID" style="width: 90%;" class="mx-auto">
-            <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
-              value="ที่อยู่ในการจัดส่ง : {{orderDetailByID[0].address.split(':')[0]}}"></textarea>
+            <div style="margin-top: 15px" *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-white bg-info" id="basic-addon1">ที่อยู่ในการจัดส่ง</span>
+              </div>
+              <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
+              value="{{orderDetailByID[0].address.split(':')[0]}}"></textarea>
+            </div>
+            
+              <div style="margin-top: 15px" *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text text-white bg-info" id="basic-addon1">เลขพัสดุ</span>
+                </div>
+                <input name="trackingCode" readonly value="{{orderDetailByID[0].tracking_code}}" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
             <textarea style="height: 100px;" readonly *ngIf="!orderDetailByID[0].address" class="form-control"
               value="รับสินค้าด้วยตนเอง">รับสินค้าด้วยตนเองที่ :100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</textarea>
           </div>
         </div>
+        
         <hr>
+
+        <form>
+        <div *ngIf="orderDetailByID">
+        
+        <div style="width: 90%;margin-left: 5%;margin-right: 5%" *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">กรุณากรอกเลขพัสดุ</span>
+          </div>
+          <input name="trackingCode" [(ngModel)]="trackingCode" (change)='checkTrackingCode()' type="text" class="form-control" placeholder="กรุณากรอกเลขพัสดุ" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        </div>
         <div class="modal-footer">
           <div *ngIf="orderDetailByID">
 
@@ -215,16 +239,14 @@
               type="button" class="btn btn-info" (click)="printBillpreOrder()"
               data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
 
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y' && !orderDetailByID[0].address" type="button"
-              class="btn btn-primary" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
-              data-dismiss="modal">ได้รับสินค้าแล้ว</button>
-
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" type="button"
-              class="btn btn-primary" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+              <button *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" type="button"
+              class="btn btn-primary" style="margin-left: 5px" [disabled]="!checkTrackingCodeBtn" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
               data-dismiss="modal">ส่งสินค้าแล้ว</button>
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
         </div>
+      </form>
+
       </div>
     </div>
   </div>

@@ -289,11 +289,35 @@
                 </tr>
               </tbody>
             </table>
-            <h1 *ngIf="!orderDetailByID[0].address">กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่
-              {{orderDetailByID[0].receive_date}}</h1>
-            <h1 *ngIf="orderDetailByID[0].address">ส่งสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
-            <h1 *ngIf="orderDetailByID[0].address">ที่อยู่ในการส่งสิ้นค้า <br> {{orderDetailByID[0].address}}</h1>
-          </div>
+
+            <div *ngIf="!orderDetailByID[0].address" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-info text-light" id="basic-addon1">กรุณานำใบเสร็จมารับสินค้า ในวันที่ </span>
+              </div>
+              <input type="text" class="form-control" value="{{orderDetailByID[0].receive_date}}" readonly>
+            </div>
+
+            <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-info text-light" id="basic-addon1">ส่งสินค้า ในวันที่ </span>
+              </div>
+              <input type="text" class="form-control" value="{{orderDetailByID[0].receive_date}}" readonly>
+            </div>
+            </div>
+
+            <div *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-info text-light" id="basic-addon1">เลขพัสดุ </span>
+              </div>
+              <input type="text" class="form-control" value="{{orderDetailByID[0].tracking_code}}" readonly>
+            </div>
+
+            <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-info text-light" id="basic-addon1">ที่อยู่ในการส่งสิ้นค้า </span>
+              </div>
+              <input type="text" class="form-control" value="{{orderDetailByID[0].address}}" readonly>
+            </div>
 
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
             <h3>ค่าสินค้าทั้งหมด {{priceOforderList| currency:' '}} บาท</h3>
