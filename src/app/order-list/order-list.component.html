@@ -76,69 +76,88 @@
             </tr>
             <tr *ngIf="expandIndex==i" id="collapseDetail" class="collapse">
               <td colspan="5" class=" bg-hilight-bg">
-                <div class="container">
-                  <table class="table table-bordered">
-                    <thead class="bg-hilight">
-                    <tr class="text-center">
-                      <th>รหัสสินค้า</th>
-                      <th>ชื่อ</th>
-                      <th>ไส้</th>
-                      <th>ขนาด</th>
-                      <th>จำนวน</th>
-                      <th>ราคา</th>
-                      <th>รวม</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
-                      <td class="text-center">{{list.p_id}}
-                      </td>
-                      <td class="text-center">{{list.p_name}}<br>
-                        <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
-                      <td class="text-center">{{list.mixer}}</td>
-                      <td class="text-center">{{list.p_size}}</td>
-                      <td>{{list.qty}}</td>
-                      <td>{{list.price | currency:'  '}}</td>
-                      <td>{{list.price * list.qty | currency:'  '}}</td>
-                    </tr>
-                    <tr>
-                      <td colspan="4" class="text-right">รวม</td>
-                      <td>{{orderList[expandIndex].totalQty +' ชิ้น'}}</td>
-                      <td colspan="2">{{totalExpandIndex | currency:'  '}} {{' บาท'}}</td>
 
-                    </tr>
-                    </tbody>
-                  </table>
-                  <div align="right">
-                    <div *ngIf="item.status=='N'" class="btn-group">
-                      <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
-                        class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
-                      </button>
-                      <button class="btn btn-sm btn-danger" (click)="updateStatus(item.order_id,'C')"><i
-                        class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
-                      </button>
-                    </div>
+                <div id="billPreOrder">
+                  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                        crossorigin="anonymous">
+                  <div class="container">
+                    <h3 class="font-weight-bold"> ข้าวหลามดาบอ๊อด</h3>
+                    <table class="table table-bordered">
+                      <thead class="bg-hilight">
+                      <tr class="text-center">
+                        <th>รหัสสินค้า</th>
+                        <th>ชื่อ</th>
+                        <th>ไส้</th>
+                        <th>ขนาด</th>
+                        <th>จำนวน</th>
+                        <th>ราคา</th>
+                        <th>รวม</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
+                        <td class="text-center">{{list.p_id}}
+                        </td>
+                        <td class="text-center">{{list.p_name}}<br>
+                          <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
+                        <td class="text-center">{{list.mixer}}</td>
+                        <td class="text-center">{{list.p_size}}</td>
+                        <td>{{list.qty}}</td>
+                        <td>{{list.price | currency:'  '}}</td>
+                        <td>{{list.price * list.qty | currency:'  '}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-right">รวม</td>
+                        <td>{{orderList[expandIndex].totalQty + ' ชิ้น'}}</td>
+                        <td colspan="2">{{totalExpandIndex | currency:'  '}} {{' บาท'}}</td>
 
-                    <div *ngIf="item.status=='W'">
-                      <label class="badge badge-warning">
-                        <i class="fa fa-exclamation-circle"></i>
-                        อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
-                      </label>
-                      <br>
-                      <button class="btn btn-sm btn-outline-warning" (click)="checkPaySlip(item)"><i
-                        class="fa fa-edit"></i> ตรวจสอบการหลักฐาน
-                      </button>
-                    </div>
-
-                    <div *ngIf="item.status=='Y'">
-                      <button class="btn btn-sm btn-success" (click)="updateStatus(item.order_id,'S')"><i
-                        class="fa fa-check"></i> ยืนยันการรับสินค้า
-                      </button>
-                    </div>
-                    <label *ngIf="item.status=='S'" class="badge badge-success"><i class="fa fa-check-circle"></i>
-                      รับสินค้าไปแล้ว
-                    </label>
+                      </tr>
+                      <tr>
+                        <td colspan="7">
+                          <div class="row">
+                          <div class="col-6 text-center" >________________________<br>(________________________)<br>ผู้รับเงิน
+                          </div>
+                          <div class="col-6 text-center" >________________________<br>(________________________)<br>ผู้ชำระงิน
+                          </div>
+                        </div></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                   <!-- -->
                   </div>
+                </div>
+                <div align="right">
+
+                  <button class="btn btn-danger" (click)="printBillpreOrder()">พิมพ์ใบเสร็จ</button>
+                  <div *ngIf="item.status=='N'" class="btn-group">
+                    <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
+                      class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="updateStatus(item.order_id,'C')"><i
+                      class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
+                    </button>
+                  </div>
+
+                  <div *ngIf="item.status=='W'">
+                    <label class="badge badge-warning">
+                      <i class="fa fa-exclamation-circle"></i>
+                      อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
+                    </label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-warning" (click)="checkPaySlip(item)"><i
+                      class="fa fa-edit"></i> ตรวจสอบการหลักฐาน
+                    </button>
+                  </div>
+
+                  <div *ngIf="item.status=='Y'">
+                    <button class="btn btn-sm btn-success" (click)="updateStatus(item.order_id,'S')"><i
+                      class="fa fa-check"></i> ยืนยันการรับสินค้า
+                    </button>
+                  </div>
+                  <label *ngIf="item.status=='S'" class="badge badge-success"><i class="fa fa-check-circle"></i>
+                    รับสินค้าไปแล้ว
+                  </label>
                 </div>
               </td>
             </tr>

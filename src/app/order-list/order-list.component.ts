@@ -44,7 +44,17 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  public async printBillpreOrder() {
 
+    const printContent = document.getElementById("billPreOrder");
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+
+  }
   getImgPath(base64str: any) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
