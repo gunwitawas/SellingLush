@@ -51,6 +51,11 @@ export class ProductComponent implements OnInit {
   ) {
     console.log(`ORIGIN_URL=${baseUrl}`);
   }
+
+  getDiffDate(date){
+    return Validate.getDateDiff(date);
+
+  }
   checkExpireDate(){
     let currentDate = new Date();
     let expireDate = new Date(this.newProduct.expireDate);

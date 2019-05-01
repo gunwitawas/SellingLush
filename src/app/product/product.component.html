@@ -56,6 +56,11 @@
           <div class="table-responsive table-borderless">
             <table class="table">
               <thead class="text-right">
+              <tr *ngIf="item.limited_flag=='Y'">
+                <td colspan="2">
+                  <h4 class="text-center"><label class="badge badge-danger">
+                    สินค้ามีให้สั่งจองและสั่งซื้อจนถึง {{item.expire_date | date:'d/M/yy'}}</label></h4>
+                  <span>*เหลือเวลาจำหน่าย {{getDiffDate(item.expire_date)}} วัน</span></td></tr>
               <tr>
                 <th>{{ "id" | translate}}</th>
 

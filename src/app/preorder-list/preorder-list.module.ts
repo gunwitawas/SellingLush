@@ -22,7 +22,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MatAutocompleteModule} from '@angular/mat
   declarations: [PreorderListComponent],
   providers:[{
     provide: DateAdapter, useClass: AppDateAdapter
-  },
+    },
     {
       provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
     }]
