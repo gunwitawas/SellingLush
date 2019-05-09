@@ -205,8 +205,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text text-white bg-info" id="basic-addon1">เลขพัสดุ</span>
                 </div>
-                <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code" readonly value="{{orderDetailByID[0].tracking_code}}" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
-                <input name="trackingCode" *ngIf="!orderDetailByID[0].tracking_code" readonly value="ยังไม่ได้กรอกเลขพัสดุ" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code!='undefined'" readonly value="{{orderDetailByID[0].tracking_code}}" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code=='undefined'" readonly value="ยังไม่ได้กรอกเลขพัสดุ" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
               </div>
             <textarea style="height: 100px;" readonly *ngIf="!orderDetailByID[0].address" class="form-control"
               value="รับสินค้าด้วยตนเอง">รับสินค้าด้วยตนเองที่ :100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</textarea>

@@ -8,6 +8,7 @@ import { PreOrderService } from 'app/all-service/node-service/PreOrderService.se
 import { Validate } from "../shared/utillity/Validate";
 import { ImagePath } from "../shared/constance/ImagePath";
 import { AccountService } from 'app/all-service/node-service/Account.service';
+import {UserService} from "../all-service/node-service/UserService.service";
 
 @Component({
   selector: 'app-transfer-back',
@@ -18,6 +19,7 @@ export class PreorderOnlineComponent implements OnInit {
   constructor(
     private preorderService: PreOrderService,
     private productservice: ProductService,
+    private userService: UserService,
     private formBuilder: FormBuilder,
     private _sanitizer: DomSanitizer,
     @Inject(AppStorage) private storage: Storage,
@@ -83,15 +85,17 @@ export class PreorderOnlineComponent implements OnInit {
     netpay: string,
     pay_img: any,
   }
-
+private name = '';
   private imagePath = new ImagePath();
   private slipPayment = this.imagePath.slipPayment;
   ngOnInit(): void {
     this.getDataStartPage();
   }
 
-  private getDataStartPage() {
+  private async getDataStartPage() {
     this.USERNAME = this.getCurrentUsername();
+    let result:any = await this.userService.getUserProfile({username:this.USERNAME});
+    this.name = result.name;
     this.getListPreOrderDetail();
     this.getAllProduct();
   }
