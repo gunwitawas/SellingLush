@@ -86,6 +86,7 @@ export class LoginRegisPageComponent implements OnInit {
   async regis(f) {
     // console.log(f.value);
     let obj: any = f.value;
+    obj.type = 'M';
     obj.image = this.base64Img;
     // console.log(obj);
     let result: any = await this.service.regisNewUser(f.value);
@@ -96,6 +97,10 @@ export class LoginRegisPageComponent implements OnInit {
           'สมัครเสร็จสิ้น',
           'success'
         );
+
+        this.appStorage.setItem("username", obj.usernameRegis);
+        this.appStorage.setItem("status", obj.type);
+        $('#reloadButton')[0].click();
       }
     }
   }

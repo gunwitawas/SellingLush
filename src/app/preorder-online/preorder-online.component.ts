@@ -390,11 +390,13 @@ export class PreorderOnlineComponent implements OnInit {
 
   private async uploadPayment() {
     this.upDateForPayment.payment_status = "W";
+    this.upDateForPayment.username = this.USERNAME;
     await this.preorderService.uploadImagePayment(this.upDateForPayment).then((result: any) => {
       console.log("uploadPayment", result);
       if (result && result.message === "Success") {
         Swal('Upload successful!', 'ทำการอัพโหลดหลักฐานการโอนเงินสำเร็จแล้ว!', 'success');
-        this.getDataStartPage();
+        this.getListPreOrderDetail();
+       // this.getDataStartPage();
         $('#uploadPayment').modal('hide');
       } else {
         Swal('Error', 'กรุณาตรวจสอบไฟล์รูปภาพของคุณ!', 'error');

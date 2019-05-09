@@ -309,7 +309,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text bg-info text-light" id="basic-addon1">เลขพัสดุ </span>
               </div>
-              <input type="text" class="form-control" value="{{orderDetailByID[0].tracking_code}}" readonly>
+              <input *ngIf="orderDetailByID[0].tracking_code" type="text" class="form-control" [value]="orderDetailByID[0].tracking_code" readonly>
+              <input *ngIf="!orderDetailByID[0].tracking_code" type="text" class="form-control" value="ยังไม่ได้กรอกรหัสพัสดุ" readonly>
             </div>
 
             <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
