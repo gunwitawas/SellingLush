@@ -52,6 +52,9 @@
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">
       <div class="card " [ngClass]="{'bg-info':productList[i].isEdit}">
         <img class="card-img-top" [src]="getImgPath(item.p_img)" height="300">
+        <button *ngIf="productList[i].isEdit" data-toggle="modal" (click)="checkindexchangeimage(i)" data-target="#changeimage" class="btn btn-sm btn-primary">
+                    {{ "แก้ไขรูปภาพ" | translate}}
+        </button>
         <div class="card-body">
           <div class="table-responsive table-borderless">
             <table class="table">
@@ -239,3 +242,37 @@
     </div>
   </div>
 </div>
+
+
+
+
+  
+  <!-- Modal change image -->
+  <div class="modal fade" id="changeimage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">เปลี่ยนรูปสินค้า</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-auto text-center">
+
+
+            <img *ngIf="uploadImgProduct" [src]="uploadImgProduct" style="max-width: 100%;">
+            <div class="custom-file" width="250">
+              <input type="file" (change)="uploadFileProduct($event)" class="custom-file-input" id="uploadInput"
+                     accept=".png,.jpg,.jpeg"><br>
+              <label class="custom-file-label" for="uploadInput">แก้ไขรูปภาพ</label>
+            </div>  
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="changeImage()" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

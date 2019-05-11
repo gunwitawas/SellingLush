@@ -1,12 +1,12 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {DomSanitizer} from "@angular/platform-browser";
-import {AppStorage} from '@shared/for-storage/universal.inject';
-import {TransferHttpService} from '@gorniv/ngx-transfer-http';
-import {HttpClient} from '@angular/common/http';
-import {ObjectUtil as util} from "../shared/utillity/ObjectUtil";
+import { Component, OnInit, Inject } from '@angular/core';
+import { DomSanitizer } from "@angular/platform-browser";
+import { AppStorage } from '@shared/for-storage/universal.inject';
+import { TransferHttpService } from '@gorniv/ngx-transfer-http';
+import { HttpClient } from '@angular/common/http';
+import { ObjectUtil as util } from "../shared/utillity/ObjectUtil";
 import Swal from 'sweetalert2'
-import {ProductService} from "../all-service/node-service/ProductService.service";
-import {Validate} from "@shared/utillity/Validate";
+import { ProductService } from "../all-service/node-service/ProductService.service";
+import { Validate } from "@shared/utillity/Validate";
 
 @Component({
   selector: 'app-transfer-back',
@@ -18,6 +18,8 @@ export class ProductComponent implements OnInit {
   public resultHttpClient: any;
   public resultPost: any;
   public uploadImg: any;
+  public uploadImgProduct: any;
+  public indexchangeImage: any;
 
   searchForm: any = {
     "p_id": "",
@@ -29,6 +31,7 @@ export class ProductComponent implements OnInit {
     "p_img": ""
   }
   productList: any = [];
+
   productTempList: any = [];
   newProduct: any = {
     p_id: "",
@@ -38,7 +41,7 @@ export class ProductComponent implements OnInit {
     mixer: "",
     p_img: "",
     limitedFlag: false,
-    expireDate : new Date()
+    expireDate: new Date()
   };
 
   constructor(
@@ -52,11 +55,11 @@ export class ProductComponent implements OnInit {
     console.log(`ORIGIN_URL=${baseUrl}`);
   }
 
-  getDiffDate(date){
+  getDiffDate(date) {
     return Validate.getDateDiff(date);
 
   }
-  checkExpireDate(){
+  checkExpireDate() {
     let currentDate = new Date();
     let expireDate = new Date(this.newProduct.expireDate);
 
@@ -68,7 +71,7 @@ export class ProductComponent implements OnInit {
     console.log(sumdayDate);
     let isMoreThanDate = sumdayDate >= 1;
     let isMoreThanMonth = sumdayDate <= 30;
-    if ( !(sumdayDate >= 1 && sumdayDate < 31)) {
+    if (!(sumdayDate >= 1 && sumdayDate < 31)) {
       Swal('Warning', 'กรุณากำหนดวันที่ล่วงหน้าอย่างน้อย 1 วัน', 'warning');
       this.newProduct.expireDate = new Date()
     }
@@ -115,9 +118,10 @@ export class ProductComponent implements OnInit {
         'Update product success',
         'success'
       );
-     await this.getAllProduct();
+      await this.getAllProduct();
     }
   }
+
   async getAllProduct() {
     let result: any = await this.service.getProduct();
     this.productList = result.content;
@@ -173,6 +177,49 @@ export class ProductComponent implements OnInit {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
+
+  uploadFileProduct(event) {
+    let files = event.target.files;
+    if (files.length > 0) {
+      console.log(files); // You will see the file
+      this.getBase64Product(files[0]);
+    }
+  }
+
+  getImgPathProduct(base64str: any) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + base64str);
+  }
+
+  getBase64Product(file: any) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      this.uploadImgProduct = reader.result;
+    }
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
+  async checkindexchangeimage(index) {
+    this.indexchangeImage = index;
+  }
+
+  async changeImage() {
+    this.productList[this.indexchangeImage].p_img = this.uploadImgProduct;
+    let result: any = await this.service.updateProduct(this.productList[this.indexchangeImage]);
+    if (result.affectedRows > 0) {
+      Swal(
+        'Update Success!',
+        'Update product success',
+        'success'
+      );
+      await this.getAllProduct();
+      this.indexchangeImage = null;
+      $('#changeimage').modal('hide')
+    }
   }
 }
 
