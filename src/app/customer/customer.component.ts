@@ -85,6 +85,7 @@ export class CustomerComponent implements OnInit {
     await this.accountservice.getUserAccount().then((response: any) => {
       if (response) {
         this.allUserAccount = response.content.filter(result => result.type === 'M');
+        console.log("allUserAccount",this.allUserAccount);
         this.UserAccount = response.content.filter(result => result.type === 'M');
       }
     });
