@@ -81,6 +81,7 @@
                   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
                         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
                         crossorigin="anonymous">
+
                   <div class="container">
                     <h3 class="font-weight-bold"> ข้าวหลามดาบอ๊อด</h3>
                     <table class="table table-bordered">
@@ -115,16 +116,19 @@
                       </tr>
                       <tr>
                         <td colspan="7">
+                          <span><strong>ชื่อผู้สั่งซื้อ : </strong>{{orderList[expandIndex].name}}</span>
                           <div class="row">
-                          <div class="col-6 text-center" >________________________<br>(________________________)<br>ผู้รับเงิน
+                            <div class="col-6 text-center">________________________<br><br>(________________________)<br>ผู้รับเงิน
+
+                            </div>
+                            <div class="col-6 text-center">________________________<br><br>(________________________)<br>ผู้ชำระงิน
+                            </div>
                           </div>
-                          <div class="col-6 text-center" >________________________<br>(________________________)<br>ผู้ชำระงิน
-                          </div>
-                        </div></td>
+                        </td>
                       </tr>
                       </tbody>
                     </table>
-                   <!-- -->
+                    <!-- -->
                   </div>
                 </div>
                 <div align="right">

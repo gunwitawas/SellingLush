@@ -116,7 +116,7 @@ private name = '';
   }
 
   private async getAllProduct() {
-    let response: any = await this.productservice.getProduct();
+    let response: any = await this.productservice.getAvailableProduct();
     console.log(response);
 
     if (response.content) {
