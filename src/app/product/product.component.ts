@@ -123,7 +123,7 @@ export class ProductComponent implements OnInit {
   }
 
   async getAllProduct() {
-    let result: any = await this.service.getProduct();
+    let result: any = await this.service.getAvailableProduct();
     this.productList = result.content;
   }
 
