@@ -64,13 +64,13 @@
             <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <label for="passwordRegis">รหัสผ่าน</label>
               <input type="password" class="form-control" #password="ngModel" id="passwordRegis" name="passwordRegis" (keypress)="validatePassword('M')"  [(ngModel)]="regisForm.password" [required]="true">
-              <span *ngIf="!regisForm.validPassword"> รหัสผ่านไม่ถูกต้อง</span>
+              <span *ngIf="!regisForm.validPassword && password.value.length >0"> รหัสผ่านไม่ถูกต้อง</span>
             </div>
 
             <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <label for="repasswordRegis">ยืนยันรหัสผ่าน</label>
               <input type="password" class="form-control" #repassword="ngModel" id="repasswordRegis" name="repasswordRegis" [(ngModel)]="regisForm.repassword" [required]="true">
-              <span *ngIf="!validatePassword('C')"> รหัสผ่านไม่ถูกต้อง</span>
+              <span *ngIf="!validatePassword('C') && repassword.value.length>0"> รหัสผ่านไม่ถูกต้อง</span>
             </div>
 
             <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
