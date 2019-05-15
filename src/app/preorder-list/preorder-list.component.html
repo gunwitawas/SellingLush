@@ -16,9 +16,9 @@
             class="{{item.icon}}">
           </i>
           {{item.name}}</a>
-          
+
       </div>
-      <div >
+      <div>
         <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(0, true)"><i
             class="">
           </i>
@@ -166,25 +166,25 @@
         <div class="modal-body">
           <table *ngIf="userAccount" class="table table-bordered">
             <thead class="bg-success text-white text-center">
-            <tr>
-              <th colspan="5">ข้อมูลผู้ซื้อ</th>
-            </tr>
-            <tr>
-              <th>ชื่อผู้สั่งซื้อ</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>Line Id</th>
-              <th>E-Mail</th>
-              <th>ที่อยู่</th>
-            </tr>
+              <tr>
+                <th colspan="5">ข้อมูลผู้ซื้อ</th>
+              </tr>
+              <tr>
+                <th>ชื่อผู้สั่งซื้อ</th>
+                <th>เบอร์โทรศัพท์</th>
+                <th>Line Id</th>
+                <th>E-Mail</th>
+                <th>ที่อยู่</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>{{userAccount.name}}</td>
-              <td>{{userAccount.tel}}</td>
-              <td>{{userAccount.line_id}}</td>
-              <td>{{userAccount.email}}</td>
-              <td>{{userAccount.address}}</td>
-            </tr>
+              <tr>
+                <td>{{userAccount.name}}</td>
+                <td>{{userAccount.tel}}</td>
+                <td>{{userAccount.line_id}}</td>
+                <td>{{userAccount.email}}</td>
+                <td>{{userAccount.address}}</td>
+              </tr>
             </tbody>
           </table>
 
@@ -226,55 +226,63 @@
                 <span class="input-group-text text-white bg-info" id="basic-addon1">ที่อยู่ในการจัดส่ง</span>
               </div>
               <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
-              value="{{orderDetailByID[0].address.split(':')[0]}}"></textarea>
+                value="{{orderDetailByID[0].address.split(':')[0]}}"></textarea>
             </div>
-            
-              <div style="margin-top: 15px" *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text text-white bg-info" id="basic-addon1">เลขพัสดุ</span>
-                </div>
-                <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code!='undefined'" readonly value="{{orderDetailByID[0].tracking_code}}" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
-                <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code=='undefined'" readonly value="ยังไม่ได้กรอกเลขพัสดุ" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+
+            <div style="margin-top: 15px" *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-white bg-info" id="basic-addon1">เลขพัสดุ</span>
               </div>
+              <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code!='undefined'" readonly
+                value="{{orderDetailByID[0].tracking_code}}" type="text" class="form-control" aria-label="Username"
+                aria-describedby="basic-addon1">
+              <input name="trackingCode" *ngIf="orderDetailByID[0].tracking_code=='undefined'" readonly
+                value="ยังไม่ได้กรอกเลขพัสดุ" type="text" class="form-control" aria-label="Username"
+                aria-describedby="basic-addon1">
+            </div>
             <textarea style="height: 100px;" readonly *ngIf="!orderDetailByID[0].address" class="form-control"
               value="รับสินค้าด้วยตนเอง">รับสินค้าด้วยตนเองที่ :100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</textarea>
           </div>
         </div>
-        
+
         <hr>
 
         <form>
-        <div *ngIf="orderDetailByID">
-        
-        <div style="width: 90%;margin-left: 5%;margin-right: 5%" *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">กรุณากรอกเลขพัสดุ</span>
-          </div>
-          <input name="trackingCode" [(ngModel)]="trackingCode" (change)='checkTrackingCode()' type="text" class="form-control" placeholder="กรุณากรอกเลขพัสดุ" aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-        </div>
-        <div class="modal-footer">
           <div *ngIf="orderDetailByID">
 
-            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success"
-              (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
-              data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
+            <div style="width: 90%;margin-left: 5%;margin-right: 5%"
+              *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">กรุณากรอกเลขพัสดุ</span>
+              </div>
+              <input name="trackingCode" [(ngModel)]="trackingCode" (change)='checkTrackingCode()' type="text"
+                class="form-control" placeholder="กรุณากรอกเลขพัสดุ" aria-label="Username"
+                aria-describedby="basic-addon1">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div *ngIf="orderDetailByID">
 
-            <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-warning"
-              (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
-              data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
+              <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success"
+                (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
+                data-dismiss="modal">รายการชำระเงินถูกต้อง</button>
 
-            <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'"
-              type="button" class="btn btn-info" (click)="printBillpreOrder()"
-              data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
+              <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-warning"
+                (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'N')"
+                data-dismiss="modal">รายการชำระเงินไม่ถูกต้อง</button>
+
+              <button *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'"
+                type="button" class="btn btn-info" (click)="printBillpreOrder()"
+                data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ</button>
 
               <button *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" type="button"
-              class="btn btn-primary" style="margin-left: 5px" [disabled]="!checkTrackingCodeBtn" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
-              data-dismiss="modal">ส่งสินค้าแล้ว</button>
+                class="btn btn-primary" style="margin-left: 5px" [disabled]="!checkTrackingCodeBtn"
+                (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+                data-dismiss="modal">ส่งสินค้าแล้ว</button>
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
           </div>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-        </div>
-      </form>
+        </form>
 
       </div>
     </div>
@@ -287,7 +295,9 @@
   <div *ngIf="orderDetailByID" id="billPreOrder" class="modal-body">
     <div align="center">
       <div *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'">
+        <br><br><br>
         <h2>ใบเสร็จการสั่งซื้อเลขที่ : P{{orderDetailByID[0].pre_id}}</h2>
+        <h3>ร้านข้าวหลามดาบอ๊อด <br> ที่อยู่ 100 ม.15 ต.จระเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี</h3>
         <p>วันที่สั่งซื้อ : {{orderDetailByID[0].pre_date}}</p>
         <div *ngIf="userAccount">
           <p>ชื่อผู้สั่งสินค้า : {{userAccount.name}}</p>
@@ -326,10 +336,20 @@
             </tr>
           </tbody>
         </table>
-        <h1 *ngIf="!orderDetailByID[0].address">กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่
-          {{orderDetailByID[0].receive_date}}</h1>
-        <h1 *ngIf="orderDetailByID[0].address">ส่งสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
-        <h1 *ngIf="orderDetailByID[0].address">ที่อยู่ในการส่งสิ้นค้า <br> {{orderDetailByID[0].address}}</h1>
+        <h3 *ngIf="!orderDetailByID[0].address"><br><br>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่
+          {{orderDetailByID[0].receive_date}}<br></h3>
+        <h3 *ngIf="orderDetailByID[0].address"><b><br>ส่งสินค้า</b> <br> ในวันที่
+          {{orderDetailByID[0].receive_date}}<br></h3>
+        <h3 *ngIf="orderDetailByID[0].address"
+          style="width: 82%; margin-left: 9%;  margin-right: 9%;word-break: break-all;">
+          <br><b>ที่อยู่ในการส่งสิ้นค้า</b> <br> {{orderDetailByID[0].address}}<br></h3>
+
+        <table class=""><br><br>
+          <th class=" text-center">
+            ________________________<br><br>(________________________)<br>ผู้รับเงิน
+
+          </th>
+        </table>
       </div>
     </div>
   </div>

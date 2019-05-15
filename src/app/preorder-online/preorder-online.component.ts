@@ -54,6 +54,7 @@ export class PreorderOnlineComponent implements OnInit {
   private province: string;
   private address: string;
   private checkAddress: boolean = false;
+  private showbill: boolean = false;
   delivery: string;
 
   private provinceList = ['สุพรรณบุรี', 'นครปฐม', 'กาญจนบุรี', 'อ่างทอง', 'ชัยนาท'];
@@ -432,12 +433,14 @@ private name = '';
   }
 
   private printBillpreOrder() {
+    this.showbill = true;
     const printContent = document.getElementById("billPreOrder");
     const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
     WindowPrt.document.write(printContent.innerHTML);
     WindowPrt.document.close();
     WindowPrt.focus();
     WindowPrt.print();
+
     WindowPrt.close();
   }
 

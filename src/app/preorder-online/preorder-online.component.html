@@ -27,7 +27,8 @@
         <h6 class="card-title">ขนาด : {{item.p_size}}</h6>
         <h6 class="card-title">ไส้ : {{item.mixer}}</h6>
         <h6 class="card-title">ราคา : {{item.price| currency:' '}}</h6>
-        <span *ngIf="item.limited_flag=='Y'" class="card-title"> <label class="badge badge-danger"> สินค้า Limited เหลือเวลาจำหน่าย {{getDiffDate(item.expire_date)}} วัน</label></span>
+        <span *ngIf="item.limited_flag=='Y'" class="card-title"> <label class="badge badge-danger"> สินค้า Limited
+            เหลือเวลาจำหน่าย {{getDiffDate(item.expire_date)}} วัน</label></span>
 
         <button class="btn btn-primary" type="button" data-toggle="modal" (click)="openModalAddTocart(item)">
           สั่งซื้อล่วงหน้า
@@ -195,30 +196,31 @@
 
         <hr>
         <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
-        <p>
+          <p>
             หากท่านต้องการส่งสินค้าต่ำกว่า 20 ชิ้นท่านต้องเสียค่าส่งสินค้า 150 บาท
           </p>
         </div>
         <div style="width: 100%;margin-left:20px;margin-right:20px" class="row">
-          
+
           <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" [(ngModel)]="checkAddress" (click)="clickCheckAddress()" id="customSwitch1" >
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="checkAddress" (click)="clickCheckAddress()"
+              id="customSwitch1">
             <label class="custom-control-label" for="customSwitch1">บริการจัดส่งสินค้า</label>
           </div>
         </div><br>
         <div *ngIf="checkAddress" class="row">
           <div class="col-3">
             <label style="width: 100%;margin-left:20px;margin-right:20px"> จังหวัดที่จัดส่ง
-                 <select [(ngModel)]="province" class="form-control">
-                    <option *ngFor="let option of provinceList" [value]="option">
-                      {{option}}
-                    </option>
-                  </select>
+              <select [(ngModel)]="province" class="form-control">
+                <option *ngFor="let option of provinceList" [value]="option">
+                  {{option}}
+                </option>
+              </select>
             </label>
           </div>
           <div class="col-9">
             <label style="width: 95%;margin-left:20px;margin-right:55px"> รายละเอียดที่อยู่ในการจัดส่ง
-                  <input class="form-control" type="text" placeholder="ที่อยู่" [(ngModel)]="address" >
+              <input class="form-control" type="text" placeholder="ที่อยู่" [(ngModel)]="address">
             </label>
           </div>
         </div>
@@ -251,11 +253,14 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div id="billPreOrder" class="modal-body">
+      <div id="" class="modal-body">
         <div align="center">
           <div *ngIf="upDateForPayment.payment_status === 'Y'">
-            <h2>ใบเสร็จการสั่งซื้อเลขที่ P{{upDateForPayment.pre_id}}</h2>
-            <h1>วันที่สั่งซื้อ {{upDateForPayment.pre_date}}</h1>
+            <br><br>
+            <h2><b>ใบเสร็จการสั่งซื้อเลขที่</b> P{{upDateForPayment.pre_id}}</h2>
+            <h3>ร้านข้าวหลามดาบอ๊อด <br> ที่อยู่ 100 ม.15 ต.จระเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี</h3>
+
+            <h1><b>วันที่สั่งซื้อ</b> {{upDateForPayment.pre_date}}</h1>
             <div *ngIf="userAccount">
               <p>ชื่อผู้สั่งสินค้า : {{userAccount.name}}</p>
               <p>เบอร์ติดต่อ : {{userAccount.tel}}</p>
@@ -291,52 +296,64 @@
               </tbody>
             </table>
 
-            <div *ngIf="!orderDetailByID[0].address" class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-info text-light" id="basic-addon1">กรุณานำใบเสร็จมารับสินค้า ในวันที่ </span>
+            
+              <div *ngIf="!orderDetailByID[0].address" class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-info text-light" id="basic-addon1">กรุณานำใบเสร็จมารับสินค้า ในวันที่
+                  </span>
+                </div>
+                <input type="text" class="form-control" value="{{orderDetailByID[0].receive_date}}" readonly>
               </div>
-              <input type="text" class="form-control" value="{{orderDetailByID[0].receive_date}}" readonly>
-            </div>
 
-            <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-info text-light" id="basic-addon1">ส่งสินค้า ในวันที่ </span>
+              <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-info text-light" id="basic-addon1">ส่งสินค้า ในวันที่ </span>
+                </div>
+                <input type="text" class="form-control" value="{{orderDetailByID[0].receive_date}}" readonly>
               </div>
-              <input type="text" class="form-control" value="{{orderDetailByID[0].receive_date}}" readonly>
-            </div>
-            </div>
 
-            <div *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-info text-light" id="basic-addon1">เลขพัสดุ </span>
+              <div *ngIf="orderDetailByID[0].tracking_code" class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-info text-light" id="basic-addon1">เลขพัสดุ </span>
+                </div>
+                <input *ngIf="orderDetailByID[0].tracking_code" type="text" class="form-control"
+                  [value]="orderDetailByID[0].tracking_code" readonly>
+                <input *ngIf="!orderDetailByID[0].tracking_code" type="text" class="form-control"
+                  value="ยังไม่ได้กรอกรหัสพัสดุ" readonly>
               </div>
-              <input *ngIf="orderDetailByID[0].tracking_code" type="text" class="form-control" [value]="orderDetailByID[0].tracking_code" readonly>
-              <input *ngIf="!orderDetailByID[0].tracking_code" type="text" class="form-control" value="ยังไม่ได้กรอกรหัสพัสดุ" readonly>
-            </div>
 
-            <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-info text-light" id="basic-addon1">ที่อยู่ในการส่งสิ้นค้า </span>
+              <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-info text-light" id="basic-addon1">ที่อยู่ในการส่งสิ้นค้า </span>
+                </div>
+                <input type="text" class="form-control" value="{{orderDetailByID[0].address}}" readonly>
               </div>
-              <input type="text" class="form-control" value="{{orderDetailByID[0].address}}" readonly>
-            </div>
+            
+            
+
+          </div>
 
           <div *ngIf="upDateForPayment.payment_status !== 'Y'">
             <h3>ค่าสินค้าทั้งหมด {{priceOforderList| currency:' '}} บาท</h3>
             <h3 *ngIf="delivery == 'N'"> ไม่เสียค่าส่ง</h3>
             <h3 *ngIf="delivery == 'Y'"> ค่าขนส่ง 100 บาท</h3>
             <h2 *ngIf="delivery == 'N'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{priceOforderList| currency:' '}} บาท</h2>
-            <h2 *ngIf="delivery == 'Y'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{(priceOforderList + 100)| currency:' '}} บาท</h2>
+            <h2 *ngIf="delivery == 'Y'">ราคารวมทั้งหมดของคุณที่ต้องชำระ {{(priceOforderList + 100)| currency:' '}} บาท
+            </h2>
             <hr>
             <br>
-            <h3>ช่องทางการชำระเงิน</h3>     <hr>
+            <h3>ช่องทางการชำระเงิน</h3>
+            <hr>
             <h4>พร้อมเพย์ : 090-9864499</h4>
-            <h4>ธนาคารกสิกรไทย : 0273974687 (สาขาอู่ทอง สุพรรณบุรี) <img src="../../assets/img/kbank-logo.png" width="30%"></h4>
-            <h5>นางสาวพรนัชชา กลิ่นเกษตรวิทย์</h5><hr>
+            <h4>ธนาคารกสิกรไทย : 0273974687 (สาขาอู่ทอง สุพรรณบุรี) <img src="../../assets/img/kbank-logo.png"
+                width="30%"></h4>
+            <h5>นางสาวพรนัชชา กลิ่นเกษตรวิทย์</h5>
+            <hr>
             <h4>พร้อมเพย์ : 095-4944951</h4>
-            <h4>ธนาคารกรุงไทย : 7250257404 (สาขาอู่ทอง สุพรรณบุรี) <img src="../../assets/img/ktb-logo.jpg" width="30%"></h4>
+            <h4>ธนาคารกรุงไทย : 7250257404 (สาขาอู่ทอง สุพรรณบุรี) <img src="../../assets/img/ktb-logo.jpg" width="30%">
+            </h4>
             <h5>นางอรวรรณ พิบูลย์</h5><br>
-            
+
             <!-- <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
               style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img"> -->
             <div class="custom-file col-8" width="250">
@@ -373,25 +390,25 @@
         <div class="modal-body">
           <table *ngIf="userAccount" class="table table-bordered">
             <thead class="bg-hilight text-center">
-            <tr>
-              <th colspan="5">ข้อมูลผู้ซื้อ</th>
-            </tr>
-            <tr>
-              <th>ชื่อผู้สั่งซื้อ</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>Line Id</th>
-              <th>E-Mail</th>
-              <th>ที่อยู่</th>
-            </tr>
+              <tr>
+                <th colspan="5">ข้อมูลผู้ซื้อ</th>
+              </tr>
+              <tr>
+                <th>ชื่อผู้สั่งซื้อ</th>
+                <th>เบอร์โทรศัพท์</th>
+                <th>Line Id</th>
+                <th>E-Mail</th>
+                <th>ที่อยู่</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>{{userAccount.name}}</td>
-              <td>{{userAccount.tel}}</td>
-              <td>{{userAccount.line_id}}</td>
-              <td>{{userAccount.email}}</td>
-              <td>{{userAccount.address}}</td>
-            </tr>
+              <tr>
+                <td>{{userAccount.name}}</td>
+                <td>{{userAccount.tel}}</td>
+                <td>{{userAccount.line_id}}</td>
+                <td>{{userAccount.email}}</td>
+                <td>{{userAccount.address}}</td>
+              </tr>
             </tbody>
           </table>
           <table class="table table-hover">
@@ -426,18 +443,84 @@
                 <td>รวม {{priceOforderList| currency:' '}} บาท</td>
               </tr>
             </tbody>
-            
+
           </table>
           <div *ngIf="orderDetailByID" style="width: 90%;" class="mx-auto">
             <textarea style="height: 100px;" readonly *ngIf="orderDetailByID[0].address" class="form-control"
               value="ที่อยู่ในการจัดส่ง : {{orderDetailByID[0].address.split(':')[0]}}"></textarea>
             รับสินค้าด้วยตนเองที่ :100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160<br>
-            <iframe *ngIf="!orderDetailByID[0].address" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d761.50305596203!2d99.86549184213247!3d14.337871437691119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e24e80b11eae3d%3A0x31ad34e508cc3f6b!2z4LiW4LiZ4LiZIOC4oeC4suC4peC4seC4ouC5geC4oeC4mSDguJXguLPguJrguKUg4LiI4Lij4LmA4LiC4LmJ4Liq4Liy4Lih4Lie4Lix4LiZIOC4reC4s-C5gOC4oOC4rSDguK3guLnguYjguJfguK3guIcg4Liq4Li44Lie4Lij4Lij4LiT4Lia4Li44Lij4Li1!5e0!3m2!1sth!2sth!4v1556031765671!5m2!1sth!2sth" width="100%" height="200" frameborder="0" style="border:0" class="text-center" allowfullscreen></iframe>
+            <iframe *ngIf="!orderDetailByID[0].address"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d761.50305596203!2d99.86549184213247!3d14.337871437691119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e24e80b11eae3d%3A0x31ad34e508cc3f6b!2z4LiW4LiZ4LiZIOC4oeC4suC4peC4seC4ouC5geC4oeC4mSDguJXguLPguJrguKUg4LiI4Lij4LmA4LiC4LmJ4Liq4Liy4Lih4Lie4Lix4LiZIOC4reC4s-C5gOC4oOC4rSDguK3guLnguYjguJfguK3guIcg4Liq4Li44Lie4Lij4Lij4LiT4Lia4Li44Lij4Li1!5e0!3m2!1sth!2sth!4v1556031765671!5m2!1sth!2sth"
+              width="100%" height="200" frameborder="0" style="border:0" class="text-center" allowfullscreen></iframe>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="aaaaa" tabindex="-1" role="dialog"
+  aria-labelledby="uploadPayment" aria-hidden="true">
+  <div *ngIf="orderDetailByID" id="billPreOrder" class="modal-body">
+    <div align="center">
+      <div *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'">
+        <br><br><br>
+        <h2>ใบเสร็จการสั่งซื้อเลขที่ : P{{orderDetailByID[0].pre_id}}</h2>
+        <h3>ร้านข้าวหลามดาบอ๊อด <br> ที่อยู่ 100 ม.15 ต.จระเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี</h3>
+        <p>วันที่สั่งซื้อ : {{orderDetailByID[0].pre_date}}</p>
+        <div *ngIf="userAccount">
+          <p>ชื่อผู้สั่งสินค้า : {{userAccount.name}}</p>
+          <p>เบอร์ติดต่อ : {{userAccount.tel}}</p>
+          <p>Line ID : {{userAccount.tel}}</p>
+          <p>E-mail : {{userAccount.email}}</p>
+          <p>ที่อยู่ : {{userAccount.address}}</p>
+        </div>
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ชื่อ</th>
+              <th>ขนาด</th>
+              <th>ไส้</th>
+              <th>จำนวน</th>
+              <th>ราคา/กระบอก</th>
+              <th>ราคารวม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of orderListByID; let i = index">
+              <td>{{item.p_name}}</td>
+              <td>{{item.p_size}}</td>
+              <td>{{item.mixer}}</td>
+              <td>{{item.qty}}</td>
+              <td>{{(item.price)| currency:' '}}</td>
+              <td>{{(item.qty * item.price)| currency:' '}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>รวม {{priceOforderList| currency:' '}} บาท</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 *ngIf="!orderDetailByID[0].address"><br><br>กรุณานำใบเสร็จมารับสินค้า <br> ในวันที่
+          {{orderDetailByID[0].receive_date}}<br></h3>
+        <h3 *ngIf="orderDetailByID[0].address"><br><b>ส่งสินค้า</b> <br> ในวันที่ {{orderDetailByID[0].receive_date}}<br></h3>
+        <h3 *ngIf="orderDetailByID[0].address" style="width: 82%; margin-left: 9%;  margin-right: 9%;word-break: break-all;"><br>ที่อยู่ในการส่งสิ้นค้า <br> {{orderDetailByID[0].address}}<br></h3>
+
+        <table class=""><br><br><br><br>
+                            <th class=" text-center">
+                              ________________________<br><br>(________________________)<br>ผู้รับเงิน
+
+                            </th>
+                          </table>
       </div>
     </div>
   </div>
