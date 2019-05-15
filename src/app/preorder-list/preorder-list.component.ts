@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import * as moment from 'moment'
 import { Validate } from "../shared/utillity/Validate";
 import { FormControl } from '@angular/forms';
+import {UserService} from "../all-service/node-service/UserService.service";
 
 
 @Component({
@@ -55,6 +56,7 @@ export class PreorderListComponent implements OnInit {
     @Inject(AppStorage) private appStorage: Storage,
     @Inject('ORIGIN_URL') public baseUrl: string,
     private _sanitizer: DomSanitizer,
+    private userService: UserService,
     private preorderService: PreOrderService,
     private accountService: AccountService
   ) {
@@ -62,7 +64,6 @@ export class PreorderListComponent implements OnInit {
 
   async ngOnInit() {
     await this.preorderService.getPreOrderDetail().then((res: any) => {
-      console.log(res.content.reverse());
       let mapUserList: string[] = res.content.map((res: any) => res.username);
       this.userList = mapUserList.reduce((x, y) => x.includes(y) ? x : [...x, y], []);
     });
@@ -89,6 +90,10 @@ export class PreorderListComponent implements OnInit {
     this.selectedReport = i;
     let response: any = await this.preorderService.getPreOrderDetail();
     if (response.content) {
+      for(let i in response.content){
+        response.content[i].userDetail = await this.userService.getUserProfile({username:response.content[i].username});
+      }
+      console.log(response)
       let preOrder: any = response.content;
       if (this.header[i].status === "") {
         if (address) {
@@ -113,6 +118,7 @@ export class PreorderListComponent implements OnInit {
     let OrderDetail: any = await this.preorderService.getPreOrderDetail();
     if (OrderDetail.content) {
       this.orderDetailByID = await OrderDetail.content.filter((result: any) => result.pre_id == preId);
+      console.log(this.orderDetailByID)
     }
     this.userAccount = await this.accountService.getUserAccount(this.orderDetailByID[0].username);
 

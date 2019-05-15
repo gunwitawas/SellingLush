@@ -7,6 +7,9 @@ import {OrderService} from "../all-service/node-service/Order.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import Swal from "sweetalert2";
 import {SweetAlertOption as SwalOpt} from "@shared/constance/SweetAlertOption";
+import * as jspdf from 'jspdf';
+
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-transfer-back',
@@ -44,26 +47,44 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  public async printBillpreOrder() {
 
-    const printContent = document.getElementById("billPreOrder");
-    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    WindowPrt.document.write(printContent.innerHTML);
-    WindowPrt.document.close();
-    WindowPrt.focus();
-    WindowPrt.print();
-    WindowPrt.close();
+  public  printBillpreOrder() {
+
+    let data = document.getElementById('billPreOrder');
+    html2canvas(data).then(canvas => {
+// Few necessary setting options
+      let imgWidth = 208;
+      let pageHeight = 295;
+      let imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdf = new jspdf('p', 'mm', 'a4');
+      let position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('MYPdf.pdf'); // Generated PDF
+    });
+    /* const printContent = document.getElementById("billPreOrder");
+     const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+     WindowPrt.document.write(printContent.innerHTML);
+     WindowPrt.document.close();
+     WindowPrt.focus();
+     WindowPrt.print();
+     WindowPrt.close();*/
 
   }
+
   getImgPath(base64str: any) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
   }
- totalExpandIndex = 0;
+
+  totalExpandIndex = 0;
+
   async showDetail(i) {
     this.expandIndex = this.expandIndex == i ? 9999 : i;
-    this.orderList[this.expandIndex].orderList.forEach(f=>{
-      this.totalExpandIndex += (f.price*f.qty);
+    this.orderList[this.expandIndex].orderList.forEach(f => {
+      this.totalExpandIndex += (f.price);
     })
   }
 
@@ -84,7 +105,7 @@ export class OrderListComponent implements OnInit {
         })
         return v;
       });
-      console.log( this.orderList);
+      console.log(this.orderList);
     }
 
   }

@@ -117,10 +117,13 @@ private name = '';
 
   private async getAllProduct() {
     let response: any = await this.productservice.getAvailableProduct();
-    console.log(response);
+
+
 
     if (response.content) {
+
       this.allProduct = response.content;
+
       this.showPage = 'preOrder';
     } else {
       this.showPage = 'noStock';
@@ -337,21 +340,19 @@ private name = '';
   private checkPreorderDate(event: Date) {
     let sumdayDate = Validate.getDateDiff(event);
     this.isMoreThanDate = sumdayDate >= 2;
-    this.isMoreThanMonth = sumdayDate <= 30;
+    this.isMoreThanMonth = sumdayDate <= 7;
     this.isPreorderDate = this.isMoreThanDate && this.isMoreThanMonth;
     if (!this.isPreorderDate) {
-      Swal('Warning', 'กรุณาสั่งของล่วงหน้าอย่างน้อย 2 วัน และ ไม่เกิน 30 วัน!', 'warning');
+      Swal('Warning', 'กรุณาสั่งของล่วงหน้าอย่างน้อย 2 วัน และ ไม่เกิน 7 วัน!', 'warning');
     }
   }
 
   private async showOrderByPreId(preId: any, remark?: string) {
     this.listOrder = [];
-    this.listOrder = [];
     let OrderDetail: any = await this.preorderService.getPreOrderDetail();
     if (OrderDetail.content) {
       this.orderDetailByID = await OrderDetail.content.filter((result: any) => result.pre_id == preId);
     }
-    console.log(this.orderDetailByID[0].delivery);
     this.delivery = this.orderDetailByID[0].delivery;
     this.userAccount = await this.accountService.getUserAccount(this.orderDetailByID[0].username);
 
@@ -365,9 +366,6 @@ private name = '';
         this.priceOforderList += +(obj.price * obj.qty);
 
       })
-      console.log(this.priceOforderList);
-      console.log(this.delivery);
-
 
       if (remark !== 'hide') {
         $('#listOrder').modal('show');
@@ -378,7 +376,6 @@ private name = '';
   public openModalUplpadPayMent(item) {
     $('#uploadPayment').modal('show');
     this.showOrderByPreId(item.pre_id, 'hide');
-    console.log("item", item);
     this.isUpDateForPayment = true;
     this.upDateForPayment = {
       pre_id: item.pre_id,

@@ -45,11 +45,17 @@ export class HomeComponent implements OnInit {
     validPassword: true,
     validUsername: true
   }
-
+guestMode = true;
   ngOnInit(): void {
     this.loadImage();
     this.getLatestProduct();
     this.getBestSellerProduct();
+    if(!this.appStorage.getItem("status")){
+      this.guestMode=true;
+    }else{
+      this.guestMode = false;
+    }
+    console.log(this.appStorage.getItem("status"))
   }
 
 

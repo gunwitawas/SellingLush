@@ -10,6 +10,7 @@ import {Validate} from "@shared/utillity/Validate";
 import {AppStorage} from "@shared/for-storage/universal.inject";
 import Swal from "sweetalert2";
 import {SweetAlertOption as SwalOpt} from "@shared/constance/SweetAlertOption";
+import {UserService} from "../../all-service/node-service/UserService.service";
 
 @Component({
   selector: 'app-order-online-report',
@@ -20,6 +21,7 @@ export class OrderOnlineReportComponent extends Validate implements OnInit {
 
   constructor(private service: OrderService,
               private _sanitizer: DomSanitizer,
+              private serviceUser : UserService,
               private activatedRoute: ActivatedRoute,
               @Inject(AppStorage) private appStorage: Storage) {
     super();
@@ -33,7 +35,7 @@ export class OrderOnlineReportComponent extends Validate implements OnInit {
   }
   expandIndex = 9999;
   orderList: any = [];
-
+  userDetail:any=[];
   async ngOnInit() {
     let result = await this.service.clearOrderOverdue({});
     this.activatedRoute.params.subscribe(async params => {
@@ -42,8 +44,13 @@ export class OrderOnlineReportComponent extends Validate implements OnInit {
       }
     });
     await this.initMainDetail();
+    await this.getUserProfile();
   }
-
+ async getUserProfile(){
+   let result: any = await this.serviceUser.getUserProfile({username: this.appStorage.getItem("username")});
+   this.userDetail = result;
+   console.log(result)
+ }
   async updateOrderStatus(orderId) {
     Swal(SwalOpt.confirmUpdate).then(async (result: any) => {
       if (result.value) {

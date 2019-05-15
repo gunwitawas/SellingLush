@@ -12,6 +12,7 @@
       <h4 class="font-weight-bold"><img src=""> <label
         class="badge badge-info">ที่อยู่ร้าน 100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</label>
       </h4>
+      <h6 *ngIf="guestMode" class="text-left font-italic font-weight-light">กรุณา <a [routerLink]="'/login-regis-page'" [routerLinkActive]="['active']">เข้าสู่ระบบ/สมัครสมาชิก</a> ก่อนเลือกซื้อสินค้า</h6>
     </div>
   </div>
 </div>

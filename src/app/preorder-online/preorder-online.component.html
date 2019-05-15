@@ -335,7 +335,7 @@
             <h5>นางสาวพรนัชชา กลิ่นเกษตรวิทย์</h5><hr>
             <h4>พร้อมเพย์ : 095-4944951</h4>
             <h4>ธนาคารกรุงไทย : 7250257404 (สาขาอู่ทอง สุพรรณบุรี) <img src="../../assets/img/ktb-logo.jpg" width="30%"></h4>
-            <h5>อรวรรณ พิบูลย์</h5><br>
+            <h5>นางอรวรรณ พิบูลย์</h5><br>
             
             <!-- <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
               style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img"> -->
@@ -371,7 +371,29 @@
       </div>
       <div>
         <div class="modal-body">
-          <strong>ชื่อลูกค้า </strong>{{name}}
+          <table *ngIf="userAccount" class="table table-bordered">
+            <thead class="bg-hilight text-center">
+            <tr>
+              <th colspan="5">ข้อมูลผู้ซื้อ</th>
+            </tr>
+            <tr>
+              <th>ชื่อผู้สั่งซื้อ</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>Line Id</th>
+              <th>E-Mail</th>
+              <th>ที่อยู่</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{userAccount.name}}</td>
+              <td>{{userAccount.tel}}</td>
+              <td>{{userAccount.line_id}}</td>
+              <td>{{userAccount.email}}</td>
+              <td>{{userAccount.address}}</td>
+            </tr>
+            </tbody>
+          </table>
           <table class="table table-hover">
             <thead>
               <tr>
@@ -380,6 +402,7 @@
                 <th>ขนาด</th>
                 <th>ไส้</th>
                 <th>จำนวน</th>
+                <th>ราคา/กระบอก</th>
                 <th>ราคารวม</th>
               </tr>
             </thead>
@@ -391,6 +414,7 @@
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
                 <td>{{orderListByID[i].qty}}</td>
+                <td>{{(item.price)| currency:' '}}</td>
                 <td>{{(orderListByID[i].qty * item.price)| currency:' '}}</td>
               </tr>
               <tr>

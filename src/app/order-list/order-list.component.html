@@ -37,9 +37,6 @@
               สถานะการชำระเงิน
             </th>
             <th>
-              จัดการสถานะโดย
-            </th>
-            <th>
               ดูรายละเอียดการสั่งซื้อ
             </th>
           </tr>
@@ -61,10 +58,6 @@
                   class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
               </td>
               <td class="text-center">
-                <span *ngIf="item.pay_by==''">-</span>
-                {{item.pay_by}}
-              </td>
-              <td class="text-center">
                 <button data-toggle="collapse"
                         data-target="#collapseDetail"
                         class="btn btn-sm btn-outline-info "
@@ -78,12 +71,33 @@
               <td colspan="5" class=" bg-hilight-bg">
 
                 <div id="billPreOrder">
-                  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-                        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-                        crossorigin="anonymous">
-
                   <div class="container">
                     <h3 class="font-weight-bold"> ข้าวหลามดาบอ๊อด</h3>
+
+
+                    <table class="table table-bordered">
+                      <thead class="bg-hilight text-center">
+                      <tr>
+                        <th colspan="5">ข้อมูลผู้ซื้อ</th>
+                      </tr>
+                      <tr>
+                        <th>ชื่อผู้สั่งซื้อ</th>
+                        <th>เบอร์โทรศัพท์</th>
+                        <th>Line Id</th>
+                        <th>E-Mail</th>
+                        <th>ที่อยู่</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{orderList[expandIndex].userDetail.name}}</td>
+                        <td>{{orderList[expandIndex].userDetail.tel}}</td>
+                        <td>{{orderList[expandIndex].userDetail.line_id}}</td>
+                        <td>{{orderList[expandIndex].userDetail.email}}</td>
+                        <td>{{orderList[expandIndex].userDetail.address}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
                     <table class="table table-bordered">
                       <thead class="bg-hilight">
                       <tr class="text-center">
@@ -92,7 +106,7 @@
                         <th>ไส้</th>
                         <th>ขนาด</th>
                         <th>จำนวน</th>
-                        <th>ราคา</th>
+                        <th>ราคา/กระบอก</th>
                         <th>รวม</th>
                       </tr>
                       </thead>
@@ -105,8 +119,8 @@
                         <td class="text-center">{{list.mixer}}</td>
                         <td class="text-center">{{list.p_size}}</td>
                         <td>{{list.qty}}</td>
+                        <td>{{list.price / list.qty | currency:'  '}}</td>
                         <td>{{list.price | currency:'  '}}</td>
-                        <td>{{list.price * list.qty | currency:'  '}}</td>
                       </tr>
                       <tr>
                         <td colspan="4" class="text-right">รวม</td>
@@ -116,12 +130,13 @@
                       </tr>
                       <tr>
                         <td colspan="7">
-                          <span><strong>ชื่อผู้สั่งซื้อ : </strong>{{orderList[expandIndex].name}}</span>
                           <div class="row">
-                            <div class="col-6 text-center">________________________<br><br>(________________________)<br>ผู้รับเงิน
+                            <div class="col-6 text-center">
+                              ________________________<br><br>(________________________)<br>ผู้รับเงิน
 
                             </div>
-                            <div class="col-6 text-center">________________________<br><br>(________________________)<br>ผู้ชำระงิน
+                            <div class="col-6 text-center">
+                              ________________________<br><br>(________________________)<br>ผู้ชำระงิน
                             </div>
                           </div>
                         </td>

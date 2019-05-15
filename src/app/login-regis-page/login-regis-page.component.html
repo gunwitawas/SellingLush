@@ -9,7 +9,7 @@
       <div class="container">
 
         <div class="form-group">
-          <label for="username">ชื่อผู้ขาย</label>
+          <label for="username">ชื่อผู้ใช้ระบบ</label>
           <input class="form-control" id="username" name="username" [(ngModel)]="loginForm.username">
         </div>
         <div class="form-group">
@@ -48,7 +48,7 @@
           <div class="row">
 
             <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <label for="usernameRegis">ชื่อผู้ใช้</label>
+              <label for="usernameRegis">ชื่อผู้ใช้<br><small><i> เป็นภาษาอังกฤษพิมพ์ใหญ่/เล็ก และตัวเลข 6 ตัวขึ้นไป ตัวอย่าง : sellinglush001 </i></small></label>
               <input class="form-control" #username="ngModel" id="usernameRegis" name="usernameRegis" (change)="validateUsername()" [(ngModel)]="regisForm.username" [required]="true">
               <span class="text-danger" *ngIf="!regisForm.validUsername"> *ชื่อผู้ใช้นี้ถูกใช้แล้ว</span>
             </div>
@@ -62,7 +62,7 @@
           <div class="row">
 
             <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <label for="passwordRegis">รหัสผ่าน</label>
+              <label for="passwordRegis">รหัสผ่าน<br><small><i> เป็นภาษาอังกฤษพิมพ์ใหญ่/เล็ก และตัวเลข 6 ตัวขึ้นไป ตัวอย่าง : Abc1234 </i></small></label>
               <input type="password" class="form-control" #password="ngModel" id="passwordRegis" name="passwordRegis" (keypress)="validatePassword('M')"  [(ngModel)]="regisForm.password" [required]="true">
               <span *ngIf="!regisForm.validPassword && password.value.length >0"> รหัสผ่านไม่ถูกต้อง</span>
             </div>
@@ -74,7 +74,7 @@
             </div>
 
             <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <label for="inputTel">Tel</label>
+              <label for="inputTel">Tel <br><small><i> เป็นตัวเลข 10 ตัว ตัวอย่าง : 0934455569 </i></small></label>
               <input type="tel" class="form-control" #tel="ngModel" id="inputTel" name="inputTel" [(ngModel)]="regisForm.tel" [required]="true">
             </div>
 
@@ -85,7 +85,7 @@
 
 
             <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <label for="inputEmail">Email</label>
+              <label for="inputEmail">Email<br><small><i> ัวอย่าง : sellinglush@gmail.com </i></small></label>
               <input type="email" class="form-control" #email="ngModel" id="inputEmail" name="inputEmail" [(ngModel)]="regisForm.email" >
             </div>
 

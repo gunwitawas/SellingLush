@@ -11,6 +11,32 @@
   </ol>
 
   <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="bg-hilight text-center">
+        <tr>
+          <th colspan="5">ข้อมูลผู้ซื้อ</th>
+        </tr>
+        <tr>
+          <th>ชื่อผู้สั่งซื้อ</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>Line Id</th>
+          <th>E-Mail</th>
+          <th>ที่อยู่</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{userDetail.name}}</td>
+          <td>{{userDetail.tel}}</td>
+          <td>{{userDetail.line_id}}</td>
+          <td>{{userDetail.email}}</td>
+          <td>{{userDetail.address}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div *ngIf="!flag.isSelectedOrder" class="table-responsive rounded">
       <table class="table table-bordered rounded">
         <thead>
@@ -23,9 +49,6 @@
           </th>
           <th>
             สถานะการชำระเงิน
-          </th>
-          <th>
-            จัดการสถานะโดย
           </th>
           <th>
             ดูรายละเอียดการสั่งซื้อ
@@ -45,10 +68,7 @@
               <span *ngIf="item.status=='C'" class="text-danger"><i
                 class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
             </td>
-            <td class="text-center">
-              <span *ngIf="item.pay_by==''">-</span>
-              {{item.pay_by}}
-            </td>
+
             <td class="text-center">
               <button data-toggle="collapse"
                       data-target="#collapseDetail"
@@ -69,6 +89,7 @@
                     <th>ชื่อ</th>
                     <th>ไส้</th>
                     <th>ขนาด</th>
+                    <th>ราคา/กระบอก</th>
                     <th>ราคา</th>
                     <th>จำนวน</th>
                   </tr>
@@ -81,6 +102,7 @@
                       <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
                     <td class="text-center">{{list.mixer}}</td>
                     <td class="text-center">{{list.p_size}}</td>
+                    <td>{{list.price/list.qty}}</td>
                     <td>{{list.price}}</td>
                     <td>{{list.qty}}</td>
                   </tr>
@@ -124,6 +146,7 @@
           <th>ชื่อสินค้า</th>
           <th>ไส้</th>
           <th>ขนาด</th>
+          <th>ราคา/กระบอก</th>
           <th>ราคา</th>
           <th>จำนวนที่สั่ง</th>
           <!-- <th>ยกเลิกสินค้า</th> -->
@@ -136,6 +159,7 @@
             <img [src]="getImgPath(item.p_img)" width="125" height="70"></td>
           <td> {{item.mixer}}</td>
           <td class="text-center"> {{item.p_size}}</td>
+          <td> {{item.price}}</td>
           <td> {{item.price* item.qty}}</td>
           <td> {{item.qty}}</td>
           <!-- <td class="text-center">
@@ -181,7 +205,7 @@
               นางสาวพรนัชชา กลิ่นเกษตรวิทย์<hr>
               พร้อมเพย์ : 095-4944951<br>
             ธนาคารกรุงไทย : 7250257404 (สาขาอู่ทอง สุพรรณบุรี) <br><img src="../../assets/img/ktb-logo.jpg" width="30%"><br>
-              อรวรรณ พิบูลย์<hr>
+              นางอรวรรณ พิบูลย์<hr>
 
             
             <strong>เงื่อนไขการชำระเงิน</strong>
