@@ -9,6 +9,8 @@
 
   <div class="card-body">
     <div class="list-group" *ngIf="selectedReport==9">
+      <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(5)"><i
+        class="fa fa-bitcoin"></i> รายการที่ยังไม่ชำระเงิน</a>
       <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(0)"><i
         class="fa fa-bitcoin"></i> รายการที่รอการตรวจสอบการชำระเงิน</a>
       <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(1)"><i
@@ -72,86 +74,92 @@
 
                 <div id="billPreOrder">
                   <div class="container">
-                    <h3 class="font-weight-bold"> ข้าวหลามดาบอ๊อด</h3>
+                    <div align="center"><h4><b>ใบเสร็จรับเงิน ร้านข้าวหลามดาบอ๊อด </b></h4>
+                      <h5 class="font-weight-bold"><b>ที่อยู่ร้าน</b>
+                        100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</h5></div><br>
 
+                    <div align="left">
+                      <b>เลขที่ใบเสร็จ </b>{{orderList[expandIndex].order_id}}
+                      <b>วันที</b>่ {{orderList[expandIndex].order_date | date:'dd/MM/yyyy hh:mm:ss'}}
+                    </div>
+                    <br>
+                    <div align="center">
+                      <table style="border: 1px solid black; border-collapse: collapse;" class="table table-bordered">
+                        <thead style="border: 1px solid black;" class="bg-hilight text-center">
+                        <tr style="border: 1px solid black;">
+                          <th colspan="5" style="border: 1px solid black; ">ข้อมูลผู้ซื้อ</th>
+                        </tr>
+                        <tr style="border: 1px solid black;">
+                          <th style="border: 1px solid black;">ชื่อผู้สั่งซื้อ</th>
+                          <th style="border: 1px solid black;">เบอร์โทรศัพท์</th>
+                          <th style="border: 1px solid black;">Line Id</th>
+                          <th style="border: 1px solid black;">E-Mail</th>
+                          <th style="border: 1px solid black;">ที่อยู่</th>
+                        </tr>
+                        </thead>
+                        <tbody style="border: 1px solid black;">
+                        <tr>
+                          <td style="border: 1px solid black;">{{orderList[expandIndex].userDetail.name}}</td>
+                          <td style="border: 1px solid black;">{{orderList[expandIndex].userDetail.tel}}</td>
+                          <td style="border: 1px solid black;">{{orderList[expandIndex].userDetail.line_id}}</td>
+                          <td style="border: 1px solid black;">{{orderList[expandIndex].userDetail.email}}</td>
+                          <td style="border: 1px solid black;">{{orderList[expandIndex].userDetail.address}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <br>
+                    <div align="center">
+                      <table class="table table-bordered" style="border: 1px solid black; border-collapse: collapse;">
+                        <thead class="bg-hilight" style="border: 1px solid black;">
+                        <tr class="text-center">
+                          <th style="border: 1px solid black;">รหัสสินค้า</th>
+                          <th style="border: 1px solid black;">ชื่อ</th>
+                          <th style="border: 1px solid black;">ไส้</th>
+                          <th style="border: 1px solid black;">ขนาด</th>
+                          <th style="border: 1px solid black;">จำนวน</th>
+                          <th style="border: 1px solid black;">ราคา/กระบอก</th>
+                          <th style="border: 1px solid black;">รวม</th>
+                        </tr>
+                        </thead>
+                        <tbody style="border: 1px solid black;">
+                        <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
+                          <td style="border: 1px solid black;" class="text-center">{{list.p_id}}
+                          </td>
+                          <td style="border: 1px solid black;" class="text-center">{{list.p_name}}<br>
+                            <img *ngIf="showImage" [src]="getImgPath(list.p_img)" width="125" height="70">
+                          </td>
+                          <td style="border: 1px solid black;" class="text-center">{{list.mixer}}</td>
+                          <td style="border: 1px solid black;" class="text-center">{{list.p_size}}</td>
+                          <td style="border: 1px solid black;">{{list.qty}}</td>
+                          <td style="border: 1px solid black;">{{list.price / list.qty | currency:'  '}}</td>
+                          <td style="border: 1px solid black;">{{list.price | currency:'  '}}</td>
+                        </tr>
+                        <tr style="border: 1px solid black;">
+                          <td style="border: 1px solid black;" colspan="4" class="text-right">รวม</td>
+                          <td style="border: 1px solid black;">{{orderList[expandIndex].totalQty + ' ชิ้น'}}</td>
+                          <td style="border: 1px solid black;" colspan="2"
+                              class="text-right">{{totalExpandIndex | currency:'  '}} {{' บาท'}}</td>
 
-                    <table class="table table-bordered">
-                      <thead class="bg-hilight text-center">
-                      <tr>
-                        <th colspan="5">ข้อมูลผู้ซื้อ</th>
-                      </tr>
-                      <tr>
-                        <th>ชื่อผู้สั่งซื้อ</th>
-                        <th>เบอร์โทรศัพท์</th>
-                        <th>Line Id</th>
-                        <th>E-Mail</th>
-                        <th>ที่อยู่</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                        <td>{{orderList[expandIndex].userDetail.name}}</td>
-                        <td>{{orderList[expandIndex].userDetail.tel}}</td>
-                        <td>{{orderList[expandIndex].userDetail.line_id}}</td>
-                        <td>{{orderList[expandIndex].userDetail.email}}</td>
-                        <td>{{orderList[expandIndex].userDetail.address}}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                    <table class="table table-bordered">
-                      <thead class="bg-hilight">
-                      <tr class="text-center">
-                        <th>รหัสสินค้า</th>
-                        <th>ชื่อ</th>
-                        <th>ไส้</th>
-                        <th>ขนาด</th>
-                        <th>จำนวน</th>
-                        <th>ราคา/กระบอก</th>
-                        <th>รวม</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
-                        <td class="text-center">{{list.p_id}}
-                        </td>
-                        <td class="text-center">{{list.p_name}}<br>
-                          <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
-                        <td class="text-center">{{list.mixer}}</td>
-                        <td class="text-center">{{list.p_size}}</td>
-                        <td>{{list.qty}}</td>
-                        <td>{{list.price / list.qty | currency:'  '}}</td>
-                        <td>{{list.price | currency:'  '}}</td>
-                      </tr>
-                      <tr>
-                        <td colspan="4" class="text-right">รวม</td>
-                        <td>{{orderList[expandIndex].totalQty + ' ชิ้น'}}</td>
-                        <td colspan="2">{{totalExpandIndex | currency:'  '}} {{' บาท'}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <br>
+                    <div align="center">
+                      ________________________<br><br>(________________________)<br>ผู้รับเงิน<br>วันที่....................................
 
-                      </tr>
-                      <tr>
-                        <td colspan="7">
-                          <div class="row">
-                            <div class="col-6 text-center">
-                              ________________________<br><br>(________________________)<br>ผู้รับเงิน
-
-                            </div>
-                            <div class="col-6 text-center">
-                              ________________________<br><br>(________________________)<br>ผู้ชำระงิน
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                    </div>
                     <!-- -->
                   </div>
                 </div>
                 <div align="right">
 
-                  <button class="btn btn-danger" (click)="printBillpreOrder()">พิมพ์ใบเสร็จ</button>
+                  <button class="btn btn-primary" (click)="printBillpreOrder()">พิมพ์ใบเสร็จ</button>
+                  <br>
                   <div *ngIf="item.status=='N'" class="btn-group">
-                    <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
-                      class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
+                    <button (click)="updateStatus(item.order_id,'S')" class="btn btn-sm btn-primary"><i
+                      class="fa fa-check-circle"></i> ชำระด้วยเงินสด
                     </button>
                     <button class="btn btn-sm btn-danger" (click)="updateStatus(item.order_id,'C')"><i
                       class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง

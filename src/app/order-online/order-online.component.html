@@ -234,6 +234,7 @@
       </div>
       <div>
         <div class="modal-body text-center">
+          <span><strong>เวลาที่สั่งซื้อ : </strong>{{currentTime}}<br><br></span>
           <span *ngIf="saveForm.cartList.length==0"><i class="fa fa-exclamation-triangle"> </i> ท่านยังไม่ได้เลือกสินค้าใด</span>
           <ng-container *ngIf="saveForm.cartList.length!=0">
             <div class="table-responsive">
@@ -245,6 +246,7 @@
                   <th>ไส้</th>
                   <th>ขนาด</th>
                   <th>จำนวนที่สั่ง</th>
+                  <th>ราคา/ต่อหน่วย</th>
                   <th>ราคา</th>
                   <th></th>
                 </tr>
@@ -256,7 +258,8 @@
                   <td>{{item.mixer}}</td>
                   <td>{{item.p_size}}</td>
                   <td>{{item.selectedNum}}</td>
-                  <td>{{item.price * item.selectedNum}}</td>
+                  <td>{{item.price}}</td>
+                  <td>{{item.price* item.selectedNum}}</td>
                   <td>
                     <button class="btn btn-sm btn-danger" (click)="removeSelected(i)"><i class="fa fa-trash"></i>
                     </button>
@@ -269,9 +272,11 @@
                   <td>
                     {{saveForm.totalQty}}
                   </td>
+                  <td></td>
                   <td colspan="2" class="text-left">
                     {{saveForm.totalPrice}}
                   </td>
+                  <td></td>
                 </tr>
                 </tbody>
               </table>

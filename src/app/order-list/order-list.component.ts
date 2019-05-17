@@ -40,17 +40,18 @@ export class OrderListComponent implements OnInit {
     {name: "รายการที่รอมารับสินค้า", status: "Y"},
     {name: "รายการที่รับสินค้าแล้ว", status: "S"},
     {name: "รายการที่ถูกยกเลิก", status: "C"},
-    {name: "รายการทั้งหมด", status: ""}
+    {name: "รายการทั้งหมด", status: ""},
+    {name: "รายการที่ยังไม่ได้ชำระเงิน", status: "N"},
   ];
   isModalOpen = false;
 
   ngOnInit(): void {
 
   }
-
+  showImage = true;
   public  printBillpreOrder() {
-
-    let data = document.getElementById('billPreOrder');
+this.showImage = false;
+/*    let data = document.getElementById('billPreOrder');
     html2canvas(data).then(canvas => {
 // Few necessary setting options
       let imgWidth = 208;
@@ -63,14 +64,15 @@ export class OrderListComponent implements OnInit {
       let position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('MYPdf.pdf'); // Generated PDF
-    });
-    /* const printContent = document.getElementById("billPreOrder");
+    });*/
+     const printContent = document.getElementById("billPreOrder");
      const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
      WindowPrt.document.write(printContent.innerHTML);
      WindowPrt.document.close();
      WindowPrt.focus();
      WindowPrt.print();
-     WindowPrt.close();*/
+     WindowPrt.close();
+     this.showImage = true;
 
   }
 
@@ -101,7 +103,7 @@ export class OrderListComponent implements OnInit {
         m.orderList.map(n => {
           console.log(n);
           v.totalQty += n.qty
-          v.totalPrice += n.price
+          v.totalPrice += n.price/n.qty
         })
         return v;
       });

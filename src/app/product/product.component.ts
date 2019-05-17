@@ -52,7 +52,6 @@ export class ProductComponent implements OnInit {
     @Inject(AppStorage) private appStorage: Storage,
     @Inject('ORIGIN_URL') public baseUrl: string,
   ) {
-    console.log(`ORIGIN_URL=${baseUrl}`);
   }
 
   getDiffDate(date) {
@@ -132,6 +131,7 @@ export class ProductComponent implements OnInit {
     for (let key in this.searchForm) {
       this.searchForm[key] = "";
     }
+    this.getAllProduct();
   }
 
   addProduct() {

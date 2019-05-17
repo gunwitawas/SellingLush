@@ -13,7 +13,7 @@ import {Validate} from "@shared/utillity/Validate";
 @Component({
   selector: 'app-transfer-back',
   templateUrl: './order-online.component.html',
-  styleUrls:['../../styles.scss']
+  styleUrls: ['../../styles.scss']
 })
 export class OrderOnlineComponent implements OnInit {
   constructor(
@@ -26,8 +26,12 @@ export class OrderOnlineComponent implements OnInit {
   ) {
   }
 
+
+  currentTime = '';
+
+
   flag = {
-    isSearch : false
+    isSearch: false
   }
   searchForm: any = {
     "p_id": "",
@@ -50,36 +54,70 @@ export class OrderOnlineComponent implements OnInit {
   };
 
   async ngOnInit() {
-    await this.getCurrentProductStore();
+    let currentTime = Number(this.lpadTxt(new Date().getHours(), '0', 2) +
+      "" + this.lpadTxt(new Date().getMinutes(), '0', 2) + ""
+      + this.lpadTxt(new Date().getSeconds(), '0', 2));
+    let closeTime = 180000;
+      await this.getCurrentProductStore();
     await this.checkUnpaidOrder();
+    this.startCountTime();
   }
 
-  getDiffDate(date){
+  startCountTime() {
+    setInterval(() => {
+      this.currentTime = this.lpadTxt(new Date().getHours(), '0', 2) +
+        ":" + this.lpadTxt(new Date().getMinutes(), '0', 2) + ":"
+        + this.lpadTxt(new Date().getSeconds(), '0', 2)
+    }, 1000);
+  }
+
+  lpadTxt(txt, str, length) {
+
+    txt += "";
+    if (length > txt.length) {
+      let diff = length - txt.length;
+
+      let append = '';
+
+      for (let i = 0; i < diff; i++) {
+        append += str + '';
+      }
+
+      return append + txt;
+    } else {
+      return txt;
+    }
+  }
+
+  getDiffDate(date) {
     return Validate.getDateDiff(date);
 
   }
+
   async getCurrentProductStore() {
     let result: any = await this.service.getProductStore({});
     if (result.result) {
       this.productStoreList = result.content;
-      console.log(this.productStoreList );
-      
+      console.log(this.productStoreList);
+
     }
   }
 
   async search() {
 
     let result: any = await this.service.searchProductStore(this.searchForm);
-    if(result.result){
+    if (result.result) {
       this.productStoreList = result.content;
-    }else{
+    } else {
       this.productStoreList = [];
     }
   }
-  async checkUnpaidOrder(){
-    let result:any = await this.service.checkOrderStatusUnpaid({username:this.appStorage.getItem("username")});
+
+  async checkUnpaidOrder() {
+    let result: any = await this.service.checkOrderStatusUnpaid({username: this.appStorage.getItem("username")});
     this.unableToOrder = result.result;
   }
+
   getImgPath(base64str) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
       + base64str);
@@ -123,20 +161,20 @@ export class OrderOnlineComponent implements OnInit {
 
   async billing() {
     try {
-      let result:any = await this.service.insertOrderDetail(this.getPreOrderDetail());
+      let result: any = await this.service.insertOrderDetail(this.getPreOrderDetail());
       if (result.result) {
         $("#cartModal").modal('toggle');
         console.log(this.saveForm.cartList);
-        for(let m of this.saveForm.cartList){
-          let r:any = await this.service.insertOrderList({
+        for (let m of this.saveForm.cartList) {
+          let r: any = await this.service.insertOrderList({
             order_id: result.order_id,
             p_id: m.p_id,
             qty: m.selectedNum,
-            price: m.price*m.selectedNum
+            price: m.price * m.selectedNum
           })
-        console.log("asdasdsad",r);
+          console.log("asdasdsad", r);
         }
-        await this.router.navigate(['/order-online/report', {order_id:result.order_id}]);
+        await this.router.navigate(['/order-online/report', {order_id: result.order_id}]);
       } else {
         await this.alertFailTransaction()
       }

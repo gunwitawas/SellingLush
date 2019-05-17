@@ -26,6 +26,7 @@ export class PreorderListComponent implements OnInit {
   public preOrderDetail: any = [];
   public listOrder: Array<any>;
   public priceOforderList: number = 0;
+  public qtyOforderList: number = 0;
   public userAccount: any;
   public searchOrderDetail: any = [];
   public isCheckSearchDate: boolean = true;
@@ -126,8 +127,11 @@ export class PreorderListComponent implements OnInit {
     if (OrderList.content) {
       this.orderListByID = await OrderList.content.filter((result: any) => result.pre_id == preId);
       this.priceOforderList = 0;
+      this.qtyOforderList = 0;
       this.orderListByID.map(async (obj, index) => {
         this.priceOforderList += (obj.price * obj.qty);
+        this.qtyOforderList += (obj.qty);
+
       });
       if (remark !== 'hide') {
         $('#listOrder').modal('show');
@@ -195,12 +199,15 @@ export class PreorderListComponent implements OnInit {
     };
     console.log(this.requestSearchOrderDetailbyDate);
 
-    let preOrderDetail = await this.preorderService.checkPreOrderDate(this.requestSearchOrderDetailbyDate);
+    let preOrderDetail:any = await this.preorderService.checkPreOrderDate(this.requestSearchOrderDetailbyDate);
+
+    for(let i in preOrderDetail){
+      preOrderDetail[i].userDetail = await this.userService.getUserProfile({username:preOrderDetail[i].username});
+    }
     if (this.status && this.status !== "") {
       this.preOrderDetail = preOrderDetail.filter((res: any) => res.payment_status === this.status);
       this.sumPrice = 0;
       await this.preOrderDetail.map((res) => this.sumPrice += Math.round(res.netpay));
-
     } else {
       this.preOrderDetail = preOrderDetail;
       this.sumPrice = 0;
@@ -218,14 +225,14 @@ export class PreorderListComponent implements OnInit {
       this.startDate = event.getDate() + '/' + (event.getMonth() + 1) + '/' + event.getFullYear();
     }
 
-
-
   }
-
+  StartDate = new Date();
+  EndDate = new Date();
   checkInputEndDate(event: Date) {
     this.checkEndDate = Validate.getDateDiff(event);
-    if (this.checkStartDate && this.checkEndDate < this.checkStartDate) {
+    if (this.checkStartDate && this.EndDate < this.StartDate) {
       this.isCheckSearchDate = false;
+      //this.EndDate = this.StartDate;
       Swal('Warning', 'วันที่สิ้นสุดไม่สามารถน้อยกว่าวันที่เริ่มต้นได้', 'warning');
     } else {
       this.isCheckSearchDate = true;

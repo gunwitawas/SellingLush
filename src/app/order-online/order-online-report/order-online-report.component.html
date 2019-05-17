@@ -59,7 +59,7 @@
         <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
           <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
             <td class="text-center">D{{item.order_id}}</td>
-            <td class="text-center">{{item.order_date | date:'d/M/yyyy'}}</td>
+            <td class="text-center">{{item.order_date | date:'d/M/yyyy hh:mm:ss'}}</td>
             <td class="text-center">
               <span *ngIf="item.status=='N'" class="text-warning"><i class="fa fa-times-circle"></i> ยังไม่ได้ยืนยันการชำระเงิน</span>
               <span *ngIf="item.status=='Y'" class="text-primary"><i class="fa fa-check-circle"></i> ชำระเงินเรียบร้อยแล้ว</span>
@@ -89,9 +89,9 @@
                     <th>ชื่อ</th>
                     <th>ไส้</th>
                     <th>ขนาด</th>
+                    <th>จำนวน</th>
                     <th>ราคา/กระบอก</th>
                     <th>ราคา</th>
-                    <th>จำนวน</th>
                   </tr>
                   </thead>
                   <tbody>
