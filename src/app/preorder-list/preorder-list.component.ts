@@ -166,7 +166,7 @@ export class PreorderListComponent implements OnInit {
               break;
             case "E":
               this.showReport(3);
-              Swal('Success', 'กรอกหมายเลขพัสดุเรียบร้อย', 'success');
+              Swal('Success', 'อัพเดตสถานะเรียบร้อยแล้ว', 'success');
               break;
             case "U":
               this.showReport(4);
