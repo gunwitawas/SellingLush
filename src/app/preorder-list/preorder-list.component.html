@@ -109,6 +109,9 @@
         </tr>
         </thead>
         <tbody>
+        <tr *ngIf=" preOrderDetail.length<1" >
+          <td colspan="8"> *ไม่มีพบข้อมูลที่ต้องการ </td>
+        </tr>
         <tr *ngFor="let item of preOrderDetail" id="accordion" class="rounded">
           <td class="text-center">P{{item.pre_id}}</td>
           <td class="text-center">{{item.userDetail.name}}</td>
@@ -120,8 +123,12 @@
           <td class="text-center">
 
 
-            <button *ngIf="item.payment_status === 'Y'" type="button" class="btn btn-success"
+            <button *ngIf="item.payment_status === 'Y' " type="button" class="btn btn-success"
                     (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
+            <button *ngIf="item.payment_status === 'E' " type="button" class="btn btn-secondary"
+                    (click)="showOrderByPreId(item.pre_id)">กรอกเลขพัสดุ <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
+            <button *ngIf="item.payment_status === 'U'" type="button" class="btn btn-info"
+                    (click)="showOrderByPreId(item.pre_id)">อัพเดตสถานะการจัดส่ง <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
 
 
             <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary"
@@ -249,14 +256,12 @@
 
         <form>
           <div *ngIf="orderDetailByID">
-
-            <div style="width: 90%;margin-left: 5%;margin-right: 5%"
-                 *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address"
-                 class="input-group mb-3">
+<!--*ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address"-->
+            <div *ngIf="orderDetailByID[0].payment_status === 'E' || orderDetailByID[0].payment_status === 'U'" style="width: 90%;margin-left: 5%;margin-right: 5%"  class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">กรุณากรอกเลขพัสดุ</span>
               </div>
-              <input name="trackingCode" [(ngModel)]="trackingCode" (change)='checkTrackingCode()' type="text"
+              <input  name="trackingCode" [(ngModel)]="trackingCode" (change)='checkTrackingCode()' type="text"
                      class="form-control" placeholder="กรุณากรอกเลขพัสดุ" aria-label="Username"
                      aria-describedby="basic-addon1">
             </div>
@@ -278,8 +283,22 @@
                       type="button" class="btn btn-info" (click)="printBillpreOrder()"
                       data-dismiss="modal">พิมพ์ใบเสร็จการสั่งซื้อ
               </button>
+              <button *ngIf="orderDetailByID[0].payment_status === 'Y' && !orderDetailByID[0].address"
+                      type="button" class="btn btn-info" (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
+                      data-dismiss="modal">รับสินค้าหน้าร้านแล้ว
+              </button>
 
               <button *ngIf="orderDetailByID[0].payment_status === 'Y' && orderDetailByID[0].address" type="button"
+                      class="btn btn-primary" style="margin-left: 5px"
+                      (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'E')"
+                      data-dismiss="modal"> พร้อมจัดส่ง
+              </button>
+              <button *ngIf="orderDetailByID[0].payment_status === 'E' && orderDetailByID[0].address" type="button"
+                      class="btn btn-primary" style="margin-left: 5px" [disabled]="!checkTrackingCodeBtn"
+                      (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'U')"
+                      data-dismiss="modal"> อัพเดตสถานะการส่ง
+              </button>
+              <button *ngIf="orderDetailByID[0].payment_status === 'U' && orderDetailByID[0].address" type="button"
                       class="btn btn-primary" style="margin-left: 5px" [disabled]="!checkTrackingCodeBtn"
                       (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'S')"
                       data-dismiss="modal">ส่งสินค้าแล้ว
@@ -301,7 +320,7 @@
     <div>
       <div *ngIf="orderDetailByID[0].payment_status === 'Y' || orderDetailByID[0].payment_status === 'S'">
         <!---->
-        <div align="center"><h4><b>ใบเสร็จรับเงิน ร้านข้าวหลามดาบอ๊อด </b></h4>
+        <div align="center"><h4><b>ใบเสร็จรับเงิน <br> ร้านข้าวหลามดาบอ๊อด </b></h4>
           <h5 class="font-weight-bold"><b>ที่อยู่ร้าน</b>
             100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</h5></div>
         <br>

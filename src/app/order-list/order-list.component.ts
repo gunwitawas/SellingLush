@@ -34,7 +34,11 @@ export class OrderListComponent implements OnInit {
   expandIndex = 9999;
   selectedReport = 9;
   selectedOrder: any;
-  orderList: any = [];
+  orderList: any = {
+    orderList: [],
+    totalPrice: 0,
+    totalQty: 0
+  };
   header = [
     {name: "รายการที่รอการตรวจสอบการชำระเงิน", status: "W"},
     {name: "รายการที่รอมารับสินค้า", status: "Y"},
@@ -42,37 +46,40 @@ export class OrderListComponent implements OnInit {
     {name: "รายการที่ถูกยกเลิก", status: "C"},
     {name: "รายการทั้งหมด", status: ""},
     {name: "รายการที่ยังไม่ได้ชำระเงิน", status: "N"},
+    {name: "รายงานรายได้รายวัน", status: "R"},
   ];
   isModalOpen = false;
 
   ngOnInit(): void {
 
   }
-  showImage = true;
-  public  printBillpreOrder() {
-this.showImage = false;
-/*    let data = document.getElementById('billPreOrder');
-    html2canvas(data).then(canvas => {
-// Few necessary setting options
-      let imgWidth = 208;
-      let pageHeight = 295;
-      let imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
 
-      const contentDataURL = canvas.toDataURL('image/png');
-      let pdf = new jspdf('p', 'mm', 'a4');
-      let position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('MYPdf.pdf'); // Generated PDF
-    });*/
-     const printContent = document.getElementById("billPreOrder");
-     const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-     WindowPrt.document.write(printContent.innerHTML);
-     WindowPrt.document.close();
-     WindowPrt.focus();
-     WindowPrt.print();
-     WindowPrt.close();
-     this.showImage = true;
+  showImage = true;
+
+  public printBillpreOrder() {
+    this.showImage = false;
+    /*    let data = document.getElementById('billPreOrder');
+        html2canvas(data).then(canvas => {
+    // Few necessary setting options
+          let imgWidth = 208;
+          let pageHeight = 295;
+          let imgHeight = canvas.height * imgWidth / canvas.width;
+          let heightLeft = imgHeight;
+
+          const contentDataURL = canvas.toDataURL('image/png');
+          let pdf = new jspdf('p', 'mm', 'a4');
+          let position = 0;
+          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+          pdf.save('MYPdf.pdf'); // Generated PDF
+        });*/
+    const printContent = document.getElementById("billPreOrder");
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+    this.showImage = true;
 
   }
 
@@ -90,24 +97,44 @@ this.showImage = false;
     })
   }
 
+  totalPrice = 0;
+
   async showReport(i) {
     this.selectedReport = i;
     if (i == 9) this.expandIndex = 9999;
     else if (this.header[i].status == 'O') {
     } else {
-      let result: any = await this.service.getOrderDetailByStatus(this.header[i]);
-      this.orderList = result.map(m => {
+      let obj = {
+        status: this.header[i].status == 'R' ? "S" : this.header[i].status
+      }
+      let result: any = await this.service.getOrderDetailByStatus(obj);
+      this.totalPrice = 0;
+      let res: any = {
+        totalQty: 0,
+        totalPrice: 0,
+        orderList: []
+      };
+      res.totalQty = 0;
+      res.totalPrice = 0;
+      res = result.map(m => {
         let v = m;
         v.totalQty = 0;
         v.totalPrice = 0;
         m.orderList.map(n => {
-          console.log(n);
           v.totalQty += n.qty
-          v.totalPrice += n.price/n.qty
+          v.totalPrice += n.price / n.qty
         })
         return v;
       });
-      console.log(this.orderList);
+      this.orderList = res;
+      if (this.header[i].status == 'R') {
+        this.orderList = this.orderList.filter(f => new Date(f.order_date).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0))
+      }
+      setTimeout(()=>{
+        this.orderList.forEach(f => {
+          this.totalPrice += f.net_pay;
+        })
+      },10)
     }
 
   }

@@ -49,7 +49,6 @@ export class PreOrderService {
   }
 
   async checkPreOrderDate(request: any) {
-
     let username = request.username;
     let startDate: any = moment(request.startDate, "DD/MM/YYYY");
     let endDate: any = moment(request.endDate, "DD/MM/YYYY");
@@ -57,7 +56,7 @@ export class PreOrderService {
     let preOrderDetail: any = await this.getPreOrderDetail();
 
     if (preOrderDetail.content) {
-      if (username) {
+      if (request.username) {
         let preOrderDetailByID: any = await preOrderDetail.content.filter((result: any) => result.username == username);
         if (startDate._isValid && endDate._isValid) {
           let preOrderDetailByDate: any = await preOrderDetailByID.filter((result: any) => moment(result.pre_date, "DD/MM/YYYY") >= startDate && moment(result.pre_date, "DD/MM/YYYY") <= endDate);

@@ -21,6 +21,9 @@
         class="fa fa-trash"></i> รายการที่ถูกยกเลิก</a>
       <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(4)"><i
         class="fa fa-list-ol"></i> รายการทั้งหมด</a>
+      <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(6)"><i
+        class="fa fa-list-ol"></i> รายงานรายได้ประจำวัน</a>
+
     </div>
 
     <div *ngIf="selectedReport<9">
@@ -37,6 +40,8 @@
             </th>
             <th>
               สถานะการชำระเงิน
+            </th>
+            <th>จำนวนเงินรวมของรายการ
             </th>
             <th>
               ดูรายละเอียดการสั่งซื้อ
@@ -59,6 +64,7 @@
                 <span *ngIf="item.status=='C'" class="text-danger"><i
                   class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
               </td>
+              <td>{{item.net_pay | currency:' '}}</td>
               <td class="text-center">
                 <button data-toggle="collapse"
                         data-target="#collapseDetail"
@@ -71,10 +77,9 @@
             </tr>
             <tr *ngIf="expandIndex==i" id="collapseDetail" class="collapse">
               <td colspan="5" class=" bg-hilight-bg">
-
                 <div id="billPreOrder">
                   <div class="container">
-                    <div align="center"><h4><b>ใบเสร็จรับเงิน ร้านข้าวหลามดาบอ๊อด </b></h4>
+                    <div align="center"><h4><b>ใบเสร็จรับเงิน <br> ร้านข้าวหลามดาบอ๊อด </b></h4>
                       <h5 class="font-weight-bold"><b>ที่อยู่ร้าน</b>
                         100 ม.15 ต.จรเข้สามพัน อ.อู่ทอง จ.สุพรรณบุรี 72160</h5></div><br>
 
@@ -189,6 +194,11 @@
               </td>
             </tr>
           </ng-template>
+
+          <tr>
+            <td colspan="3" class="text-right"> รวมจำนวนเงิน</td>
+            <td colspan="2" class="text-left">{{totalPrice | currency:' '}}</td>
+          </tr>
           </tbody>
         </table>
       </div>

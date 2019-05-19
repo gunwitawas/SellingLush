@@ -107,6 +107,10 @@
               (click)="openModalUplpadPayMent(item)">ยังไม่ได้ชำระเงิน</button>
             <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'W' "
               (click)="openModalUplpadPayMent(item)">รอยืนยันการชำระเงิน</button>
+            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'E' "
+                    (click)="openModalUplpadPayMent(item)">ชำระเงินเรียบร้อยรอดำเนินการส่ง</button>
+            <button type="button" class="btn btn-warning" *ngIf="item.payment_status == 'U' "
+              (click)="openModalUplpadPayMent(item)">รายการส่งถึงเรียบร้อยแล้ว</button>
             <button type="button" class="btn btn-info" *ngIf="item.payment_status == 'Y' "
               (click)="openModalUplpadPayMent(item)">ชำระเงินแล้ว</button>
             <button type="button" class="btn btn-primary" *ngIf="item.payment_status == 'S'"
@@ -316,7 +320,7 @@
 
             <div *ngIf="orderDetailByID[0].address" class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-info text-light" id="basic-addon1">ที่อยู่ในการส่งสิ้นค้า </span>
+                <span class="input-group-text bg-info text-light" id="basic-addon1">ที่อยู่ในการส่งสินค้า </span>
               </div>
               <input type="text" class="form-control" value="{{orderDetailByID[0].address}}" readonly>
             </div>

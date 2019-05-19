@@ -49,9 +49,11 @@ export class PreorderListComponent implements OnInit {
   header = [
     { name: "รายการทั้งหมด", status: "", icon: "fa fa-list" },
     { name: "รายการที่รอการตรวจสอบการชำระเงิน", status: "W", icon: "fa fa-spinner" },
-    { name: "รายการที่ชำระเงินแล้ว", status: "Y", icon: "fa fa-external-link" },
+    { name: "รายการที่ชำระเงินแล้ว", status: "Y", icon: "fa fa-bitcoin" },
+    { name: "รายการที่รอกรอกรหัสสั่งซื้อ", status: "E", icon: "fa fa-edit" },
+    { name: "อัพเดตสถานะการจัดส่ง", status: "U", icon: "fa fa-share-square" },
     { name: "รายการที่ยังไม่ได้ชำระเงิน", status: "N", icon: "fa fa-window-close-o" },
-    { name: "รายการที่ได้รับสินค้าแล้ว", status: "S", icon: "fa fa-check-square-o" },
+    { name: "รายการมารับสินค้าหน้าร้านแล้ว", status: "S", icon: "fa fa-check-square-o" },
   ];
   constructor(
     @Inject(AppStorage) private appStorage: Storage,
@@ -94,7 +96,6 @@ export class PreorderListComponent implements OnInit {
       for(let i in response.content){
         response.content[i].userDetail = await this.userService.getUserProfile({username:response.content[i].username});
       }
-      console.log(response)
       let preOrder: any = response.content;
       if (this.header[i].status === "") {
         if (address) {
@@ -158,16 +159,25 @@ export class PreorderListComponent implements OnInit {
         console.log(res);
         if (res.message === "Success" && res.result) {
           switch (remark) {
+
             case "Y":
               this.showReport(2);
               Swal('Success', 'บันทึกรายการชำระเงินเรียบร้อยแล้ว', 'success');
               break;
-            case "N":
+            case "E":
               this.showReport(3);
+              Swal('Success', 'กรอกหมายเลขพัสดุเรียบร้อย', 'success');
+              break;
+            case "U":
+              this.showReport(4);
+              Swal('Success', 'อัพเดตสถานะเรียบร้อยแล้ว', 'success');
+              break;
+            case "N":
+              this.showReport(0);
               Swal('Warning', 'ยกเลิกรายการยืนยันการชำระเงินแล้ว', 'warning');
               break;
             case "S":
-              this.showReport(4);
+              this.showReport(6);
               Swal('Success', 'ทำรายการสำเร็จ', 'success');
               break;
           }
