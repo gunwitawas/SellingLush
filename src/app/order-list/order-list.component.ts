@@ -10,6 +10,7 @@ import {SweetAlertOption as SwalOpt} from "@shared/constance/SweetAlertOption";
 import * as jspdf from 'jspdf';
 
 import html2canvas from 'html2canvas';
+import {ReportService} from "../all-service/node-service/Report.service";
 
 @Component({
   selector: 'app-transfer-back',
@@ -18,13 +19,12 @@ import html2canvas from 'html2canvas';
 })
 export class OrderListComponent implements OnInit {
   public result: any;
-  public resultHttpClient: any;
-  public resultPost: any;
 
   constructor(
     private http: TransferHttpService,
     private httpClient: HttpClient,
     private service: OrderService,
+    private reportService: ReportService,
     private _sanitizer: DomSanitizer,
     @Inject(AppStorage) private appStorage: Storage
   ) {
@@ -58,20 +58,6 @@ export class OrderListComponent implements OnInit {
 
   public printBillpreOrder() {
     this.showImage = false;
-    /*    let data = document.getElementById('billPreOrder');
-        html2canvas(data).then(canvas => {
-    // Few necessary setting options
-          let imgWidth = 208;
-          let pageHeight = 295;
-          let imgHeight = canvas.height * imgWidth / canvas.width;
-          let heightLeft = imgHeight;
-
-          const contentDataURL = canvas.toDataURL('image/png');
-          let pdf = new jspdf('p', 'mm', 'a4');
-          let position = 0;
-          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-          pdf.save('MYPdf.pdf'); // Generated PDF
-        });*/
     const printContent = document.getElementById("billPreOrder");
     const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
     WindowPrt.document.write(printContent.innerHTML);

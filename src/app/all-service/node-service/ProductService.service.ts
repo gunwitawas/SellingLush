@@ -15,6 +15,7 @@ export class ProductService {
   updateProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/updateProduct";
   insertProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/insertProduct";
   getProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getAllProduct";
+  getCurrentProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getCurrentProductId";
   getLatestProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getLatestProduct";
   getBestSellerProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getBestSellerProduct";
   getAvailableProductServicePath = ServiceConstance.rootPath + ServiceConstance.productPath + "/getAvailableProduct";
@@ -39,6 +40,13 @@ export class ProductService {
 
   async getProduct() {
     let result = await this.http.get(this.getProductServicePath).toPromise();
+    return result;
+  }
+
+  async getCurrentProductId(params) {
+    this.parameter.params = params;
+    console.log(this.parameter)
+    let result = await this.http.get(this.getCurrentProductServicePath, this.parameter).toPromise();
     return result;
   }
 

@@ -42,21 +42,3 @@ export class ProductStoreService {
   }
 
 }
-
-/* async login(params){
-   this.parameter.params = params;
-   let result = await this.http.get(this.loginServicePath, this.parameter).toPromise();
-   return result;
- }
-
- async regisNewUser(regisForm){
-   console.log(this.regisServicePath);
-   let result = await this.http.post(this.regisServicePath, regisForm).toPromise();
-   return result;
- }
-
- async checkValidUsername(params){
-   this.parameter.params = params;
-   let result = await this.http.get(this.checkValidUsernameServicePath, this.parameter).toPromise();
-   return result;
- }*/

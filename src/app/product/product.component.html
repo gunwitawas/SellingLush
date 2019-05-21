@@ -169,8 +169,10 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="form-group">
               <label for="idInput">{{ "id" | translate}}</label>
-              <input type="text" class="form-control" id="idInput" name="idInput" [(ngModel)]="newProduct.p_id"
-                     required>
+              <input type="text" class="form-control" id="idInput" name="idInput" [readOnly]="!newProduct.p_size" [(ngModel)]="newProduct.p_id"
+                     required >
+              <span *ngIf="newProduct.p_size" class="font-italic">รหัสสินค้าปัจจุบัน : <b>{{currentProductId}}</b></span>
+              <span *ngIf="!newProduct.p_size" class="font-italic">*กรุณาเลือกขนาดสินค้าก่อน</span>
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -182,8 +184,7 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-6">
             <label for="sizeSelect"> {{ "size" | translate}} </label>
-            <select class="custom-select" id="sizeSelect" name="sizeSelect" [(ngModel)]="newProduct.p_size" required>
-              <!--<option selected>Open this select menu</option>-->
+            <select class="custom-select" id="sizeSelect" (change)="checkCurrentProductId()" name="sizeSelect" [(ngModel)]="newProduct.p_size" required>
               <option value="S">{{ "small" | translate}}</option>
               <option value="M">{{ "medium" | translate}}</option>
               <option value="L">{{ "big" | translate}}</option>

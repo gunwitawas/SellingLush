@@ -11,6 +11,7 @@ const LINKS_A: any[] = [
   { link: '/order-list', name: 'order', icon: 'reorder' },
   { link: '/preorder-list', name: 'preorder', icon: 'record_voice_over' },
   { link: '/customer', name: 'customer', icon: 'people' },
+  { link: '/report', name: 'report', icon: 'assignment' },
 ];
 
 const LINKS_M: any[] = [

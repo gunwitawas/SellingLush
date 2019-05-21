@@ -1,12 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { DomSanitizer } from "@angular/platform-browser";
-import { AppStorage } from '@shared/for-storage/universal.inject';
-import { TransferHttpService } from '@gorniv/ngx-transfer-http';
-import { HttpClient } from '@angular/common/http';
-import { ObjectUtil as util } from "../shared/utillity/ObjectUtil";
+import {Component, OnInit, Inject} from '@angular/core';
+import {DomSanitizer} from "@angular/platform-browser";
+import {AppStorage} from '@shared/for-storage/universal.inject';
+import {TransferHttpService} from '@gorniv/ngx-transfer-http';
+import {HttpClient} from '@angular/common/http';
+import {ObjectUtil as util} from "../shared/utillity/ObjectUtil";
 import Swal from 'sweetalert2'
-import { ProductService } from "../all-service/node-service/ProductService.service";
-import { Validate } from "@shared/utillity/Validate";
+import {ProductService} from "../all-service/node-service/ProductService.service";
+import {Validate} from "@shared/utillity/Validate";
 
 @Component({
   selector: 'app-transfer-back',
@@ -58,6 +58,7 @@ export class ProductComponent implements OnInit {
     return Validate.getDateDiff(date);
 
   }
+
   checkExpireDate() {
     let currentDate = new Date();
     let expireDate = new Date(this.newProduct.expireDate);
@@ -121,6 +122,13 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  currentProductId = '';
+
+  async checkCurrentProductId() {
+    let result: any = await this.service.getCurrentProductId({p_size: this.newProduct.p_size});
+    return this.currentProductId == result[0].p_id;
+  }
+
   async getAllProduct() {
     let result: any = await this.service.getAvailableProduct();
     this.productList = result.content;
@@ -137,7 +145,6 @@ export class ProductComponent implements OnInit {
   addProduct() {
     $("#uploadInput").click();
   }
-
 
 
   async addNewProduct() {

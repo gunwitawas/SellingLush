@@ -39,23 +39,26 @@
               วันที่สั่ง
             </th>
             <th>
+              ชื่อผู้สั่งซื้อ
+            </th>
+            <th>
               สถานะการชำระเงิน
             </th>
             <th>จำนวนเงินรวมของรายการ
             </th>
             <th>
               ดูรายละเอียดการสั่งซื้อ
-            </th>
-          </tr>
+            </th></tr>
           </thead>
           <tbody>
           <tr>
-            <td colspan="5" class="text-center" *ngIf="orderList.length < 1">*ยังไม่มีรายการที่เลือก</td>
+            <td colspan="6" class="text-center" *ngIf="orderList.length < 1">*ยังไม่มีรายการที่เลือก</td>
           </tr>
           <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
             <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
               <td class="text-center">D{{item.order_id}}</td>
               <td class="text-center">{{item.order_date | date:'d/M/yyyy'}}</td>
+              <td class="text-center">{{item.name}}</td>
               <td class="text-center">
                 <span *ngIf="item.status=='N'" class="text-warning"><i class="fa fa-times-circle"></i> ยังไม่ได้ยืนยันการชำระเงิน</span>
                 <span *ngIf="item.status=='Y'" class="text-primary"><i class="fa fa-check-circle"></i> ชำระเงินเรียบร้อยแล้ว</span>
@@ -196,7 +199,7 @@
           </ng-template>
 
           <tr>
-            <td colspan="3" class="text-right"> รวมจำนวนเงิน</td>
+            <td colspan="4" class="text-right"> รวมจำนวนเงิน</td>
             <td colspan="2" class="text-left">{{totalPrice | currency:' '}}</td>
           </tr>
           </tbody>

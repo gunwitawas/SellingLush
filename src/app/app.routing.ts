@@ -21,6 +21,7 @@ const routes: Routes = [
       {path: 'user-profile', loadChildren: './user-profile/user-profile.module#UserProfileModule'},
       {path: 'product-guest', loadChildren: './product-guest/product-guest.module#ProductGuestModule'},
       {path: 'login-regis-page', loadChildren: './login-regis-page/login-regis-page.module#LoginRegisPageModule'},
+      {path: 'report', loadChildren: './report-list/report-list.module#ReportListModule'},
       {path: '**', loadChildren: './not-found/not-found.module#NotFoundModule'}
     ],
   },

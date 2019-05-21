@@ -1,0 +1,214 @@
+<div class="card">
+
+  <ol class="breadcrumb bg-success">
+    <li class="breadcrumb-item"><a (click)="showReport(9)" class="font-weight-bold"
+                                   style="cursor: pointer; color: white">รายการสั่งซื้อทั้งหมด</a></li>
+    <li *ngIf="selectedReport<9" class="breadcrumb-item active" style="color: #4cffe9">{{header[selectedReport].name}}
+    </li>
+  </ol>
+
+  <div class="card-body">
+    <div *ngIf="selectedReport<3">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+          <label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickers" placeholder="เลือกวันที่เริ่มต้น" id="startDate" name="startDate"
+                     [(ngModel)]="searchForm.startDate">
+              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
+            </mat-form-field>
+          </label>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+          <label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="เลือกวันที่สิ้นสุด" id="endDate" name="endDate"
+                     [(ngModel)]="searchForm.endDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </label>
+        </div>
+        <div class="col-6" *ngIf="this.selectedReport==0">
+          <label for="customer"> รายชื่อลูกค้า </label>
+          <select class="custom-select" id="username"  name="username"
+                  [(ngModel)]="searchForm.username" >
+            <option value="">-- เลือกทั้งหมด --</option>
+            <option *ngFor="let item of customerList" [value]="item.username">{{item.username}} : {{ item.name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3"  *ngIf="this.selectedReport==2||this.selectedReport==1">
+          <label for="sizeSelect"> {{ "size" | translate}} </label>
+          <select class="custom-select" id="sizeSelect"  name="sizeSelect"
+                  [(ngModel)]="searchForm.p_size" >
+            <option value="">-- เลือกทั้งหมด --</option>
+            <option value="S">{{ "small" | translate}}</option>
+            <option value="M">{{ "medium" | translate}}</option>
+            <option value="L">{{ "big" | translate}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3" *ngIf="this.selectedReport==2||this.selectedReport==1">
+          <label for="mixer"> ไส้ </label>
+          <select class="custom-select" id="mixer"  name="mixer"
+                  [(ngModel)]="searchForm.mixer" >
+            <option value="">-- เลือกทั้งหมด --</option>
+            <option *ngFor="let item of mixerList" [value]="item.mixer">{{ item.mixer}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+          <button class="btn btn-primary" (click)="showReport(selectedReport)"> ค้นหา </button>
+        </div>
+
+      </div>
+
+      <hr>
+    </div>
+    <div class="row" *ngIf="selectedReport==9">
+      <div class="col">
+        <div class="list-group">
+          <strong>รายงาน Order</strong>
+          <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(0)"><i
+            class="fa fa-bitcoin"></i> รายงานการขายต่อวัน</a>
+          <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(1)"><i
+            class="fa fa-bitcoin"></i> รายงานการขายสินค้า</a>
+          <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(2)"><i
+            class="fa fa-cubes"></i> รายงานสินค้าคงเหลือต่อวัน</a>
+        </div>
+      </div>
+     <!-- <div class="col">
+        <div class="list-group">
+          <strong>รายงาน Pre-Order</strong>
+          <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(3)"><i
+            class="fa fa-bitcoin"></i> รายงานยอดจองสินค้าสินค้า</a>
+          <a class="list-group-item list-group-item-action" style="cursor: pointer;" (click)="showReport(4)"><i
+            class="fa fa-bitcoin"></i> รายงานการจัดส่ง</a>
+        </div>
+      </div>-->
+    </div>
+
+
+    <div *ngIf="selectedReport<9">
+
+      <div class="table-responsive rounded">
+<!--        -->
+        <table class="table table-bordered rounded" *ngIf="this.selectedReport==2||this.selectedReport==1">
+          <thead>
+          <tr class="text-center bg-success text-white">
+            <th>
+              วันที่วางขาย
+            </th>
+            <th>
+              รหัสสินค้า
+            </th>
+            <th>
+              ชื่อสินค้า
+            </th>
+            <th>
+              ขนาด
+            </th>
+            <th>
+              ไส้
+            </th>
+            <th>
+              ราคา
+            </th>
+            <th>
+              <span *ngIf="this.selectedReport==1">จำนวนที่ขาย</span>
+              <span *ngIf="this.selectedReport==2">จำนวนคงเหลือ</span>
+            </th>
+            <th>
+              รวมเป็นเงิน
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="8" class="text-center" *ngIf="resultList.length < 1">*ยังไม่มีรายการที่เลือก</td>
+          </tr>
+          <tr *ngFor="let item of resultList">
+            <td>{{item.sale_date | date:'d/M/yyyy'}}</td>
+            <td>{{item.p_id}}</td>
+            <td>{{item.p_name}}</td>
+            <td>{{item.p_size}}</td>
+            <td>{{item.mixer}}</td>
+            <td>{{item.price}}</td>
+            <td>
+              <span *ngIf="this.selectedReport==1">{{item.saleQty}}</span>
+              <span *ngIf="this.selectedReport==2">{{item.stockQty}}</span>
+            </td>
+            <td>
+              <span *ngIf="this.selectedReport==1">{{item.saleQty*item.price | currency:' '}}</span>
+              <span *ngIf="this.selectedReport==2">{{item.stockQty*item.price | currency:' '}}</span>
+            </td>
+          </tr>
+          <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
+            <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
+              <td class="text-center">D{{item.order_id}}</td>
+              <td class="text-center">{{item.order_date | date:'d/M/yyyy'}}</td>
+              <td class="text-center">
+                <span *ngIf="item.status=='N'" class="text-warning"><i class="fa fa-times-circle"></i> ยังไม่ได้ยืนยันการชำระเงิน</span>
+                <span *ngIf="item.status=='Y'" class="text-primary"><i class="fa fa-check-circle"></i> ชำระเงินเรียบร้อยแล้ว</span>
+                <span *ngIf="item.status=='W'" class="text-info"><i class="fa fa-pause-circle"></i> รอการตรวจสอบหลักฐานการชำระเงิน</span>
+                <span *ngIf="item.status=='S'" class="text-success"><i class="fa fa-check-square"></i> รับสินค้าเรียบร้อยแล้ว</span>
+                <span *ngIf="item.status=='C'" class="text-danger"><i
+                  class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
+              </td>
+              <td>{{item.net_pay | currency:' '}}</td>
+            </tr>
+          </ng-template>
+
+          <tr>
+            <td colspan="6" class="text-right"> รวม</td>
+            <td  class="text-left">{{totalQty }}</td>
+            <td  class="text-left">{{totalPrice | currency:' '}}</td>
+          </tr>
+          </tbody>
+        </table>
+<!--        -->
+        <table class="table table-bordered rounded" *ngIf="selectedReport==0">
+          <thead>
+          <tr class="text-center bg-success text-white">
+            <th>
+              วันที่ซื้อ
+            </th>
+            <th>
+              เลขที่สั่งซื้อ
+            </th>
+            <th>
+              ชื่อผู้ซื้อ
+            </th>
+            <th>
+              เบอร์โทรศัพท์
+            </th>
+            <th>
+              Line ID
+            </th>
+            <th>
+              ยอดชำระ
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="8" class="text-center" *ngIf="resultList.length < 1">*ยังไม่มีรายการที่เลือก</td>
+          </tr>
+          <tr *ngFor="let item of resultList">
+            <td>{{item.order_date | date:'d/M/yyyy'}}</td>
+            <td>{{item.order_id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.tel}}</td>
+            <td>{{item.line_id}}</td>
+            <td>{{item.net_pay | currency:' '}}</td>
+          </tr>
+          <tr>
+            <td colspan="5" class="text-right"> รวม</td>
+            <td  class="text-left">{{totalPrice | currency:' '}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

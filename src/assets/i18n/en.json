@@ -38,6 +38,8 @@
     "th":"ไทย"
   },
   "sidebar": {
+
+    "report" : "Report",
     "home": "Home",
     "mock": "Mock",
     "back-http": "Back http",
