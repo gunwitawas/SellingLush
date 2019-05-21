@@ -126,7 +126,7 @@ export class ProductComponent implements OnInit {
 
   async checkCurrentProductId() {
     let result: any = await this.service.getCurrentProductId({p_size: this.newProduct.p_size});
-    return this.currentProductId == result[0].p_id;
+    this.currentProductId = result[0].p_id;
   }
 
   async getAllProduct() {
