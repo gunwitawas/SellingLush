@@ -150,6 +150,7 @@
                 <th>ชื่อ</th>
                 <th>ขนาด</th>
                 <th>ไส้</th>
+                <th>ราคา/กระบอก</th>
                 <th>จำนวน</th>
                 <th>ราคา</th>
                 <th> </th>
@@ -163,6 +164,7 @@
                 <td>{{item.p_name}}</td>
                 <td>{{item.p_size}}</td>
                 <td>{{item.mixer}}</td>
+                <td>{{item.price}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.sumPrice| currency:' '}}</td>
                 <td><button type="button" class="btn btn-danger" (click)="deleteProductInCart(i)">ลบ</button></td>
@@ -171,7 +173,7 @@
                 <td> </td>
                 <td> </td>
                 <td> </td>
-                <td>รวยจำนวนทั้งหมด : </td>
+                <td>รวมจำนวนทั้งหมด : </td>
                 <td>{{sumAmount}} ชิ้น</td>
                 <td>
                   <h6>ราคา : </h6>
@@ -341,8 +343,6 @@
             <h4>ธนาคารกรุงไทย : 7250257404 (สาขาอู่ทอง สุพรรณบุรี) <img src="../../assets/img/ktb-logo.jpg" width="30%"></h4>
             <h5>นางอรวรรณ พิบูลย์</h5><br>
             
-            <!-- <img *ngIf="upDateForPayment.pay_img" class="card-img-top"
-              style="margin-top: 15px; width: 450px; height: 450; margin-bottom: 30px" [src]="upDateForPayment.pay_img"> -->
             <div class="custom-file col-8" width="250">
               <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
                 accept=".png,.jpg,.jpeg"><br>

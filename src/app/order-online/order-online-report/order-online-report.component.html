@@ -96,7 +96,7 @@
                   </thead>
                   <tbody>
                   <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
-                    <td class="text-center">D{{list.p_id}}
+                    <td class="text-center">{{list.p_id}}
                     </td>
                     <td class="text-center">{{list.p_name}}<br>
                       <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>

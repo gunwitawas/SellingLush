@@ -195,20 +195,17 @@ private name = '';
   }
 
   public addTocart(product) {
-
     let order = {
       p_id: product.p_id,
       p_name: product.p_name,
       p_size: product.p_size,
       mixer: product.mixer,
       p_img: product.p_img,
+      price: product.price,
       amount: this.amount,
       sumPrice: this.sumPrice,
     };
-    console.log(order.amount);
-
     let isNewproduct = !!this.allProductInCart.find(result => result.p_id == order.p_id && result.p_size == order.p_size);
-
     if (isNewproduct) {
       $('#addToCartModal').modal('hide');
       Swal('Already have this product in the cart', 'มีสินค้าชิ้นนี้ในรถเข็นแล้ว!', 'warning');
@@ -219,8 +216,6 @@ private name = '';
       $('#addToCartModal').modal('hide');
       Swal('Added to cart!', 'เพิ่มไปยังรถเข็นแล้ว!', 'success');
     }
-
-
   }
 
   deleteProductInCart(index) {

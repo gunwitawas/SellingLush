@@ -159,7 +159,11 @@
 </div>
 
 
-<div class="modal fade bd-example-modal-lg" id="listOrder" tabindex="-1" role="dialog" aria-labelledby="preOrderList"
+<div class="modal fade bd-example-modal-lg"
+     id="listOrder"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="preOrderList"
      aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -268,6 +272,11 @@
           </div>
           <div class="modal-footer">
             <div *ngIf="orderDetailByID">
+
+              <button *ngIf="orderDetailByID[0].payment_status === 'N'" type="button" class="btn btn-danger"
+                      (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'C')"
+                      data-dismiss="modal">ยกเลิกรายการ
+              </button>
 
               <button *ngIf="orderDetailByID[0].payment_status === 'W'" type="button" class="btn btn-success"
                       (click)="checkConfirmPatment(orderDetailByID[0].pre_id, 'Y')"
@@ -415,10 +424,7 @@
           ________________________<br><br>(________________________)<br>ผู้รับเงิน<br>วันที่....................................
 
         </div>
-        <!--
-                <h1 *ngIf="orderDetailByID[0].address">ส่งสินค้า <br> ในวันที่ {{orderDetailByID[0].receive_date}}</h1>
-                <h1 *ngIf="orderDetailByID[0].address">ที่อยู่ในการส่งสิ้นค้า <br> {{orderDetailByID[0].address}}</h1>-->
-      </div>
+        </div>
     </div>
   </div>
 </div>
