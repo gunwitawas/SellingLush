@@ -15,7 +15,7 @@ import { ILang } from './translates.interface';
 
 const LANG_LIST: ILang[] = [
   { code: 'th', name: 'ไทย', culture: 'th-TH' },
-  { code: 'en', name: 'English', culture: 'en-US' },
+  //{ code: 'en', name: 'English', culture: 'en-US' },
 ];
 const LANG_DEFAULT: ILang = LANG_LIST[0];
 const STORAGE_LANG_NAME: string = 'langCode';
