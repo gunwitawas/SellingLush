@@ -122,18 +122,20 @@
           <td class="text-center">{{item.netpay| currency:' '}}</td>
           <td class="text-center">
 
-
+            <span *ngIf="item.payment_status === 'C' ">
+              <label class="badge badge-danger">รายการถูกยกเลิก</label>
+            </span>
             <button *ngIf="item.payment_status === 'Y' " type="button" class="btn btn-success"
                     (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
+
             <button *ngIf="item.payment_status === 'E' " type="button" class="btn btn-secondary"
                     (click)="showOrderByPreId(item.pre_id)">กรอกเลขพัสดุ <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
+
             <button *ngIf="item.payment_status === 'U'" type="button" class="btn btn-info"
                     (click)="showOrderByPreId(item.pre_id)">อัพเดตสถานะการจัดส่ง <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
 
-
             <button *ngIf="item.payment_status === 'S'" type="button" class="btn btn-primary"
                     (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
-
 
             <button *ngIf="item.payment_status === 'W'" type="button" class="btn btn-warning"
                     (click)="showOrderByPreId(item.pre_id)">ข้อมูล <p *ngIf="item.address">(ใช้บริการจัดส่ง)</button>
