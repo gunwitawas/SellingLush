@@ -1,0 +1,209 @@
+<h3>สั่งซื้อสินค้า</h3>
+<hr>
+<div class="card rounded">
+
+  <ol class="breadcrumb bg-warning">
+    <li class="breadcrumb-item"><a class="font-weight-bold" style="cursor: pointer; color: white"
+                                   (click)="showAllOrder()">รายการสั่งซื้อทั้งหมด</a></li>
+    <li class="breadcrumb-item active" style="color: #4cffe9" *ngIf="flag.isSelectedOrder">รายการสั่งซื้อ :
+      {{currentOrder.orderDetail.order_id}}
+    </li>
+  </ol>
+
+  <div class="card-body">
+    <div *ngIf="!flag.isSelectedOrder" class="table-responsive rounded">
+      <table class="table table-bordered rounded">
+        <thead>
+        <tr class="text-center bg-success text-white">
+          <th>
+            ลำดับการสั่ง
+          </th>
+          <th>
+            วันที่สั่ง
+          </th>
+          <th>
+            สถานะการชำระเงิน
+          </th>
+          <th>
+            จัดการสถานะโดย
+          </th>
+          <th>
+            ดูรายละเอียดการสั่งซื้อ
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-item [ngForOf]="orderList" let-i="index">
+          <tr id="accordion" class="rounded" [ngClass]="{'bg-hilight-head font-weight-bold':i==expandIndex}">
+            <td class="text-center">D{{item.order_id}}</td>
+            <td class="text-center">{{item.order_date | date:'d/M/yyyy'}}</td>
+            <td class="text-center">
+              <span *ngIf="item.status=='N'" class="text-warning"><i class="fa fa-times-circle"></i> ยังไม่ได้ยืนยันการชำระเงิน</span>
+              <span *ngIf="item.status=='Y'" class="text-primary"><i class="fa fa-check-circle"></i> ชำระเงินเรียบร้อยแล้ว</span>
+              <span *ngIf="item.status=='W'" class="text-info"><i class="fa fa-pause-circle"></i> รอการตรวจสอบหลักฐานการชำระเงิน</span>
+              <span *ngIf="item.status=='S'" class="text-success"><i class="fa fa-check-square"></i> รับสินค้าเรียบร้อยแล้ว</span>
+              <span *ngIf="item.status=='C'" class="text-danger"><i
+                class="fa fa-times-circle"></i> รายการถูกยกเลิก</span>
+            </td>
+            <td class="text-center">
+              <span *ngIf="item.pay_by==''">-</span>
+              {{item.pay_by}}
+            </td>
+            <td class="text-center">
+              <button data-toggle="collapse"
+                      data-target="#collapseDetail"
+                      class="btn btn-sm btn-outline-info "
+                      data-parent="#accordion"
+                      (click)="showDetail(i)"><i
+                class="fa fa-shopping-cart"></i> ดูรายละเอียด
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="expandIndex==i" id="collapseDetail" class="collapse">
+            <td colspan="5" class=" bg-hilight-bg">
+              <div class="container">
+                <table class="table table-bordered">
+                  <thead class="bg-hilight">
+                  <tr class="text-center">
+                    <th>รหัสสินค้า</th>
+                    <th>ชื่อ</th>
+                    <th>ไส้</th>
+                    <th>ขนาด</th>
+                    <th>ราคา</th>
+                    <th>จำนวน</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let list of orderList[expandIndex].orderList;let j=index;">
+                    <td class="text-center">D{{list.p_id}}
+                    </td>
+                    <td class="text-center">{{list.p_name}}<br>
+                      <img [src]="getImgPath(list.p_img)" width="125" height="70"></td>
+                    <td class="text-center">{{list.mixer}}</td>
+                    <td class="text-center">{{list.p_size}}</td>
+                    <td>{{list.price}}</td>
+                    <td>{{list.qty}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div align="right">
+                  <div *ngIf="item.status=='N'" class="btn-group">
+                    <button (click)="setOrderDetail(item)" class="btn btn-sm btn-primary"><i
+                      class="fa fa-check-circle"></i> ยืนยันการชำระเงิน
+                    </button>
+                    <button  class="btn btn-sm btn-danger"><i
+                      class="fa fa-times-circle"></i> ยกเลิกรายการสั่ง
+                    </button>
+                  </div>
+
+                  <div *ngIf="item.status=='W'">
+                    <label class="badge badge-warning">
+                      <i class="fa fa-exclamation-circle"></i>
+                      อยู่ในระหว่างการตรวจสอบหลักฐานการชำระเงิน
+                    </label>
+                    <br>
+                    <button class="btn btn-sm btn-outline-warning" (click)="setOrderDetail(item)"><i class="fa fa-edit"></i> แก้ไขหลักฐาน</button>
+                  </div>
+
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="flag.isSelectedOrder" class="table-responsive rounded">
+      <table class="table table-bordered ">
+        <thead class=" bg-info text-white ">
+        <tr>
+        </tr>
+        <tr class="text-center">
+          <th>รหัสสินค้า</th>
+          <th>ชื่อสินค้า</th>
+          <th>ไส้</th>
+          <th>ขนาด</th>
+          <th>ราคา</th>
+          <th>จำนวนที่สั่ง</th>
+          <th>ยกเลิกสินค้า</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of currentOrder.orderList;let i = index;">
+          <td class="text-center"> {{item.p_id}}</td>
+          <td class="text-center">{{item.p_name}}<br>
+            <img [src]="getImgPath(item.p_img)" width="125" height="70"></td>
+          <td> {{item.mixer}}</td>
+          <td class="text-center"> {{item.p_size}}</td>
+          <td> {{item.price}}</td>
+          <td> {{item.qty}}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="4" class="text-right">รวม</td>
+          <td>{{currentOrder.orderDetail.net_pay}}</td>
+          <td>{{currentOrder.orderDetail.totalQty}}</td>
+          <td></td>
+        </tr>
+        </tfoot>
+      </table>
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th colspan="2" class="text-center bg-info text-white">หลักฐานการชำระเงิน</th>
+        </tr>
+        <tr>
+          <th class="text-center" width="25%">
+            <img class="rounded" [src]="uploadImg" width="180" height="300"><br>
+          </th>
+          <th>
+            <div align="center">
+              <div style="bottom : 0px;">
+                <p class="text-left">หลักฐานการชำระเงิน</p>
+                <div class="custom-file" width="250">
+                  <input type="file" (change)="uploadFile($event)" class="custom-file-input" id="uploadInput"
+                         accept=".png,.jpg,.jpeg">
+                  <label class="custom-file-label" for="uploadInput">Choose file</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <strong>เงื่อนไขการชำระเงิน</strong>
+            <ol>
+              <li>รายการจะถูกยกเลิกเมื่อรายการไม่ได้ชำระเงินภายใน 2 ชม.</li>
+              <li>ท่านจะไม่สามารถรับสินค้าได้ถ้าหากยังไม่ได้ชำระเงินผ่านระบบ</li>
+              <li>เมื่อชำระเงินแล้วต้องรอการตรวจสอบหลักฐานเพื่อยืนยันการสั่งซื้ออย่างน้อย 10 นาที
+                หากยังไม่มีการเปลี่ยนแปลงกรุณาติดต่อ 092-5411214
+              </li>
+            </ol>
+
+            <div class="btn-block">
+              <button *ngIf="!flag.isEdit" class="btn btn-block btn-outline-primary"
+                      [disabled]="!isNotNull(currentOrder.orderDetail.pay_img)" (click)="confirmOrder()"><i
+                class="fa fa-check-circle"></i>
+                ยืนยันการชำระเงิน
+              </button>
+              <button *ngIf="flag.isEdit" class="btn btn-block btn-outline-warning"
+                      [disabled]="!isNotNull(currentOrder.orderDetail.pay_img)" (click)="confirmOrder()"><i
+                class="fa fa-edit"></i>
+                แก้ไขหลักฐาน
+              </button>
+            </div>
+            <small *ngIf="!isNotNull(currentOrder.orderDetail.pay_img)"><i class="fa fa-exclamation-triangle"></i> กรุณา
+              upload หลักฐานการชำระเงิน
+            </small>
+          </th>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+
+  </div>
+</div>

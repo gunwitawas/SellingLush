@@ -3,9 +3,9 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {AppStorage} from '@shared/for-storage/universal.inject';
 import {TransferHttpService} from '@gorniv/ngx-transfer-http';
 import {HttpClient} from '@angular/common/http';
-import {ObjectUtil as util} from "../utillity/ObjectUtil";
+import {ObjectUtil as util} from "../shared/utillity/ObjectUtil";
 import Swal from 'sweetalert2'
-import {ProductService} from "../all-service/register-service/ProductService.service";
+import {ProductService} from "../all-service/node-service/ProductService.service";
 
 @Component({
   selector: 'app-transfer-back',
@@ -92,7 +92,6 @@ export class ProductComponent implements OnInit {
      await this.getAllProduct();
     }
   }
-
   async getAllProduct() {
     let result: any = await this.service.getProduct();
     this.productList = result.content;

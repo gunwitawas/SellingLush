@@ -1,7 +1,8 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+//@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 // Resets
 @import 'resets/normalize';
 @import 'resets/print';
@@ -13,3 +14,10 @@
 @import 'layouts/sidebar';
 @import 'layouts/toolbar';
 @import 'layouts/wrapper';
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

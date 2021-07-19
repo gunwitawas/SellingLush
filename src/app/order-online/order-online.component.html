@@ -1,22 +1,285 @@
-<h1>ORDER ONLINE</h1>
-<p>{{ "back-http.text" | translate }}</p>
-
+<h3>สั่งซื้อสินค้า</h3>
 <hr>
 
-<strong>{{ "back-http.delay" | translate }}</strong>
-<pre *ngIf="result; else noResult">
-    {{ result | json }}
-</pre>
-<pre *ngIf="resultHttpClient; else noResult">
-  {{ resultHttpClient | json }}
-</pre>
-<ng-template #noResult>
-    <p>{{ "loading" | translate }}...</p>
-</ng-template>
-<br/>
-<strong>{{ "back-http.post" | translate }}</strong>
-<pre>
-    {{ resultPost | json }}
-</pre>
-<br/>
-<strong>{{ "back-http.original-url" | translate }}</strong> {{ baseUrl }}
+<div  class="container">
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <form id="searchFormArea" name="searchFormArea">
+        <div class="card-header bg-primary text-white">
+          ค้นหา
+        </div>
+        <div class="card-body">
+          <div class="row" style="margin-bottom: 5px;">
+            <div class="col">
+              <div align="left">
+                <span *ngIf="unableToOrder" class="text-danger"><i class="fa fa-exclamation-triangle"></i> กรุณาชำระรายการสั่งซื้อก่อนจองรายการถัดไป<br></span>
+
+                <button class="btn btn-sm btn-outline-primary"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#cartModal"
+                        (click)=" setTotalPrice() "
+                        [disabled]="unableToOrder"><i
+                  class="fa fa-shopping-cart"></i>
+                  ตะกร้าสินค้า
+                </button>
+              </div>
+            </div>
+            <div class="col">
+              <div align="right">
+                  <a class="btn btn-sm btn-outline-info"
+                     routerLink="/order-online/report">
+                    <i class="fa fa-list"></i>
+                    รายการสั่งซื้อ
+                  </a>
+              </div>
+            </div>
+          </div>
+          <form>
+            <table class="table ">
+              <thead>
+              <th>รหัส</th>
+              <th>ชื่อ</th>
+              <th>ราคาต่ำสุด</th>
+              <th>ราคาสูงสุด</th>
+              <th>ขนาด</th>
+              <th>ไส้</th>
+              </thead>
+              <tbody>
+              <td><input class="form-control" name="searchId" id="searchId" [(ngModel)]="searchForm.p_id"></td>
+              <td><input class="form-control" name="searchName" id="searchName" [(ngModel)]="searchForm.p_name"></td>
+              <td>
+                <input class="form-control" name="searchMin" id="searchMin" [(ngModel)]="searchForm.minPrice"></td>
+              <td>
+                <input class="form-control" name="searchMax" id="searchMax" [(ngModel)]="searchForm.maxPrice">
+              </td>
+              <td>
+                <select class="custom-select" name="searchSize" id="searchSize" [(ngModel)]="searchForm.p_size">
+                  <option value=""></option>
+                  <option value="S">เล็ก</option>
+                  <option value="M">กลาง</option>
+                  <option value="L">ใหญ่</option>
+                </select>
+              </td>
+              <td>
+                <input class="form-control" name="searchMix" id="searchMix" [(ngModel)]="searchForm.mixer"></td>
+              </tbody>
+            </table>
+          </form>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn btn-sm btn-info" type="submit" (click)="search()">ค้นหา</button>
+          <button class="btn btn-sm btn-defualt" type="button" (click)="clear()" style="margin-left: 10px">คืนค่า
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="card" style="margin-top:15px;" >
+  <form>
+    <div class="card-header bg-primary text-white">
+      ผลการค้นหา
+    </div>
+
+    <div class="card-body">
+
+      <div align="center">
+        <span *ngIf="unableToOrder" class="text-danger"><i class="fa fa-exclamation-triangle"></i> กรุณาชำระรายการสั่งซื้อก่อนจองรายการถัดไป<br></span>
+
+
+
+        <span *ngIf="productStoreList.length<1" class="text-danger ">
+            <i class="fa fa-exclamation-triangle"></i> ยังไม่มีสินค้าที่ท่านต้องการ
+          </span>
+      </div>
+
+      <div class="row">
+        <ng-template ngFor let-item [ngForOf]="productStoreList" let-i="index">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">
+            <div class="card">
+              <img class="card-img-top" [src]="getImgPath(item.p_img)" height="270">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover ">
+                    <thead class="text-right">
+                    <tr>
+                      <td>รหัส</td>
+                      <td>
+                        {{item.p_id}}
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td>ชื่อ</td>
+                      <td>
+                        {{item.p_name}}
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td>ขนาด</td>
+                      <td>
+                        {{item.p_size}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ราคา</td>
+                      <td>
+                        {{item.price}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ไส้</td>
+                      <td>
+                        {{item.mixer}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>จำนวนคงเหลือ</td>
+                      <td>
+                        {{item.stockQty-item.saleQty}}
+                      </td>
+                    </tr>
+                    </thead>
+                  </table>
+                </div>
+                <!--*ngIf="productList[i].isEdit"-->
+                <div class="pull-right">
+                  <button
+                    class="btn btn-sm btn-outline-secondary"
+                    type="button"
+                    (click)="openModalCart(i)" [disabled]="unableToOrder">
+                    <i class="fa fa-shopping-cart"></i> เพิ่มลงตะกร้า
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+<div class="modal fade bd-example-modal-sm"
+     id="addProductModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="addProductModalTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModalTitle">เพิ่มรายการที่ต้องการซื้อ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <div class="modal-body">
+          <div align="center">
+            <img [src]="getImgPath(selectedProduct.p_img)" style="max-width: 100%;">
+          </div>
+          <hr>
+          <label>จำนวนคงเหลือ : {{selectedProduct.stockQty}}</label><br>
+          <div class="form-group">
+            <label><strong>จำนวนที่ต้องการ :</strong> </label>
+            <input class="form-control"
+                   onlyNumber
+                   [max]="selectedProduct.stockQty"
+                   [(ngModel)]="selectedProduct.selectedNum">
+            <small *ngIf="selectedProduct.selectedNum>selectedProduct.stockQty || selectedProduct.selectedNum==0 "><i
+              class="fa fa-exclamation-triangle"></i> กรอกจำนวนไม่ถูกต้อง/สินค้ามีไม่พอ
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="selectedProduct.selectedNum>selectedProduct.stockQty
+                              || selectedProduct.selectedNum<1"
+                  class="btn btn-outline-primary"
+                  (click)="addToCart(i)">
+            <i class="fa fa-plus-circle"></i> เพิ่มสินค้า
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">รายการสินค้าที่เลือกห</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div>
+        <div class="modal-body text-center">
+          <span *ngIf="saveForm.cartList.length==0"><i class="fa fa-exclamation-triangle"> </i> ท่านยังไม่ได้เลือกสินค้าใด</span>
+          <ng-container *ngIf="saveForm.cartList.length!=0">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped  rounded">
+                <thead>
+                <tr>
+                  <th>รหัสสินค้า</th>
+                  <th>ชื่อสินค้า</th>
+                  <th>ไส้</th>
+                  <th>ขนาด</th>
+                  <th>จำนวนที่สั่ง</th>
+                  <th>ราคา</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of saveForm.cartList; let i = index;">
+                  <td>{{item.p_id}}</td>
+                  <td>{{item.p_name}}</td>
+                  <td>{{item.mixer}}</td>
+                  <td>{{item.p_size}}</td>
+                  <td>{{item.selectedNum}}</td>
+                  <td>{{item.price}}</td>
+                  <td>
+                    <button class="btn btn-sm btn-danger" (click)="removeSelected(i)"><i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="text-right">
+                    รวมจำนวน
+                  </td>
+                  <td>
+                    {{saveForm.totalQty}}
+                  </td>
+                  <td colspan="2" class="text-left">
+                    {{saveForm.totalPrice}}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-primary" (click)="billing()">
+                <i class="fa fa-check-circle"></i> สั่งซื้อ
+              </button>
+            </div>
+          </ng-container>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
